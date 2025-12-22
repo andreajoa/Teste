@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Triagem Neurodesenvolvimental | Adultos</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #0A2463;
+            --secondary-blue: #3E92CC;
+            --accent-color: #FF6B6B;
+            --light-bg: #F8F9FA;
+            --dark-text: #212529;
+            --light-text: #FFFFFF;
+            --gray-text: #6C757D;
+            --border-color: #DEE2E6;
+            --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --gradient-bg: linear-gradient(135deg, #0A2463, #1D4A8A);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--light-bg);
+            color: var(--dark-text);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            flex-grow: 1;
+        }
+
+        .page {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        header {
+            background: var(--light-text);
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--border-color);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            cursor: pointer;
+        }
+
+        .logo .icon {
+            margin-right: 8px;
+            color: var(--secondary-blue);
+        }
+        
+        .nav-links a {
+            color: var(--gray-text);
+            text-decoration: none;
+            margin-left: 20px;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-blue);
+        }
+
+        /* --- Home Page --- */
+        #home-page {
+            text-align: center;
+            padding-top: 50px;
+        }
+        #home-page .icon-header {
+            font-size: 3rem;
+            color: var(--primary-blue);
+        }
+        #home-page h1 {
+            font-size: 2.5rem;
+            color: var(--primary-blue);
+            margin-top: 10px;
+        }
+        #home-page h2 {
+            font-size: 1.2rem;
+            color: var(--gray-text);
+            font-weight: 400;
+            margin: 15px 0 30px;
+        }
+        .presentation-text {
+            background: var(--light-text);
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            text-align: left;
+            margin-bottom: 30px;
+            box-shadow: var(--card-shadow);
+        }
+        .presentation-text p {
+            margin-bottom: 15px;
+        }
+        .presentation-text .warning {
+            font-weight: 500;
+            color: var(--accent-color);
+        }
+        .btn {
+            background-color: var(--secondary-blue);
+            color: var(--light-text);
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            display: inline-block;
+            text-decoration: none;
+        }
+        .btn:hover {
+            background-color: var(--primary-blue);
+            transform: translateY(-2px);
+        }
+        .start-instructions {
+            margin-top: 20px;
+            color: var(--gray-text);
+            font-style: italic;
+        }
+
+        /* --- Test Page --- */
+        #test-page h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--primary-blue);
+        }
+        .module {
+            background: var(--light-text);
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: var(--card-shadow);
+            border-top: 4px solid var(--secondary-blue);
+        }
+        .module-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 20px;
+        }
+        .question {
+            margin-bottom: 25px;
+        }
+        .question-text {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+        .options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .options label {
+            flex: 1 1 120px;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .options input[type="radio"] {
+            display: none;
+        }
+        .options input[type="radio"]:checked + label {
+            background-color: var(--secondary-blue);
+            color: var(--light-text);
+            border-color: var(--secondary-blue);
+            font-weight: 700;
+        }
+        .options label:hover {
+            border-color: var(--secondary-blue);
+        }
+        #submit-btn-container {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        /* --- Results Page --- */
+        .result-card {
+            background: var(--gradient-bg);
+            color: var(--light-text);
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+        .result-card .profile-icon {
+            font-size: 4rem;
+            margin-bottom: 15px;
+        }
+        .result-card h2 {
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+        }
+        .result-card p {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+        }
+        .ethical-disclaimer {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #fff3cd;
+            color: #664d03;
+            border-radius: 8px;
+            border: 1px solid #ffecb5;
+            text-align: center;
+            font-weight: 500;
+        }
+        #restart-btn {
+            background-color: var(--light-text);
+            color: var(--primary-blue);
+            margin-top: 30px;
+            border: 2px solid var(--primary-blue);
+        }
+        #restart-btn:hover {
+            background-color: var(--primary-blue);
+            color: var(--light-text);
+        }
+
+        /* --- Generic Pages (Privacy, Contact) --- */
+        .generic-page {
+            background: var(--light-text);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            margin-top: 20px;
+        }
+        .generic-page h2 {
+            color: var(--primary-blue);
+            margin-bottom: 20px;
+        }
+        .generic-page h3 {
+            color: var(--secondary-blue);
+            margin-top: 25px;
+            margin-bottom: 10px;
+        }
+        .generic-page ul {
+            padding-left: 20px;
+            margin-bottom: 15px;
+        }
+        .contact-links {
+            list-style: none;
+            padding: 0;
+        }
+        .contact-links li {
+            margin-bottom: 15px;
+        }
+        .contact-links a {
+            color: var(--secondary-blue);
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            transition: color 0.3s;
+        }
+        .contact-links a:hover {
+            color: var(--primary-blue);
+        }
+        .contact-links svg {
+            width: 24px;
+            height: 24px;
+            margin-right: 12px;
+        }
+        .back-btn {
+            display: inline-block;
+            margin-top: 30px;
+            font-weight: 500;
+            color: var(--secondary-blue);
+            text-decoration: none;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9rem;
+            color: var(--gray-text);
+            border-top: 1px solid var(--border-color);
+            background: var(--light-text);
+        }
+        footer .final-protection {
+            font-weight: 700;
+            color: var(--primary-blue);
+        }
+
+        @media (max-width: 600px) {
+            .options {
+                flex-direction: column;
+            }
+            .nav-links {
+                display: none; /* Simple mobile navigation */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav>
+            <div class="logo" onclick="showPage('home-page')">
+                <span class="icon">🧠</span>Triagem Neuro
+            </div>
+            <div class="nav-links">
+                <a href="#" onclick="showPage('privacy-page')">Privacidade</a>
+                <a href="#" onclick="showPage('contact-page')">Contato</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container">
+        <!-- HOME PAGE -->
+        <div id="home-page" class="page active">
+            <div class="icon-header">🧠</div>
+            <h1>Triagem Neurodesenvolvimental para Adultos</h1>
+            <h2>Entenda seu funcionamento ao longo da vida, com responsabilidade e clareza.</h2>
+            
+            <div class="presentation-text">
+                <p>Este teste é uma ferramenta de triagem orientativa, desenvolvida para auxiliar adultos a refletirem sobre seu funcionamento neurodesenvolvimental.</p>
+                <p>Ele considera experiências desde a infância até a vida adulta, com foco em padrões relacionados ao autismo, e módulos diferenciais para TDAH e ansiedade.</p>
+                <p class="warning">⚠️ Este instrumento não estabelece diagnóstico e não substitui avaliação clínica profissional.</p>
+            </div>
+            
+            <button class="btn" onclick="showPage('test-page')">▶️ Iniciar triagem</button>
+            <p class="start-instructions">Responda com calma, considerando sua história de vida, e não apenas o momento atual.</p>
+        </div>
+
+        <!-- TEST PAGE -->
+        <div id="test-page" class="page">
+            <h2>Responda com base na sua experiência de vida</h2>
+            <form id="screening-form">
+                <div id="questions-container"></div>
+                <div id="submit-btn-container">
+                    <button type="submit" class="btn">📊 Calcular Resultado</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- RESULTS PAGE -->
+        <div id="results-page" class="page">
+            <div class="result-card">
+                <div id="result-icon" class="profile-icon"></div>
+                <h2 id="result-profile"></h2>
+                <p id="result-feedback"></p>
+            </div>
+
+            <div class="ethical-disclaimer">
+                <strong>Importante:</strong> Este resultado é uma triagem orientativa. Ele não constitui diagnóstico e não substitui avaliação profissional especializada.
+            </div>
+            
+            <div style="text-align: center;">
+                <button id="restart-btn" class="btn" onclick="restartTest()">🔄 Fazer o teste novamente</button>
+            </div>
+        </div>
+        
+        <!-- PRIVACY PAGE -->
+        <div id="privacy-page" class="page">
+             <div class="generic-page">
+                <h2>Termos de Uso & Política de Privacidade</h2>
+                
+                <h3>Termos de Uso</h3>
+                <p><strong>1. OBJETIVO DO APLICATIVO:</strong> Este aplicativo disponibiliza instrumentos de triagem orientativa voltados à compreensão do funcionamento neurodesenvolvimental de adultos. As triagens têm caráter exclusivamente informativo e educativo, não constituem diagnóstico e não substituem avaliação clínica presencial realizada por profissionais habilitados.</p>
+                <p><strong>2. NATUREZA DA TRIAGEM:</strong> Os testes não realizam diagnóstico nem substituem avaliação médica, psicológica ou multidisciplinar. Servem como ferramentas de orientação inicial.</p>
+                <p><strong>3. RESPONSABILIDADE DO USUÁRIO:</strong> Ao utilizar o aplicativo, você declara que as informações fornecidas são verdadeiras e compreende que os resultados são orientativos.</p>
+                <p><strong>4. LIMITAÇÃO DE RESPONSABILIDADE:</strong> Os desenvolvedores não se responsabilizam por decisões clínicas tomadas com base nesta triagem ou por interpretações equivocadas dos resultados.</p>
+                <p><strong>5. ACEITE DOS TERMOS:</strong> Ao prosseguir, você declara que leu, compreendeu e concorda com estes Termos de Uso e com a Política de Privacidade.</p>
+
+                <h3>Política de Privacidade e Proteção de Dados (LGPD)</h3>
+                <p><strong>1. DADOS COLETADOS:</strong> O aplicativo coleta apenas as respostas fornecidas nos questionários para gerar o resultado. Não coletamos dados sensíveis como nome, documentos ou informações de contato.</p>
+                <p><strong>2. FINALIDADE DO USO DOS DADOS:</strong> Os dados são utilizados exclusivamente para gerar o resultado da triagem de forma anônima. Eles não são vendidos, compartilhados ou utilizados para qualquer outro fim.</p>
+                <p><strong>3. ARMAZENAMENTO E SEGURANÇA:</strong> Todos os cálculos são feitos no seu próprio navegador. Nenhuma resposta é enviada ou armazenada em servidores externos. Sua privacidade é total.</p>
+                <p><strong>4. DIREITOS DO TITULAR DOS DADOS:</strong> Como nenhum dado pessoal é armazenado, não há dados para acessar, corrigir ou excluir. Fechar a página apaga todas as informações.</p>
+                <p><strong>5. CONSENTIMENTO:</strong> Ao utilizar o aplicativo, você consente com o tratamento de dados momentâneo e anônimo, nos termos desta Política de Privacidade.</p>
+
+                <a href="#" class="back-btn" onclick="history.back()">← Voltar</a>
+             </div>
+        </div>
+
+        <!-- CONTACT PAGE -->
+        <div id="contact-page" class="page">
+            <div class="generic-page">
+                <h2>Contato</h2>
+                <p>Para mais informações, sugestões ou para entrar em contato com a profissional responsável pelo conteúdo técnico:</p>
+                <ul class="contact-links">
+                    <li>
+                        <a href="https://www.instagram.com/neuromargarethapoio/" target="_blank" rel="noopener noreferrer">
+                           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.07 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-7.325 3.166-7.525 7.525-.058 1.28-.072 1.688-.072 4.947s.014 3.667.072 4.947c.2 4.358 3.166 7.325 7.525 7.525 1.28.058 1.688.072 4.947.072s3.667-.014 4.947-.072c4.358-.2 7.325-3.166 7.525-7.525.058-1.28.072-1.688.072-4.947s-.014-3.667-.072-4.947c-.2-4.358-3.166-7.325-7.525-7.525-1.28-.058-1.688-.072-4.947-.072zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.441 1.441 1.441 1.441-.645 1.441-1.441-.645-1.44-1.441-1.44z"></path></svg>
+                           <span>@neuromargarethapoio</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="mailto:tdahma2@gmail.com">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6zm-2 0-8 5-8-5h16zm0 12H4V8l8 5 8-5v10z"></path></svg>
+                            <span>tdahma2@gmail.com</span>
+                        </a>
+                    </li>
+                </ul>
+                <a href="#" class="back-btn" onclick="history.back()">← Voltar</a>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p class="final-protection">Informação não é rótulo. É cuidado.</p>
+        <p>&copy; 2024 Triagem Neurodesenvolvimental. Todos os direitos reservados.</p>
+    </footer>
+
+    <script>
+        // --- DATA AND CONFIGURATION ---
+        const testData = {
+            questions: [
+                // Módulo 1: História de vida e desenvolvimento social (6)
+                { module: 1, text: "Desde a infância, senti que era diferente das outras pessoas." },
+                { module: 1, text: "Ao longo da vida, tive dificuldade em fazer ou manter amizades." },
+                { module: 1, text: "Na escola, senti dificuldade em me encaixar socialmente." },
+                { module: 1, text: "Observei outras pessoas para aprender como me comportar socialmente." },
+                { module: 1, text: "Mesmo tentando me adaptar, frequentemente me senti deslocado(a)." },
+                { module: 1, text: "Fui percebido(a) como tímido(a), estranho(a) ou isolado(a) na infância ou adolescência." },
+                // Módulo 2: Interação social e comunicação (6)
+                { module: 2, text: "Tenho dificuldade em entender ironias, indiretas ou duplo sentido." },
+                { module: 2, text: "Já fui interpretado(a) como frio(a), rude ou distante sem essa intenção." },
+                { module: 2, text: "Prefiro conversas objetivas a interações sociais longas." },
+                { module: 2, text: "Tenho dificuldade em perceber quando é minha vez de falar ou parar de falar." },
+                { module: 2, text: "Interações sociais me causam cansaço significativo." },
+                { module: 2, text: "Tenho dificuldade em perceber sinais sociais sutis, como expressões faciais ou entonação." },
+                // Módulo 3: Processamento sensorial (5)
+                { module: 3, text: "Sons, luzes, cheiros ou texturas me incomodam mais do que às outras pessoas." },
+                { module: 3, text: "Ambientes movimentados ou barulhentos me deixam exausto(a)." },
+                { module: 3, text: "Tenho desconforto com determinadas roupas, tecidos ou etiquetas." },
+                { module: 3, text: "Preciso me afastar de estímulos para conseguir me reorganizar." },
+                { module: 3, text: "Quando estou cansado(a) ou estressado(a), minha sensibilidade aumenta." },
+                // Módulo 4: Rotina, padrões e previsibilidade (5)
+                { module: 4, text: "Mudanças inesperadas me causam grande desconforto emocional." },
+                { module: 4, text: "Preciso planejar com antecedência para me sentir seguro(a)." },
+                { module: 4, text: "Sinto necessidade de que as coisas sigam uma ordem previsível." },
+                { module: 4, text: "Fico irritado(a) ou ansioso(a) quando algo sai do planejado." },
+                { module: 4, text: "Tenho dificuldade em lidar com imprevistos." },
+                // Módulo 5: Interesses, foco e estilo cognitivo (4)
+                { module: 5, text: "Desenvolvo interesses intensos e profundos por temas específicos." },
+                { module: 5, text: "Consigo passar longos períodos totalmente focado(a) em algo que me interessa." },
+                { module: 5, text: "Tenho facilidade com tarefas lógicas, técnicas ou sistematizadas." },
+                { module: 5, text: "Sinto-me mais confortável com atividades previsíveis do que com improvisos." },
+                // Módulo 6: Regulação emocional e exaustão (5)
+                { module: 6, text: "Tenho dificuldade em identificar ou nomear minhas emoções." },
+                { module: 6, text: "Já vivenciei crises emocionais por sobrecarga." },
+                { module: 6, text: "Preciso me isolar após interações sociais." },
+                { module: 6, text: "Sinto cansaço constante sem causa física aparente." },
+                { module: 6, text: "Funcionar socialmente exige muito esforço de mim." },
+                // Módulo 7: Mascaramento social (4)
+                { module: 7, text: "Finjo naturalidade em situações sociais." },
+                { module: 7, text: "Sinto que desempenho um papel para parecer socialmente adequado(a)." },
+                { module: 7, text: "Esforço-me conscientemente para parecer “normal”." },
+                { module: 7, text: "Tenho receio de ser quem realmente sou em contextos sociais." },
+                // Módulo 8: TDAH (atenção/executivo) (4)
+                { module: 8, text: "Tenho dificuldade em iniciar tarefas, mesmo quando são importantes." },
+                { module: 8, text: "Me distraio facilmente com pensamentos ou estímulos externos." },
+                { module: 8, text: "Oscilo entre períodos de hiperfoco e procrastinação." },
+                { module: 8, text: "Minha desorganização gera prejuízos na minha rotina." },
+                // Módulo 9: Ansiedade (4)
+                { module: 9, text: "Sinto ansiedade frequente em contextos sociais." },
+                { module: 9, text: "Evito situações por medo de errar ou ser julgado(a)." },
+                { module: 9, text: "Minha ansiedade aumenta quando perco o controle das situações." },
+                { module: 9, text: "Já apresentei sintomas físicos de ansiedade, como tensão ou taquicardia." },
+            ],
+            modules: {
+                1: { name: "História de vida e desenvolvimento social", max: 18 },
+                2: { name: "Interação social e comunicação", max: 18 },
+                3: { name: "Processamento sensorial", max: 15 },
+                4: { name: "Rotina, padrões e previsibilidade", max: 15 },
+                5: { name: "Interesses, foco e estilo cognitivo", max: 12 },
+                6: { name: "Regulação emocional e exaustão", max: 15 },
+                7: { name: "Mascaramento social", max: 12 },
+                8: { name: "TDAH (atenção/executivo)", max: 12 },
+                9: { name: "Ansiedade", max: 12 },
+            },
+            profiles: {
+                p1: { name: "🟢 PERFIL 1 — VARIABILIDADE TÍPICA", feedback: "Seu resultado indica um padrão de funcionamento dentro da variabilidade esperada para a população adulta. Não foram identificados indicadores consistentes de um transtorno do neurodesenvolvimento ao longo da vida.", icon: "✅" },
+                p2: { name: "🟡 PERFIL 2 — TRAÇOS NEURODIVERGENTES LEVES", feedback: "Seu resultado indica a presença de traços neurodivergentes leves. Esses traços podem estar associados a estilos cognitivos, ansiedade ou estratégias adaptativas desenvolvidas ao longo da vida.", icon: "💡" },
+                p3: { name: "🟠 PERFIL 3 — TEA NÍVEL 1 (ADULTO MASCARADO)", feedback: "Seu resultado aponta um perfil fortemente compatível com características do Transtorno do Espectro Autista em adultos, especialmente em pessoas com histórico de mascaramento social.", icon: "🎭" },
+                p4: { name: "🔴 PERFIL 4 — TEA ALTAMENTE SUGESTIVO", feedback: "Seu resultado indica um padrão de funcionamento altamente sugestivo de características do Transtorno do Espectro Autista, com impacto significativo em diferentes áreas da vida.", icon: "🎯" },
+                p5: { name: "🔵 PERFIL 5 — TDAH PREDOMINANTE", feedback: "Seu resultado indica um funcionamento mais compatível com características do Transtorno do Déficit de Atenção/Hiperatividade, especialmente relacionadas à atenção, organização e funções executivas.", icon: "⚡️" },
+                p6: { name: "🟣 PERFIL 6 — DUPLA CONDIÇÃO (TEA + TDAH)", feedback: "Seu resultado sugere a presença combinada de características do Transtorno do Espectro Autista e do Transtorno do Déficit de Atenção/Hiperatividade.", icon: "☯️" },
+                p7: { name: "🟠 PERFIL 7 — ANSIEDADE PREDOMINANTE", feedback: "Seu resultado indica ansiedade significativa como eixo principal de funcionamento, especialmente em contextos sociais e de controle.", icon: "😟" },
+            },
+            priority: ['p4', 'p6', 'p3', 'p5', 'p7', 'p2', 'p1']
+        };
+
+        // --- PAGE NAVIGATION ---
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById(pageId).classList.add('active');
+            window.scrollTo(0, 0);
+        }
+
+        // --- TEST INITIALIZATION ---
+        function generateQuestions() {
+            const container = document.getElementById('questions-container');
+            container.innerHTML = '';
+            let currentModule = 0;
+            
+            testData.questions.forEach((q, index) => {
+                if (q.module !== currentModule) {
+                    currentModule = q.module;
+                    const moduleTitle = document.createElement('div');
+                    moduleTitle.className = 'module';
+                    moduleTitle.innerHTML = `<h3 class="module-title">${testData.modules[currentModule].name}</h3>`;
+                    container.appendChild(moduleTitle);
+                }
+                
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+                
+                const questionText = `<span class="question-text">${index + 1}. ${q.text}</span>`;
+                const options = `
+                    <div class="options">
+                        <input type="radio" id="q${index}_opt0" name="q${index}" value="0" required>
+                        <label for="q${index}_opt0">Nunca</label>
+                        <input type="radio" id="q${index}_opt1" name="q${index}" value="1">
+                        <label for="q${index}_opt1">Raramente</label>
+                        <input type="radio" id="q${index}_opt2" name="q${index}" value="2">
+                        <label for="q${index}_opt2">Frequentemente</label>
+                        <input type="radio" id="q${index}_opt3" name="q${index}" value="3">
+                        <label for="q${index}_opt3">Sempre</label>
+                    </div>
+                `;
+                
+                questionDiv.innerHTML = questionText + options;
+                // Append question to the current module's div
+                container.lastChild.appendChild(questionDiv);
+            });
+        }
+        
+        // --- CALCULATION LOGIC ---
+        document.getElementById('screening-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const scores = { 1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0 };
+            const formData = new FormData(this);
+            
+            testData.questions.forEach((q, index) => {
+                const value = parseInt(formData.get(`q${index}`), 10);
+                scores[q.module] += value;
+            });
+
+            const subtotalTEA = scores[1] + scores[2] + scores[3] + scores[4] + scores[5] + scores[6] + scores[7];
+            const totalGeral = subtotalTEA + scores[8] + scores[9];
+
+            const matchedProfiles = [];
+            
+            // Profile 1: Variabilidade típica
+            if (totalGeral <= 35) matchedProfiles.push('p1');
+            
+            // Profile 2: Traços neurodivergentes leves
+            if (totalGeral >= 36 && totalGeral <= 65 && subtotalTEA < 60) matchedProfiles.push('p2');
+            
+            // Profile 3: TEA nível 1 (adulto mascarado)
+            if (subtotalTEA >= 60 && scores[7] >= 8 && scores[1] >= 10) matchedProfiles.push('p3');
+            
+            // Profile 4: TEA altamente sugestivo
+            let teaModulesOver70 = 0;
+            for(let i = 1; i <= 7; i++) {
+                if (scores[i] >= testData.modules[i].max * 0.7) {
+                    teaModulesOver70++;
+                }
+            }
+            if (subtotalTEA >= 75 && teaModulesOver70 >= 4) matchedProfiles.push('p4');
+            
+            // Profile 5: TDAH predominante
+            if (scores[8] >= 8 && subtotalTEA < 45) matchedProfiles.push('p5');
+
+            // Profile 6: Dupla condição (TEA + TDAH)
+            if (subtotalTEA >= 60 && scores[8] >= 8) matchedProfiles.push('p6');
+            
+            // Profile 7: Ansiedade predominante
+            if (scores[9] >= 8 && subtotalTEA < 40) matchedProfiles.push('p7');
+
+            // --- APPLY PRIORITY RULE ---
+            let finalProfileId = 'p1'; // Default profile
+            for (const profileId of testData.priority) {
+                if (matchedProfiles.includes(profileId)) {
+                    finalProfileId = profileId;
+                    break;
+                }
+            }
+
+            displayResults(finalProfileId);
+        });
+
+        // --- DISPLAY RESULTS ---
+        function displayResults(profileId) {
+            const profile = testData.profiles[profileId];
+            document.getElementById('result-profile').textContent = profile.name;
+            document.getElementById('result-feedback').textContent = profile.feedback;
+            document.getElementById('result-icon').textContent = profile.icon;
+            showPage('results-page');
+        }
+
+        function restartTest() {
+            document.getElementById('screening-form').reset();
+            showPage('home-page');
+        }
+
+        // --- ON PAGE LOAD ---
+        window.onload = () => {
+            generateQuestions();
+            // Attach event listeners for nav links that were not working with display:none
+             document.querySelectorAll('.nav-links a').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const pageId = link.getAttribute('onclick').match(/'(.*?)'/)[1];
+                    showPage(pageId);
+                });
+            });
+        };
+    </script>
+</body>
+</html>
