@@ -12,7 +12,6 @@
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.js"></script>
-
     <style>
         :root {
             --azul-primario: #1e3a5f;
@@ -37,7 +36,6 @@
             --gradient-verde: linear-gradient(135deg, #00a86b 0%, #7dd3c0 100%);
             --gradient-roxo: linear-gradient(135deg, #a78bfa 0%, #5b9edb 100%);
         }
-
         * {
             margin: 0;
             padding: 0;
@@ -45,19 +43,16 @@
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
         }
-
         html, body {
             width: 100%;
             height: 100%;
             overflow: hidden;
         }
-
         body {
             font-family: 'Figtree', sans-serif;
             background-color: var(--cinza-claro);
             color: var(--cinza-texto);
         }
-
         .screen {
             position: fixed;
             top: 0;
@@ -74,27 +69,22 @@
             overflow-y: auto;
             z-index: 1;
         }
-
         .screen.active {
             display: flex;
         }
-
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
-
         @keyframes slideInUp {
             from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
         }
-
         .container {
             width: 100%;
             max-width: 800px;
             margin: 0 auto;
         }
-
         h1 {
             font-family: 'Poppins', sans-serif;
             font-size: clamp(2rem, 6vw, 3.5rem);
@@ -103,7 +93,6 @@
             margin-bottom: 0.5rem;
             letter-spacing: -0.5px;
         }
-
         h2 {
             font-family: 'Poppins', sans-serif;
             font-size: clamp(1.5rem, 4vw, 2.2rem);
@@ -111,28 +100,24 @@
             color: var(--azul-primario);
             margin-bottom: 1rem;
         }
-
         h3 {
             font-family: 'Poppins', sans-serif;
             font-size: 1.3rem;
             font-weight: 600;
             color: var(--azul-secundario);
         }
-
         p {
             color: var(--cinza-texto);
             line-height: 1.8;
             margin-bottom: 1rem;
             font-size: 1rem;
         }
-
         .subtitle {
             color: #64748b;
             font-size: 1.1rem;
             margin-bottom: 2rem;
             font-weight: 500;
         }
-
         .btn {
             font-family: 'Poppins', sans-serif;
             font-weight: 600;
@@ -150,16 +135,13 @@
             letter-spacing: 0.5px;
             font-size: 0.95rem;
         }
-
         .btn:hover {
             transform: translateY(-2px);
             box-shadow: var(--shadow-lg);
         }
-
         .btn:active {
             transform: translateY(0);
         }
-
         .btn:disabled {
             background: var(--cinza-border);
             color: var(--cinza-texto);
@@ -167,38 +149,32 @@
             box-shadow: var(--shadow-sm);
             transform: none;
         }
-
         .btn-secondary {
             background: white;
             border: 2px solid var(--azul-primario);
             color: var(--azul-primario);
             box-shadow: var(--shadow-sm);
         }
-
         .btn-secondary:hover {
             background: var(--azul-primario);
             color: white;
             box-shadow: var(--shadow-md);
         }
-
         .btn-small {
             padding: 0.7rem 1.5rem;
             font-size: 0.9rem;
         }
-
         /* WELCOME SCREEN */
         #welcome-screen {
             justify-content: flex-start;
             padding-top: 2rem;
             padding-bottom: 2rem;
         }
-
         .welcome-header {
             text-align: center;
             margin-bottom: 2rem;
             animation: slideInUp 0.6s ease-out;
         }
-
         .welcome-badge {
             display: inline-block;
             background: var(--azul-light);
@@ -211,7 +187,6 @@
             text-transform: uppercase;
             letter-spacing: 1px;
         }
-
         .welcome-content {
             background: white;
             border-radius: 16px;
@@ -220,11 +195,9 @@
             margin-bottom: 2rem;
             animation: slideInUp 0.8s ease-out;
         }
-
         .welcome-content h2 {
             margin-top: 0;
         }
-
         .info-box {
             background: var(--azul-ultra-light);
             border-left: 4px solid var(--azul-primario);
@@ -232,56 +205,47 @@
             border-radius: 10px;
             margin-bottom: 1.5rem;
         }
-
         .info-box h4 {
             color: var(--azul-primario);
             margin-bottom: 0.8rem;
             font-weight: 600;
         }
-
         .info-box p {
             margin-bottom: 0;
             font-size: 0.95rem;
         }
-
         .highlight {
             color: var(--azul-primario);
             font-weight: 600;
         }
-
         .welcome-buttons {
             display: flex;
             gap: 1rem;
             justify-content: center;
             flex-wrap: wrap;
         }
-
         /* HOME SCREEN */
         #home-screen {
             justify-content: flex-start;
             padding-top: 2rem;
             padding-bottom: 2rem;
         }
-
         .logo-section {
             text-align: center;
             margin-bottom: 2rem;
             animation: slideInUp 0.6s ease-out;
         }
-
         .card-grid {
             display: grid;
             grid-template-columns: 1fr;
             gap: 1.5rem;
             margin-bottom: 2rem;
         }
-
         @media (min-width: 768px) {
             .card-grid {
                 grid-template-columns: 1fr 1fr;
             }
         }
-
         .choice-card {
             background: white;
             border-radius: 16px;
@@ -293,31 +257,25 @@
             text-align: center;
             animation: slideInUp 0.6s ease-out backwards;
         }
-
         .choice-card:nth-child(1) { animation-delay: 0.1s; }
         .choice-card:nth-child(2) { animation-delay: 0.2s; }
-
         .choice-card:hover {
             transform: translateY(-8px);
             box-shadow: var(--shadow-lg);
             border-color: var(--azul-primario);
         }
-
         .choice-card-icon {
             font-size: 3.5rem;
             margin-bottom: 1rem;
         }
-
         .choice-card h3 {
             color: var(--azul-primario);
             margin-bottom: 0.8rem;
         }
-
         .choice-card p {
             font-size: 0.95rem;
             margin-bottom: 0;
         }
-
         .ethical-banner {
             background: linear-gradient(135deg, #fef3c7 0%, #fef08a 100%);
             border-left: 4px solid var(--amarelo-atencao);
@@ -325,26 +283,22 @@
             padding: 1.5rem;
             margin-top: 2rem;
         }
-
         .ethical-banner strong {
             color: var(--azul-primario);
             display: block;
             margin-bottom: 0.5rem;
         }
-
         .ethical-banner p {
             color: var(--azul-primario);
             font-size: 0.95rem;
             margin-bottom: 0;
         }
-
         /* TERMS SCREEN */
         #terms-screen {
             justify-content: flex-start;
             padding-top: 2rem;
             padding-bottom: 2rem;
         }
-
         .terms-container {
             background: white;
             border-radius: 16px;
@@ -352,66 +306,54 @@
             box-shadow: var(--shadow-lg);
             animation: slideInUp 0.6s ease-out;
         }
-
         .terms-header {
             text-align: center;
             margin-bottom: 2rem;
             padding-bottom: 2rem;
             border-bottom: 2px solid var(--cinza-border);
         }
-
         .terms-header h2 {
             margin-bottom: 0.5rem;
         }
-
         .terms-header p {
             color: var(--cinza-texto);
             margin-bottom: 0;
         }
-
         .terms-content {
             max-height: 55vh;
             overflow-y: auto;
             margin-bottom: 2rem;
             padding-right: 0.5rem;
         }
-
         .terms-content::-webkit-scrollbar {
             width: 6px;
         }
-
         .terms-content::-webkit-scrollbar-track {
             background: var(--cinza-border);
             border-radius: 10px;
         }
-
         .terms-content::-webkit-scrollbar-thumb {
             background: var(--azul-primario);
             border-radius: 10px;
         }
-
         .terms-content h3 {
             margin-top: 1.5rem;
             margin-bottom: 0.8rem;
             color: var(--azul-primario);
         }
-
         .terms-content p {
             font-size: 0.95rem;
             color: var(--cinza-texto);
             line-height: 1.8;
         }
-
         .terms-content ul {
             margin-left: 1.5rem;
             margin-bottom: 1rem;
         }
-
         .terms-content li {
             margin-bottom: 0.5rem;
             color: var(--cinza-texto);
         }
-
         .checkbox-wrapper {
             display: flex;
             align-items: flex-start;
@@ -421,7 +363,6 @@
             background: var(--azul-ultra-light);
             border-radius: 10px;
         }
-
         .checkbox-wrapper input {
             width: 20px;
             height: 20px;
@@ -430,27 +371,23 @@
             accent-color: var(--azul-primario);
             flex-shrink: 0;
         }
-
         .checkbox-wrapper label {
             cursor: pointer;
             font-size: 0.95rem;
             color: var(--cinza-texto);
             line-height: 1.6;
         }
-
         .terms-buttons {
             display: flex;
             gap: 1rem;
             justify-content: flex-end;
         }
-
         /* AGE SELECTION SCREEN */
         #age-selection-screen {
             justify-content: flex-start;
             padding-top: 2rem;
             padding-bottom: 2rem;
         }
-
         .age-selection-content {
             background: white;
             border-radius: 16px;
@@ -458,20 +395,17 @@
             box-shadow: var(--shadow-md);
             animation: slideInUp 0.6s ease-out;
         }
-
         .age-buttons {
             display: grid;
             grid-template-columns: 1fr;
             gap: 1.2rem;
             margin-top: 2rem;
         }
-
         @media (min-width: 768px) {
             .age-buttons {
                 grid-template-columns: 1fr 1fr 1fr;
             }
         }
-
         .age-btn {
             padding: 1.5rem;
             border: 2px solid var(--cinza-border);
@@ -484,21 +418,18 @@
             font-size: 1rem;
             line-height: 1.4;
         }
-
         .age-btn:hover {
             border-color: var(--azul-primario);
             background: var(--azul-ultra-light);
             transform: translateY(-3px);
             box-shadow: var(--shadow-md);
         }
-
         /* INSTRUCTIONS SCREEN */
         #instructions-screen {
             justify-content: flex-start;
             padding-top: 2rem;
             padding-bottom: 2rem;
         }
-
         .instructions-box {
             background: white;
             border-radius: 16px;
@@ -507,29 +438,24 @@
             margin-bottom: 2rem;
             animation: slideInUp 0.6s ease-out;
         }
-
         .instructions-box h2 {
             color: var(--azul-primario);
             margin-bottom: 1.5rem;
         }
-
         .instructions-box p {
             margin-bottom: 1rem;
             line-height: 1.8;
         }
-
         .instructions-list {
             list-style: none;
             margin: 1.5rem 0;
         }
-
         .instructions-list li {
             padding: 0.8rem 0;
             padding-left: 2rem;
             position: relative;
             color: var(--cinza-texto);
         }
-
         .instructions-list li:before {
             content: "✓";
             position: absolute;
@@ -538,14 +464,16 @@
             font-weight: bold;
             font-size: 1.2rem;
         }
-
         /* TEST SCREEN */
+        #test-screen {
+            justify-content: flex-start;
+            padding-top: 2rem;
+        }
         .progress-section {
             width: 100%;
             margin-bottom: 2rem;
             animation: slideInUp 0.6s ease-out;
         }
-
         .progress-bar-container {
             width: 100%;
             height: 6px;
@@ -554,13 +482,11 @@
             overflow: hidden;
             margin-bottom: 1rem;
         }
-
         .progress-bar-fill {
             height: 100%;
             background: var(--gradient-azul);
             transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
-
         .progress-text {
             display: flex;
             justify-content: space-between;
@@ -568,7 +494,6 @@
             color: var(--cinza-texto);
             font-weight: 600;
         }
-
         .module-badge {
             display: inline-block;
             background: var(--gradient-roxo);
@@ -581,7 +506,6 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
-
         .question-container {
             background: white;
             border-radius: 16px;
@@ -591,21 +515,18 @@
             animation: slideInUp 0.6s ease-out;
             border-left: 4px solid var(--azul-primario);
         }
-
         .question-container h3 {
             color: var(--azul-primario);
             font-size: 1.4rem;
             line-height: 1.6;
             margin-bottom: 0;
         }
-
         .answers-grid {
             display: grid;
             grid-template-columns: 1fr;
             gap: 1rem;
             margin-top: 1.5rem;
         }
-
         .answer-option {
             padding: 1.2rem;
             border: 2px solid var(--cinza-border);
@@ -617,38 +538,45 @@
             font-weight: 500;
             font-size: 1rem;
         }
-
         .answer-option:hover {
             border-color: var(--azul-primario);
             background: var(--azul-ultra-light);
             transform: translateX(4px);
         }
-
         .answer-option:active {
             transform: translateX(4px) scale(0.98);
         }
-
         /* LOADING SCREEN */
+        #loading-screen {
+            background: var(--gradient-azul);
+        }
         .loading-spinner {
             width: 60px;
             height: 60px;
-            border: 4px solid var(--cinza-border);
-            border-top: 4px solid var(--azul-primario);
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid var(--white);
             border-radius: 50%;
             animation: spin 1s linear infinite;
             margin-bottom: 2rem;
         }
-
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-
         .loading-text h2 {
             margin-bottom: 0.5rem;
+            color: white;
+            text-align: center;
         }
-
+        .loading-text p {
+            color: rgba(255, 255, 255, 0.8);
+            text-align: center;
+        }
         /* RESULT SCREEN */
+        #result-screen {
+             justify-content: flex-start;
+             padding-top: 2rem;
+        }
         .result-container {
             background: white;
             border-radius: 16px;
@@ -658,19 +586,18 @@
             max-width: 750px;
             border-top: 6px solid var(--azul-primario);
         }
-
         .result-icon {
             font-size: 5rem;
             margin-bottom: 1.5rem;
             display: block;
+            text-align: center;
         }
-
         .result-title {
             font-size: 2rem;
             color: var(--azul-primario);
             margin-bottom: 1rem;
+            text-align: center;
         }
-
         .result-feedback {
             font-size: 1.1rem;
             color: var(--cinza-texto);
@@ -679,7 +606,6 @@
             padding-bottom: 2rem;
             border-bottom: 2px solid var(--cinza-border);
         }
-
         .result-report {
             background: var(--azul-ultra-light);
             border-left: 4px solid var(--azul-primario);
@@ -687,19 +613,16 @@
             border-radius: 10px;
             margin-bottom: 2rem;
         }
-
         .result-report h4 {
             color: var(--azul-primario);
             margin-bottom: 1rem;
             font-weight: 600;
         }
-
         .result-report p {
             color: var(--cinza-texto);
             font-size: 0.95rem;
             line-height: 1.8;
         }
-
         .recommendation-box {
             background: linear-gradient(135deg, #dcfce7 0%, #ecfdf5 100%);
             border-left: 4px solid var(--verde-neuro);
@@ -707,19 +630,16 @@
             border-radius: 10px;
             margin-bottom: 2rem;
         }
-
         .recommendation-box h4 {
             color: var(--verde-neuro);
             margin-bottom: 0.8rem;
             font-weight: 600;
         }
-
         .recommendation-box p {
             color: var(--cinza-texto);
             font-size: 0.95rem;
             margin-bottom: 0;
         }
-
         .result-actions {
             display: flex;
             gap: 1rem;
@@ -727,7 +647,6 @@
             flex-wrap: wrap;
             justify-content: center;
         }
-
         .disclaimer {
             background: linear-gradient(135deg, #fef3c7 0%, #fef08a 100%);
             border-left: 4px solid var(--amarelo-atencao);
@@ -735,64 +654,51 @@
             border-radius: 10px;
             margin-top: 2rem;
         }
-
         .disclaimer p {
             color: var(--azul-primario);
             font-weight: 500;
             margin-bottom: 0.5rem;
         }
-
         .disclaimer small {
             color: var(--cinza-texto);
             display: block;
             margin-top: 0.5rem;
         }
-
         .scrollable {
             overflow-y: auto;
             max-height: 100vh;
             padding-right: 0.5rem;
         }
-
         @media (max-width: 768px) {
             .btn {
                 padding: 0.9rem 1.8rem;
                 font-size: 0.9rem;
             }
-
             .result-container {
                 padding: 2rem;
             }
-
             .result-actions {
                 flex-direction: column;
             }
-
             .result-actions .btn {
                 width: 100%;
             }
-
             .terms-container {
                 padding: 1.5rem;
             }
-
             .terms-buttons {
                 flex-direction: column;
             }
-
             .terms-buttons .btn {
                 width: 100%;
             }
-
             .question-container {
                 padding: 1.5rem;
             }
-
             .welcome-buttons {
                 flex-direction: column;
                 width: 100%;
             }
-
             .welcome-buttons .btn {
                 width: 100%;
             }
@@ -809,7 +715,6 @@
                 <h1>NeuroTriagem Pro</h1>
                 <p class="subtitle">Entenda seu Funcionamento Neurocognitivo</p>
             </div>
-
             <div class="welcome-content">
                 <h2>O que é NeuroTriagem Pro?</h2>
                 
@@ -817,35 +722,28 @@
                     <h4>🧠 Uma Ferramenta Científica</h4>
                     <p>NeuroTriagem Pro é uma avaliação <span class="highlight">orientativa</span> baseada em evidências científicas internacionalmente reconhecidas (DSM-5, CID-11). É desenvolvida para auxiliar na identificação de padrões do neurodesenvolvimento.</p>
                 </div>
-
                 <div class="info-box">
                     <h4>⚖️ O Que NÃO É</h4>
                     <p>Esta ferramenta <span class="highlight">NÃO é diagnóstico</span>. Não substitui avaliação profissional presencial. Os resultados são indicativos e devem ser sempre avaliados por profissionais especializados.</p>
                 </div>
-
                 <div class="info-box">
                     <h4>🔒 Seus Dados Estão Seguros</h4>
                     <p>Todos os dados são processados <span class="highlight">localmente no seu navegador</span>. Nada é enviado para servidores. Sua privacidade é garantida pela Lei de Proteção de Dados (LGPD).</p>
                 </div>
-
                 <div class="info-box">
                     <h4>⏱️ Quanto Tempo Leva?</h4>
                     <p>A avaliação leva aproximadamente <span class="highlight">20-40 minutos</span> dependendo da sua faixa etária. Reserve um tempo tranquilo, sem distrações.</p>
                 </div>
-
                 <h3 style="margin-top: 2rem; color: var(--azul-primario);">Como Funciona?</h3>
                 <p><strong>1️⃣ Você escolhe</strong> se é uma avaliação infantil ou adulta</p>
                 <p><strong>2️⃣ Você lê</strong> os termos e política de privacidade com transparência total</p>
                 <p><strong>3️⃣ Você responde</strong> questões honestas sobre seu funcionamento ou da criança</p>
                 <p><strong>4️⃣ Você recebe</strong> um relatório detalhado com recomendações profissionais</p>
-
                 <p style="margin-top: 2rem; font-style: italic; color: var(--cinza-texto);">Pronto(a) para começar? Clique em "Continuar" abaixo.</p>
             </div>
-
             <div class="welcome-buttons">
                 <button id="welcome-continue-btn" class="btn">➜ Continuar para Avaliação</button>
             </div>
-
             <div class="ethical-banner">
                 <strong>📋 Transparência Total</strong>
                 <p>Acreditamos em informação clara. Você verá exatamente o que vai responder e para quê antes de começar qualquer teste.</p>
@@ -860,7 +758,6 @@
                 <h2 style="margin-bottom: 0.5rem;">Qual Avaliação Deseja Fazer?</h2>
                 <p class="subtitle">Escolha a opção que corresponde à sua situação</p>
             </div>
-
             <div class="card-grid">
                 <div class="choice-card" id="card-infantil">
                     <div class="choice-card-icon">👧</div>
@@ -873,8 +770,7 @@
                     <p>Autoaplicável para maiores de 18 anos. Reflexão estruturada sobre seu histórico e padrões atuais de funcionamento.</p>
                 </div>
             </div>
-
-            <div class="ethical-banner">
+             <div class="ethical-banner">
                 <strong>⚠️ Declaração Importante</strong>
                 <p>Na próxima página você verá todos os detalhes dos termos e privacidade <span class="highlight">antes de fazer qualquer teste</span>. Você controlará o processo.</p>
             </div>
@@ -888,3 +784,269 @@
                 <div class="terms-header">
                     <h2>Termos de Uso e Consentimento Informado</h2>
                     <p>Leia com atenção antes de prosseguir. Sua compreensão é importante.</p>
+                </div>
+                <div class="terms-content">
+                    <h3>1. Natureza da Ferramenta</h3>
+                    <p>A NeuroTriagem Pro é uma ferramenta de triagem e não de diagnóstico. Ela serve como um guia orientativo, baseado em critérios internacionais, para identificar possíveis indicadores de condições do neurodesenvolvimento. Os resultados não confirmam nem descartam qualquer diagnóstico e não substituem uma avaliação clínica completa por um profissional qualificado (médico, psicólogo, etc.).</p>
+                    
+                    <h3>2. Privacidade e Segurança dos Dados (LGPD)</h3>
+                    <p>Sua privacidade é nossa prioridade. Todos os dados que você insere nesta avaliação são processados exclusivamente no seu dispositivo (navegador). Nenhuma informação pessoal ou resposta é enviada, armazenada ou compartilhada com servidores externos. Ao fechar a página, todos os dados são permanentemente apagados. A ferramenta está em conformidade com a Lei Geral de Proteção de Dados (LGPD) do Brasil.</p>
+                    
+                    <h3>3. Responsabilidade do Usuário</h3>
+                    <p>Ao utilizar a NeuroTriagem Pro, você reconhece que:</p>
+                    <ul>
+                        <li>As respostas devem ser fornecidas de forma honesta e cuidadosa para garantir a precisão da triagem.</li>
+                        <li>Os resultados são para fins informativos e educacionais.</li>
+                        <li>É sua responsabilidade procurar um profissional de saúde qualificado para uma avaliação formal e interpretação dos resultados.</li>
+                    </ul>
+
+                    <h3>4. Limitações de Uso</h3>
+                    <p>Esta ferramenta não deve ser usada para autodiagnóstico, para tomar decisões sobre tratamentos ou como prova em qualquer contexto legal ou médico. Os desenvolvedores não se responsabilizam pelo uso indevido dos resultados ou por qualquer decisão tomada com base nesta triagem.</p>
+                </div>
+
+                <div class="checkbox-wrapper">
+                    <input type="checkbox" id="terms-checkbox">
+                    <label for="terms-checkbox">Li, compreendi e concordo com todos os Termos de Uso e a Política de Privacidade. Reconheço que esta ferramenta não é um diagnóstico e que devo procurar um profissional para uma avaliação completa.</label>
+                </div>
+
+                <div class="terms-buttons">
+                    <button id="terms-back-btn" class="btn btn-secondary">Voltar</button>
+                    <button id="terms-continue-btn" class="btn" disabled>Aceitar e Continuar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCREEN 4: AGE SELECTION -->
+    <div id="age-selection-screen" class="screen scrollable">
+        <div class="container">
+            <div class="age-selection-content">
+                 <h2>Selecione a Faixa Etária</h2>
+                 <p class="subtitle">A escolha correta garante que as perguntas sejam adequadas.</p>
+                 <div class="age-buttons">
+                     <button class="age-btn">0 a 3 anos</button>
+                     <button class="age-btn">4 a 6 anos</button>
+                     <button class="age-btn">7 a 12 anos</button>
+                     <button class="age-btn">13 a 17 anos (Adolescente)</button>
+                     <button class="age-btn">18+ (Adulto)</button>
+                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCREEN 5: INSTRUCTIONS -->
+    <div id="instructions-screen" class="screen scrollable">
+        <div class="container">
+             <div class="instructions-box">
+                <h2>Instruções para a Avaliação</h2>
+                <p>Para garantir que a triagem seja precisa, por favor, siga as orientações abaixo:</p>
+                <ul class="instructions-list">
+                    <li><strong>Ambiente Tranquilo:</strong> Escolha um local calmo e sem interrupções.</li>
+                    <li><strong>Seja Honesto(a):</strong> Responda com base no que é verdade para você ou para a criança, não no que você acha que é a "resposta certa".</li>
+                    <li><strong>Não Pense Demais:</strong> Sua primeira impressão geralmente é a mais precisa.</li>
+                    <li><strong>Responda Todas:</strong> É importante responder a todas as perguntas para o resultado ser completo.</li>
+                </ul>
+                <p>Lembre-se, não há respostas certas ou erradas. O objetivo é entender o funcionamento neurocognitivo.</p>
+                <button id="start-test-btn" class="btn">Iniciar Avaliação</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCREEN 6: TEST -->
+    <div id="test-screen" class="screen">
+        <div class="container">
+            <div class="progress-section">
+                 <div class="progress-text">
+                    <span>Progresso</span>
+                    <span id="progress-percentage">0%</span>
+                </div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar-fill" id="progress-bar"></div>
+                </div>
+            </div>
+            <div class="module-badge" id="module-name">Módulo: Atenção e Foco</div>
+            <div class="question-container">
+                <h3 id="question-text">Com que frequência você tem dificuldade em manter a atenção em tarefas ou atividades de lazer?</h3>
+            </div>
+            <div class="answers-grid">
+                <button class="answer-option" data-value="0">Nunca ou raramente</fbutton>
+                <button class="answer-option" data-value="1">Às vezes</button>
+                <button class="answer-option" data-value="2">Com frequência</button>
+                <button class="answer-option" data-value="3">Muito frequentemente</button>
+            </div>
+        </div>
+    </div>
+
+     <!-- SCREEN 7: LOADING -->
+    <div id="loading-screen" class="screen">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">
+            <h2>Processando seus resultados...</h2>
+            <p>Isso levará apenas alguns instantes.</p>
+        </div>
+    </div>
+
+    <!-- SCREEN 8: RESULTS -->
+    <div id="result-screen" class="screen scrollable">
+        <div class="container">
+            <div class="result-container">
+                 <span class="result-icon">📊</span>
+                 <h2 class="result-title">Relatório Orientativo Concluído</h2>
+                 <div class="result-feedback">
+                    <p>Agradecemos por seu tempo e honestidade. Abaixo está um resumo orientativo baseado em suas respostas. Este relatório é projetado para oferecer insights e direcionar próximos passos, caso sejam necessários.</p>
+                 </div>
+                
+                 <div class="result-report">
+                    <h4>Análise Preliminar</h4>
+                    <p>Suas respostas indicam padrões que <span class="highlight">sugerem uma investigação mais aprofundada</span> em áreas relacionadas à atenção e funções executivas. Foram observados indicadores consistentes com desafios em manter o foco em atividades prolongadas e organizar tarefas.</p>
+                 </div>
+                 
+                 <div class="recommendation-box">
+                    <h4>Recomendação Profissional</h4>
+                    <p>É <span class="highlight">altamente recomendado</span> que você compartilhe estes resultados com um profissional qualificado (psicólogo especialista em neuropsicologia, psiquiatra ou neurologista) para uma avaliação diagnóstica completa e formal.</p>
+                 </div>
+
+                 <div class="disclaimer">
+                     <p><strong>⚠️ Lembrete Importante: NÃO é um Diagnóstico</strong></p>
+                     <small>Este relatório é uma ferramenta de triagem e não possui valor diagnóstico. Somente um profissional de saúde pode fornecer um diagnóstico preciso após uma avaliação clínica completa.</small>
+                 </div>
+
+                 <div class="result-actions">
+                     <button id="download-pdf-btn" class="btn">Baixar Relatório (PDF)</button>
+                     <button id="restart-btn" class="btn btn-secondary">Reiniciar Avaliação</button>
+                 </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const { jsPDF } = window.jspdf;
+
+    const screens = document.querySelectorAll('.screen');
+    const welcomeContinueBtn = document.getElementById('welcome-continue-btn');
+    const cardInfantil = document.getElementById('card-infantil');
+    const cardAdulto = document.getElementById('card-adulto');
+    const termsBackBtn = document.getElementById('terms-back-btn');
+    const termsCheckbox = document.getElementById('terms-checkbox');
+    const termsContinueBtn = document.getElementById('terms-continue-btn');
+    const ageButtons = document.querySelectorAll('.age-btn');
+    const startTestBtn = document.getElementById('start-test-btn');
+    const answerOptions = document.querySelectorAll('.answer-option');
+    const downloadPdfBtn = document.getElementById('download-pdf-btn');
+    const restartBtn = document.getElementById('restart-btn');
+
+    // --- State ---
+    let currentQuestionIndex = 0;
+    const totalQuestions = 10; // Placeholder for total number of questions
+
+    // --- Functions ---
+    const showScreen = (screenId) => {
+        screens.forEach(screen => {
+            screen.classList.remove('active');
+        });
+        const activeScreen = document.getElementById(screenId);
+        if (activeScreen) {
+            activeScreen.classList.add('active');
+            activeScreen.scrollTop = 0; // Scroll to top on new screen
+        }
+    };
+    
+    const updateProgressBar = () => {
+        const progress = (currentQuestionIndex / totalQuestions) * 100;
+        const progressBar = document.getElementById('progress-bar');
+        const progressPercentage = document.getElementById('progress-percentage');
+        
+        if(progressBar && progressPercentage) {
+            progressBar.style.width = `${progress}%`;
+            progressPercentage.textContent = `${Math.round(progress)}%`;
+        }
+    };
+
+    // --- Event Listeners ---
+    welcomeContinueBtn.addEventListener('click', () => showScreen('home-screen'));
+    
+    cardInfantil.addEventListener('click', () => showScreen('terms-screen'));
+    cardAdulto.addEventListener('click', () => showScreen('terms-screen'));
+
+    termsBackBtn.addEventListener('click', () => showScreen('home-screen'));
+
+    termsCheckbox.addEventListener('change', () => {
+        termsContinueBtn.disabled = !termsCheckbox.checked;
+    });
+
+    termsContinueBtn.addEventListener('click', () => {
+        if (termsCheckbox.checked) {
+            showScreen('age-selection-screen');
+        }
+    });
+    
+    ageButtons.forEach(button => {
+        button.addEventListener('click', () => showScreen('instructions-screen'));
+    });
+
+    startTestBtn.addEventListener('click', () => {
+        currentQuestionIndex = 0;
+        updateProgressBar();
+        showScreen('test-screen');
+    });
+
+    answerOptions.forEach(button => {
+        button.addEventListener('click', () => {
+            currentQuestionIndex++;
+            if (currentQuestionIndex >= totalQuestions) {
+                showScreen('loading-screen');
+                setTimeout(() => {
+                    showScreen('result-screen');
+                }, 2500); // Simulate processing time
+            } else {
+                updateProgressBar();
+                // Logic to load next question would go here
+                document.getElementById('question-text').textContent = `Esta é a pergunta de exemplo número ${currentQuestionIndex + 1}. Como você se sente?`;
+            }
+        });
+    });
+
+    restartBtn.addEventListener('click', () => {
+        // Reset state and go to welcome screen
+        currentQuestionIndex = 0;
+        termsCheckbox.checked = false;
+        termsContinueBtn.disabled = true;
+        showScreen('welcome-screen');
+    });
+
+    downloadPdfBtn.addEventListener('click', () => {
+        const doc = new jsPDF();
+        
+        // Basic PDF content - this can be greatly expanded
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(16);
+        doc.text("Relatório Orientativo - NeuroTriagem Pro", 20, 20);
+        
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(12);
+        doc.text("Este é um resumo dos seus resultados.", 20, 30);
+        
+        const reportText = document.querySelector('.result-report p').innerText;
+        const recommendationText = document.querySelector('.recommendation-box p').innerText;
+
+        doc.text("Análise Preliminar:", 20, 40);
+        doc.setFontSize(10);
+        doc.text(doc.splitTextToSize(reportText, 170), 20, 45);
+        
+        doc.setFontSize(12);
+        doc.text("Recomendação Profissional:", 20, 70);
+        doc.setFontSize(10);
+        doc.text(doc.splitTextToSize(recommendationText, 170), 20, 75);
+
+        doc.save("Relatorio-NeuroTriagem-Pro.pdf");
+    });
+
+
+    // Initialize
+    showScreen('welcome-screen');
+});
+</script>
+
+</body>
+</html>
