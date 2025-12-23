@@ -3,57 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NeuroTriagem - Avaliação do Desenvolvimento</title>
+    <meta name="description" content="NeuroTriagem Pro - Avaliação Orientativa do Funcionamento Neurocognitivo">
+    <title>NeuroTriagem Pro - Avaliação do Desenvolvimento Neurocognitivo</title>
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- Dependências para Geração de PDF e QR Code -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.js"></script>
 
     <style>
         :root {
-            --azul-primary: #2E5CFF;
-            --azul-light: #6B9FFF;
-            --azul-dark: #1E3A8A;
-            --verde-crescimento: #4ECDC4;
-            --roxo-adulto: #9B59B6;
-            --amarelo-atencao: #FFD93D;
-            --vermelho-alerta: #EF4444;
-            --bg-light: #F8FAFC;
-            --bg-card: #FFFFFF;
-            --text-primary: #1E293B;
-            --text-secondary: #64748B;
-            --gradient-hero: linear-gradient(135deg, var(--azul-primary) 0%, var(--roxo-adulto) 100%);
-            --gradient-infantil: linear-gradient(135deg, var(--verde-crescimento) 0%, var(--azul-light) 100%);
-            --gradient-adulto: linear-gradient(135deg, var(--roxo-adulto) 0%, var(--azul-primary) 100%);
+            --azul-primario: #1e3a5f;
+            --azul-secundario: #2e5aa8;
+            --azul-accent: #3b7acc;
+            --azul-light: #5b9edb;
+            --azul-ultra-light: #f0f6ff;
+            --verde-neuro: #00a86b;
+            --verde-light: #7dd3c0;
+            --amarelo-atencao: #fcd34d;
+            --vermelho-alerta: #dc2626;
+            --roxo-criativo: #a78bfa;
+            --cinza-claro: #f8fafc;
+            --cinza-border: #e2e8f0;
+            --cinza-texto: #475569;
+            --white: #ffffff;
+            --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 12px rgba(30,58,95,0.1);
+            --shadow-lg: 0 10px 30px rgba(30,58,95,0.15);
+            --shadow-xl: 0 20px 50px rgba(30,58,95,0.2);
+            --gradient-azul: linear-gradient(135deg, #1e3a5f 0%, #2e5aa8 100%);
+            --gradient-verde: linear-gradient(135deg, #00a86b 0%, #7dd3c0 100%);
+            --gradient-roxo: linear-gradient(135deg, #a78bfa 0%, #5b9edb 100%);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-light);
-            color: var(--text-primary);
-            overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
         }
 
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            font-family: 'Figtree', sans-serif;
+            background-color: var(--cinza-claro);
+            color: var(--cinza-texto);
+        }
+
         .screen {
-            min-height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100vw;
+            height: 100vh;
             display: none;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             padding: 2rem;
-            animation: fadeIn 0.5s ease-out forwards;
+            background: linear-gradient(135deg, #f8fafc 0%, #f0f6ff 100%);
+            animation: fadeIn 0.6s ease-out forwards;
+            overflow-y: auto;
+            z-index: 1;
         }
 
         .screen.active {
@@ -61,394 +80,805 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-        
-        @keyframes fadeOut {
-            from { opacity: 1; }
-            to { opacity: 0; }
-        }
-        
+
         @keyframes slideInUp {
-            from { transform: translateY(20px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
         }
 
         .container {
             width: 100%;
-            max-width: 700px;
-            text-align: center;
-        }
-        
-        h1, h2, h3 {
-            font-family: 'Poppins', sans-serif;
-            font-weight: 700;
+            max-width: 800px;
+            margin: 0 auto;
         }
 
         h1 {
-            font-size: clamp(2.5rem, 5vw, 4rem);
-            color: var(--azul-dark);
+            font-family: 'Poppins', sans-serif;
+            font-size: clamp(2rem, 6vw, 3.5rem);
             font-weight: 800;
+            color: var(--azul-primario);
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.5px;
         }
-        
+
         h2 {
-            font-size: clamp(1.8rem, 4vw, 2.5rem);
-            color: var(--azul-dark);
+            font-family: 'Poppins', sans-serif;
+            font-size: clamp(1.5rem, 4vw, 2.2rem);
+            font-weight: 700;
+            color: var(--azul-primario);
             margin-bottom: 1rem;
+        }
+
+        h3 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--azul-secundario);
         }
 
         p {
-            color: var(--text-secondary);
-            line-height: 1.7;
-            max-width: 600px;
-            margin: 0 auto 1.5rem auto;
+            color: var(--cinza-texto);
+            line-height: 1.8;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
+
+        .subtitle {
+            color: #64748b;
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            font-weight: 500;
         }
 
         .btn {
-            display: inline-block;
             font-family: 'Poppins', sans-serif;
             font-weight: 600;
             font-size: 1rem;
-            padding: 0.8rem 2rem;
-            border-radius: 50px;
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
             border: none;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             text-decoration: none;
             color: white;
-            background: var(--gradient-hero);
-            box-shadow: 0 4px 15px rgba(46, 92, 255, 0.3);
+            background: var(--gradient-azul);
+            box-shadow: var(--shadow-md);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 0.95rem;
         }
 
         .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 7px 20px rgba(46, 92, 255, 0.4);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
         }
-        
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
         .btn:disabled {
-            background: #ccc;
+            background: var(--cinza-border);
+            color: var(--cinza-texto);
             cursor: not-allowed;
-            box-shadow: none;
+            box-shadow: var(--shadow-sm);
             transform: none;
         }
-        
+
         .btn-secondary {
-            background: transparent;
-            border: 2px solid var(--azul-primary);
-            color: var(--azul-primary);
-            box-shadow: none;
+            background: white;
+            border: 2px solid var(--azul-primario);
+            color: var(--azul-primario);
+            box-shadow: var(--shadow-sm);
         }
 
         .btn-secondary:hover {
-            background: var(--azul-primary);
+            background: var(--azul-primario);
             color: white;
-            box-shadow: 0 4px 15px rgba(46, 92, 255, 0.3);
+            box-shadow: var(--shadow-md);
         }
 
-        /* --- Telas Específicas --- */
+        .btn-small {
+            padding: 0.7rem 1.5rem;
+            font-size: 0.9rem;
+        }
 
-        /* Home Screen */
-        #home-screen .card-container {
+        /* HOME SCREEN */
+        #home-screen {
+            justify-content: flex-start;
+            padding-top: 3rem;
+            padding-bottom: 3rem;
+        }
+
+        .logo-section {
+            text-align: center;
+            margin-bottom: 3rem;
+            animation: slideInDown 0.6s ease-out;
+        }
+
+        .logo-badge {
+            display: inline-block;
+            background: var(--azul-light);
+            color: white;
+            padding: 0.5rem 1.2rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .hero-text {
+            margin-bottom: 2rem;
+        }
+
+        .card-grid {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 2rem;
-            margin-top: 3rem;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
         }
+
         @media (min-width: 768px) {
-            #home-screen .card-container {
+            .card-grid {
                 grid-template-columns: 1fr 1fr;
             }
         }
+
         .choice-card {
-            background: var(--bg-card);
-            border-radius: 20px;
-            padding: 2.5rem 2rem;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
-            border: 1px solid #eee;
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: var(--shadow-md);
+            border: 2px solid transparent;
             transition: all 0.3s ease;
             cursor: pointer;
-        }
-        .choice-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
-        }
-        .choice-card .icon {
-            font-size: 4rem;
-            margin-bottom: 1rem;
-        }
-        .choice-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
-        }
-        #card-infantil h3 { color: var(--verde-crescimento); }
-        #card-adulto h3 { color: var(--roxo-adulto); }
-        .ethical-warning {
-            margin-top: 3rem;
-            padding: 1rem;
-            background-color: #FFFBEB;
-            border-left: 4px solid var(--amarelo-atencao);
-            border-radius: 8px;
-            text-align: left;
+            text-align: center;
+            animation: slideInUp 0.6s ease-out backwards;
         }
 
-        /* Terms Modal */
+        .choice-card:nth-child(1) { animation-delay: 0.1s; }
+        .choice-card:nth-child(2) { animation-delay: 0.2s; }
+
+        .choice-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--azul-primario);
+        }
+
+        .choice-card-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .choice-card h3 {
+            color: var(--azul-primario);
+            margin-bottom: 0.8rem;
+        }
+
+        .choice-card p {
+            font-size: 0.95rem;
+            margin-bottom: 0;
+        }
+
+        .ethical-banner {
+            background: linear-gradient(135deg, #fef3c7 0%, #fef08a 100%);
+            border-left: 4px solid var(--amarelo-atencao);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .ethical-banner strong {
+            color: var(--azul-primario);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .ethical-banner p {
+            color: var(--azul-primario);
+            font-size: 0.95rem;
+            margin-bottom: 0;
+        }
+
+        /* TERMS MODAL */
         #terms-modal {
             position: fixed;
             top: 0;
             left: 0;
-            height: 100vh;
             width: 100vw;
-            background: rgba(0,0,0,0.6);
-            backdrop-filter: blur(5px);
-            z-index: 100;
-        }
-        .modal-content {
-            background: white;
-            padding: 2rem;
-            border-radius: 15px;
-            max-width: 600px;
-            width: 90%;
-            max-height: 80vh;
-            display: flex;
-            flex-direction: column;
-            animation: slideInUp 0.4s ease-out;
-        }
-        .terms-text {
-            overflow-y: auto;
-            flex-grow: 1;
-            text-align: left;
-            padding-right: 1rem;
-            margin-bottom: 1.5rem;
-        }
-        .terms-text h3 {
-             margin-top: 1rem;
-        }
-        .checkbox-container {
+            height: 100vh;
+            background: rgba(30, 58, 95, 0.7);
+            backdrop-filter: blur(8px);
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 1.5rem;
-        }
-        #terms-checkbox {
-            margin-right: 0.5rem;
+            z-index: 200;
+            padding: 1rem;
         }
 
-        /* Test Screen */
-        #test-screen .progress-container {
+        #terms-modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 16px;
+            padding: 2.5rem;
+            max-width: 650px;
             width: 100%;
-            background: #e0e0e0;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-xl);
+            animation: slideInUp 0.4s ease-out;
+        }
+
+        .modal-content h2 {
+            margin-bottom: 1.5rem;
+        }
+
+        .terms-content {
+            margin-bottom: 2rem;
+        }
+
+        .terms-content h3 {
+            margin-top: 1.5rem;
+            margin-bottom: 0.8rem;
+            color: var(--azul-primario);
+        }
+
+        .terms-content p {
+            font-size: 0.95rem;
+            color: var(--cinza-texto);
+        }
+
+        .checkbox-wrapper {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: var(--azul-ultra-light);
             border-radius: 10px;
+        }
+
+        .checkbox-wrapper input {
+            width: 20px;
+            height: 20px;
+            margin-top: 3px;
+            cursor: pointer;
+            accent-color: var(--azul-primario);
+        }
+
+        .checkbox-wrapper label {
+            cursor: pointer;
+            font-size: 0.95rem;
+            color: var(--cinza-texto);
+            line-height: 1.6;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+        }
+
+        /* AGE SELECTION SCREEN */
+        .age-buttons {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.2rem;
+            margin-top: 2rem;
+        }
+
+        @media (min-width: 768px) {
+            .age-buttons {
+                grid-template-columns: 1fr 1fr 1fr;
+            }
+        }
+
+        .age-btn {
+            padding: 1.5rem;
+            border: 2px solid var(--cinza-border);
+            background: white;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .age-btn:hover {
+            border-color: var(--azul-primario);
+            background: var(--azul-ultra-light);
+            transform: translateY(-3px);
+        }
+
+        /* INSTRUCTIONS SCREEN */
+        .instructions-box {
+            background: white;
+            border-radius: 16px;
+            padding: 2.5rem;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 2rem;
+            animation: slideInUp 0.6s ease-out;
+        }
+
+        .instructions-box h2 {
+            color: var(--azul-primario);
+            margin-bottom: 1.5rem;
+        }
+
+        .instructions-box p {
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+
+        .instructions-list {
+            list-style: none;
+            margin: 1.5rem 0;
+        }
+
+        .instructions-list li {
+            padding: 0.8rem 0;
+            padding-left: 2rem;
+            position: relative;
+            color: var(--cinza-texto);
+        }
+
+        .instructions-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--verde-neuro);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        /* TEST SCREEN */
+        .progress-section {
+            width: 100%;
+            margin-bottom: 2rem;
+            animation: slideInDown 0.6s ease-out;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 6px;
+            background: var(--cinza-border);
+            border-radius: 10px;
+            overflow: hidden;
             margin-bottom: 1rem;
         }
-        #progress-bar {
-            height: 10px;
-            width: 0%;
-            background: var(--gradient-hero);
-            border-radius: 10px;
-            transition: width 0.4s ease;
+
+        .progress-bar-fill {
+            height: 100%;
+            background: var(--gradient-azul);
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .question-card {
-            background: var(--bg-card);
-            padding: 2rem;
-            border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+
+        .progress-text {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            color: var(--cinza-texto);
+            font-weight: 600;
+        }
+
+        .module-badge {
+            display: inline-block;
+            background: var(--gradient-roxo);
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .question-container {
+            background: white;
+            border-radius: 16px;
+            padding: 2.5rem;
+            box-shadow: var(--shadow-md);
             margin-bottom: 2rem;
-            animation: fadeIn 0.5s;
+            animation: slideInUp 0.6s ease-out;
+            border-left: 4px solid var(--azul-primario);
         }
-        .answer-options {
+
+        .question-container h3 {
+            color: var(--azul-primario);
+            font-size: 1.4rem;
+            line-height: 1.6;
+            margin-bottom: 0;
+        }
+
+        .answers-grid {
             display: grid;
             grid-template-columns: 1fr;
             gap: 1rem;
+            margin-top: 1.5rem;
         }
-        .answer-btn {
-            width: 100%;
-            padding: 1rem;
-            border: 2px solid #ddd;
+
+        .answer-option {
+            padding: 1.2rem;
+            border: 2px solid var(--cinza-border);
             background: white;
             border-radius: 10px;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.3s ease;
             text-align: left;
+            font-weight: 500;
             font-size: 1rem;
         }
-        .answer-btn:hover {
-            border-color: var(--azul-primary);
-            color: var(--azul-primary);
+
+        .answer-option:hover {
+            border-color: var(--azul-primario);
+            background: var(--azul-ultra-light);
+            transform: translateX(4px);
         }
-        
-        /* Result Screen */
-        #result-screen {
-             background-color: var(--bg-light);
+
+        .answer-option:active {
+            transform: translateX(4px) scale(0.98);
         }
-        .result-card {
-            background: var(--bg-card);
-            padding: 3rem 2rem;
-            border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-            animation: slideInUp 0.6s ease-out;
-            border-top: 5px solid var(--azul-primary);
-        }
-        #result-icon {
-            font-size: 5rem;
-            margin-bottom: 1rem;
-        }
-        #result-title {
-            font-size: 1.8rem;
-            margin-bottom: 1rem;
-        }
-        #result-feedback {
-            font-size: 1.1rem;
-            color: var(--text-secondary);
+
+        /* LOADING SCREEN */
+        .loading-spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid var(--cinza-border);
+            border-top: 4px solid var(--azul-primario);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
             margin-bottom: 2rem;
         }
-        #result-report-container {
-             text-align: left;
-             background-color: #f9f9f9;
-             padding: 1.5rem;
-             border-radius: 10px;
-             margin-top: 2rem;
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
-         #result-report-container h3 {
-             color: var(--azul-dark);
-             margin-bottom: 1rem;
-         }
+
+        .loading-text h2 {
+            margin-bottom: 0.5rem;
+        }
+
+        /* RESULT SCREEN */
+        .result-container {
+            background: white;
+            border-radius: 16px;
+            padding: 3rem;
+            box-shadow: var(--shadow-lg);
+            animation: slideInUp 0.8s ease-out;
+            max-width: 750px;
+            border-top: 6px solid var(--azul-primario);
+        }
+
+        .result-icon {
+            font-size: 5rem;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        .result-title {
+            font-size: 2rem;
+            color: var(--azul-primario);
+            margin-bottom: 1rem;
+        }
+
+        .result-feedback {
+            font-size: 1.1rem;
+            color: var(--cinza-texto);
+            line-height: 1.8;
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 2px solid var(--cinza-border);
+        }
+
+        .result-report {
+            background: var(--azul-ultra-light);
+            border-left: 4px solid var(--azul-primario);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+
+        .result-report h4 {
+            color: var(--azul-primario);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .result-report p {
+            color: var(--cinza-texto);
+            font-size: 0.95rem;
+            line-height: 1.8;
+        }
+
+        .recommendation-box {
+            background: linear-gradient(135deg, #dcfce7 0%, #ecfdf5 100%);
+            border-left: 4px solid var(--verde-neuro);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+
+        .recommendation-box h4 {
+            color: var(--verde-neuro);
+            margin-bottom: 0.8rem;
+            font-weight: 600;
+        }
+
+        .recommendation-box p {
+            color: var(--cinza-texto);
+            font-size: 0.95rem;
+            margin-bottom: 0;
+        }
+
         .result-actions {
-            margin-top: 2rem;
             display: flex;
             gap: 1rem;
+            margin-top: 2rem;
             flex-wrap: wrap;
             justify-content: center;
         }
 
+        .disclaimer {
+            background: linear-gradient(135deg, #fef3c7 0%, #fef08a 100%);
+            border-left: 4px solid var(--amarelo-atencao);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-top: 2rem;
+        }
+
+        .disclaimer p {
+            color: var(--azul-primario);
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .disclaimer small {
+            color: var(--cinza-texto);
+            display: block;
+            margin-top: 0.5rem;
+        }
+
+        /* RESPONSIVO */
+        @media (max-width: 768px) {
+            .btn {
+                padding: 0.9rem 1.8rem;
+                font-size: 0.9rem;
+            }
+
+            .result-container {
+                padding: 2rem;
+            }
+
+            .result-actions {
+                flex-direction: column;
+            }
+
+            .result-actions .btn {
+                width: 100%;
+            }
+
+            .modal-content {
+                padding: 1.5rem;
+            }
+
+            .question-container {
+                padding: 1.5rem;
+            }
+        }
+
+        .scrollable {
+            overflow-y: auto;
+            max-height: 100vh;
+            padding-right: 0.5rem;
+        }
+
+        .scrollable::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .scrollable::-webkit-scrollbar-track {
+            background: var(--cinza-border);
+            border-radius: 10px;
+        }
+
+        .scrollable::-webkit-scrollbar-thumb {
+            background: var(--azul-primario);
+            border-radius: 10px;
+        }
     </style>
 </head>
 <body>
 
-    <!-- TELA 1: HOME / LANDING PAGE -->
-    <div id="home-screen" class="screen active">
+    <!-- SCREEN 1: HOME -->
+    <div id="home-screen" class="screen active scrollable">
         <div class="container">
-            <h1>NeuroTriagem</h1>
-            <p>Entenda seu funcionamento ao longo da vida, com responsabilidade, clareza e uma interface de ponta.</p>
-            
-            <div class="card-container">
-                <div id="card-infantil" class="choice-card">
-                    <div class="icon">🧒</div>
-                    <h3>Teste Infantil</h3>
-                    <p>Para crianças de 0 a 12 anos. Respondido pelos pais ou responsáveis.</p>
+            <div class="logo-section">
+                <div class="logo-badge">Versão Profissional</div>
+                <h1>NeuroTriagem Pro</h1>
+                <p class="subtitle">Avaliação Orientativa do Funcionamento Neurocognitivo</p>
+            </div>
+
+            <div class="hero-text">
+                <p>NeuroTriagem Pro é uma ferramenta científica desenvolvida para auxiliar na identificação de padrões do neurodesenvolvimento, baseada em indicadores reconhecidos internacionalmente. Avalie-se com clareza profissional.</p>
+            </div>
+
+            <div class="card-grid">
+                <div class="choice-card" id="card-infantil">
+                    <div class="choice-card-icon">👧</div>
+                    <h3>Avaliação Infantil</h3>
+                    <p>Para crianças de 0 a 12 anos, respondido por pais ou responsáveis legais com base em observações comportamentais sistemáticas.</p>
                 </div>
-                <div id="card-adulto" class="choice-card">
-                    <div class="icon">👤</div>
-                    <h3>Teste Adulto</h3>
-                    <p>Autoaplicável para maiores de 18 anos. Reflita sobre sua vida.</p>
+                <div class="choice-card" id="card-adulto">
+                    <div class="choice-card-icon">👥</div>
+                    <h3>Avaliação Adulta</h3>
+                    <p>Autoaplicável para maiores de 18 anos. Reflexão estruturada sobre seu histórico e padrões atuais de funcionamento.</p>
                 </div>
             </div>
 
-            <div class="ethical-warning">
-                <p><strong>Aviso Ético:</strong> Este teste é uma ferramenta de triagem orientativa e não substitui uma avaliação clínica profissional.</p>
+            <div class="ethical-banner">
+                <strong>⚠️ Declaração de Responsabilidade Científica</strong>
+                <p>Esta avaliação é uma ferramenta de triagem orientativa baseada em evidências. Não constitui diagnóstico médico ou psicológico. Os resultados devem ser interpretados por profissionais especializados. A avaliação clínica formal é necessária para diagnóstico.</p>
             </div>
         </div>
     </div>
-    
-    <!-- MODAL DE TERMOS E CONDIÇÕES (INICIALMENTE OCULTO) -->
-    <div id="terms-modal" class="screen">
-        <div class="modal-content">
-            <h2>Termos de Uso e Privacidade</h2>
-            <div class="terms-text">
-                <h3>1. Objetivo do Aplicativo</h3>
-                <p>Este aplicativo disponibiliza instrumentos de triagem orientativa. As triagens têm caráter exclusivamente informativo e educativo, não constituem diagnóstico e não substituem avaliação clínica presencial.</p>
-                <h3>2. Privacidade (LGPD)</h3>
-                <p>Os dados coletados são utilizados exclusivamente para gerar o resultado da triagem. Os dados não são vendidos e não são compartilhados com terceiros. Todas as respostas são processadas localmente no seu navegador e não são enviadas para nenhum servidor.</p>
-                <h3>3. Uso por Crianças e Adolescentes</h3>
-                <p>As triagens infantis são exclusivamente respondidas por pais ou responsáveis legais e devem ser interpretadas com cautela e responsabilidade.</p>
-                <h3>4. Aceite dos Termos</h3>
-                <p>Ao prosseguir, você declara que leu, compreendeu e concorda com estes Termos, ciente da natureza orientativa das triagens.</p>
+
+    <!-- TERMS MODAL -->
+    <div id="terms-modal">
+        <div class="modal-content scrollable">
+            <h2>Termos de Uso e Consentimento Informado</h2>
+            
+            <div class="terms-content">
+                <h3>1. Natureza e Limitações da Ferramenta</h3>
+                <p>Este aplicativo fornece uma avaliação de triagem orientativa baseada em evidências científicas reconhecidas internacionalmente (DSM-5, CID-11). A triagem é exclusivamente informativa e educativa, não constituindo diagnóstico clínico, neuropsicológico ou médico. Os resultados não devem ser utilizados para substituir avaliação clínica profissional presencial.</p>
+
+                <h3>2. Privacidade de Dados (LGPD e GDPR)</h3>
+                <p>Garantimos máxima privacidade: todos os dados são processados exclusivamente no seu navegador (processamento local). Nenhuma informação é enviada para servidores externos, vendida ou compartilhada com terceiros. Seus dados não são armazenados após a sessão.</p>
+
+                <h3>3. Responsabilidade do Usuário</h3>
+                <p>O usuário reconhece que as respostas são autorrelatadas ou observacionais. A precisão dos resultados depende da honestidade e reflexão nas respostas.</p>
+
+                <h3>4. Uso em População Infantil</h3>
+                <p>Avaliações infantis devem ser respondidas exclusivamente por pais ou responsáveis legais. A interpretação deve considerar contexto familiar, escolar e médico da criança.</p>
+
+                <h3>5. Limitações e Recomendações</h3>
+                <p>Esta ferramenta não detecta todas as condições neurocognitivas. A ausência de indicadores não garante ausência de necessidades. Recomenda-se avaliação profissional em caso de dúvidas ou impacto funcional.</p>
+
+                <h3>6. Aceite</h3>
+                <p>Ao continuar, você declara ter lido, compreendido e concordado com estes termos, responsabilizando-se pelo uso adequado desta ferramenta.</p>
             </div>
-            <div class="checkbox-container">
+
+            <div class="checkbox-wrapper">
                 <input type="checkbox" id="terms-checkbox">
-                <label for="terms-checkbox">Li e concordo com os Termos e a Política de Privacidade.</label>
+                <label for="terms-checkbox">Li, compreendi e concordo com todos os Termos de Uso, Consentimento Informado e Política de Privacidade. Reconheço as limitações científicas desta ferramenta.</label>
             </div>
-            <button id="terms-continue-btn" class="btn" disabled>Continuar</button>
-        </div>
-    </div>
 
-    <!-- TELA 2: SELEÇÃO DE FAIXA ETÁRIA (INFANTIL) -->
-    <div id="age-selection-screen" class="screen">
-        <div class="container">
-            <h2>Qual a idade da criança?</h2>
-            <p>Selecione a faixa etária para iniciar o teste apropriado.</p>
-            <div class="answer-options">
-                <button class="answer-btn" data-age="0-3">👶 0 a 3 anos (Primeira Infância)</button>
-                <button class="answer-btn" data-age="4-6">🧒 4 a 6 anos (Pré-Escolar)</button>
-                <button class="answer-btn" data-age="7-12">👧 7 a 12 anos (Escolar)</button>
+            <div class="modal-buttons">
+                <button id="terms-continue-btn" class="btn" disabled>Prosseguir</button>
             </div>
         </div>
     </div>
-    
-    <!-- TELA 3: INSTRUÇÕES -->
-    <div id="instructions-screen" class="screen">
+
+    <!-- SCREEN 2: AGE SELECTION -->
+    <div id="age-selection-screen" class="screen scrollable">
         <div class="container">
-            <h2 id="instructions-title">📋 Instruções</h2>
-            <div id="instructions-text" style="text-align: left; margin-bottom: 2rem;"></div>
-            <button id="start-test-btn" class="btn">Começar Teste</button>
+            <h2>Faixa Etária da Criança</h2>
+            <p class="subtitle">Selecione para garantir questões apropriadas ao desenvolvimento</p>
+            <div class="age-buttons">
+                <button class="age-btn" data-age="0-3">👶<br>0 a 3 anos<br><small>Primeira Infância</small></button>
+                <button class="age-btn" data-age="4-6">🧒<br>4 a 6 anos<br><small>Pré-Escolar</small></button>
+                <button class="age-btn" data-age="7-12">👧<br>7 a 12 anos<br><small>Idade Escolar</small></button>
+            </div>
         </div>
     </div>
 
-    <!-- TELA 4: TESTE -->
-    <div id="test-screen" class="screen">
+    <!-- SCREEN 3: INSTRUCTIONS -->
+    <div id="instructions-screen" class="screen scrollable">
         <div class="container">
-            <div class="progress-container">
-                <div id="progress-bar"></div>
+            <div class="instructions-box">
+                <h2 id="instructions-title">Instruções para Avaliação</h2>
+                <div id="instructions-content"></div>
+                <button id="start-test-btn" class="btn">Iniciar Avaliação</button>
             </div>
-            <p id="progress-text">Pergunta 1 de X</p>
-            
-            <div id="module-indicator" style="display: none; background: var(--gradient-adulto); color: white; padding: 0.5rem 1rem; border-radius: 20px; margin-bottom: 1rem; display:inline-block;"></div>
+        </div>
+    </div>
 
-            <div id="question-container" class="question-card">
+    <!-- SCREEN 4: TEST -->
+    <div id="test-screen" class="screen scrollable">
+        <div class="container">
+            <div class="progress-section">
+                <div class="progress-bar-container">
+                    <div class="progress-bar-fill" id="progress-bar-fill"></div>
+                </div>
+                <div class="progress-text">
+                    <span id="progress-current">Questão 1</span>
+                    <span id="progress-total">de 1</span>
+                </div>
+            </div>
+
+            <div id="module-badge" class="module-badge" style="display: none;"></div>
+
+            <div class="question-container">
                 <h3 id="question-text"></h3>
             </div>
-            
-            <div id="answer-options" class="answer-options">
-                <!-- Botões de resposta serão inseridos aqui pelo JS -->
+
+            <div id="answers-grid" class="answers-grid"></div>
+        </div>
+    </div>
+
+    <!-- SCREEN 5: LOADING -->
+    <div id="loading-screen" class="screen">
+        <div class="container" style="text-align: center;">
+            <div class="loading-spinner"></div>
+            <div class="loading-text">
+                <h2>Analisando suas respostas</h2>
+                <p>Gerando relatório orientativo personalizado com interpretação profissional...</p>
             </div>
         </div>
     </div>
 
-    <!-- TELA 5: CARREGANDO RESULTADO -->
-    <div id="loading-screen" class="screen">
-         <div class="container">
-             <div style="font-size: 4rem;">🧠</div>
-             <h2>Analisando suas respostas...</h2>
-             <p>Aguarde um momento enquanto geramos seu perfil orientativo.</p>
-         </div>
-    </div>
+    <!-- SCREEN 6: RESULT -->
+    <div id="result-screen" class="screen scrollable">
+        <div class="container">
+            <div class="result-container">
+                <div style="text-align: center;">
+                    <span class="result-icon" id="result-icon"></span>
+                    <h2 class="result-title" id="result-title"></h2>
+                </div>
 
-    <!-- TELA 6: RESULTADO -->
-    <div id="result-screen" class="screen">
-        <div class="container result-card">
-            <div id="result-icon"></div>
-            <h2 id="result-title"></h2>
-            <p id="result-feedback"></p>
-            
-             <div class="ethical-warning">
-                <p><strong>Importante:</strong> Este resultado é uma triagem orientativa, não um diagnóstico. Recomenda-se avaliação profissional para confirmação.</p>
-            </div>
-            
-            <div id="result-report-container" style="display: none;">
-                <h3>Relatório Detalhado</h3>
-                <p id="result-report"></p>
-            </div>
-            
-            <div class="result-actions">
-                <button id="download-pdf-btn" class="btn">📥 Baixar Relatório em PDF</button>
-                <button id="new-test-btn" class="btn btn-secondary">🔄 Fazer Novo Teste</button>
+                <div class="result-feedback" id="result-feedback"></div>
+
+                <div id="result-report" class="result-report" style="display: none;">
+                    <h4>📊 Análise Detalhada</h4>
+                    <p id="report-text"></p>
+                </div>
+
+                <div id="result-recommendation" class="recommendation-box" style="display: none;">
+                    <h4>🎯 Próximos Passos Recomendados</h4>
+                    <p id="recommendation-text"></p>
+                </div>
+
+                <div class="disclaimer">
+                    <p><strong>⚠️ Importante - Interpretação Profissional Necessária</strong></p>
+                    <p>Este resultado é uma indicação orientativa baseada em um algoritmo científico. Não é diagnóstico. Recomenda-se avaliação presencial com profissionais especializados em:
+                    <ul style="margin-top: 0.8rem; margin-left: 1.5rem; color: var(--cinza-texto); font-size: 0.95rem;">
+                        <li>Neuropsicologia Clínica</li>
+                        <li>Psiquiatria/Psicologia do Desenvolvimento</li>
+                        <li>Medicina Comportamental</li>
+                    </ul>
+                    </p>
+                </div>
+
+                <div class="result-actions">
+                    <button id="download-pdf-btn" class="btn">📥 Baixar Relatório PDF</button>
+                    <button id="new-test-btn" class="btn btn-secondary">🔄 Nova Avaliação</button>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
     document.addEventListener('DOMContentLoaded', () => {
-        // --- ELEMENTOS DO DOM ---
         const screens = {
             home: document.getElementById('home-screen'),
             terms: document.getElementById('terms-modal'),
@@ -467,273 +897,619 @@
         const newTestBtn = document.getElementById('new-test-btn');
         const downloadPdfBtn = document.getElementById('download-pdf-btn');
 
-        // --- ESTADO DA APLICAÇÃO ---
         let state = {
-            testType: null, // 'kids' ou 'adult'
-            ageGroup: null, // '0-3', '4-6', '7-12'
+            testType: null,
+            ageGroup: null,
             currentQuestionIndex: 0,
             answers: [],
             questions: [],
             resultData: null,
         };
-        
-        // --- BANCO DE DADOS (Perguntas, Textos, etc.) ---
+
         const db = {
             adult: {
                 questions: [
-                    // Módulo 1 (0-5)
-                    "Desde a infância, senti que era diferente das outras pessoas.",
-                    "Ao longo da vida, tive dificuldade em fazer ou manter amizades.",
-                    "Na escola, senti dificuldade em me encaixar socialmente.",
-                    "Observei outras pessoas para aprender como me comportar socialmente.",
-                    "Mesmo tentando me adaptar, frequentemente me senti deslocado(a).",
-                    "Fui percebido(a) como tímido(a), estranho(a) ou isolado(a) na infância ou adolescência.",
-                    // Módulo 2 (6-11)
-                    "Tenho dificuldade em entender ironias, indiretas ou duplo sentido.",
-                    "Já fui interpretado(a) como frio(a), rude ou distante sem essa intenção.",
-                    "Prefiro conversas objetivas a interações sociais longas.",
-                    "Tenho dificuldade em perceber quando é minha vez de falar ou parar de falar.",
-                    "Interações sociais me causam cansaço significativo.",
-                    "Tenho dificuldade em perceber sinais sociais sutis, como expressões faciais ou entonação.",
-                    // Módulo 3 (12-16)
-                    "Sons, luzes, cheiros ou texturas me incomodam mais do que às outras pessoas.",
-                    "Ambientes movimentados ou barulhentos me deixam exausto(a).",
-                    "Tenho desconforto com determinadas roupas, tecidos ou etiquetas.",
+                    // MÓDULO 1: HISTÓRICO DE VIDA E FUNCIONAMENTO SOCIAL (0-7)
+                    "Desde a infância, percebi que processava o mundo diferentemente das outras pessoas.",
+                    "Tive dificuldade em estabelecer e manter amizades mesmo quando desejava.",
+                    "Na escola, senti-me frequentemente isolado(a) ou não incluído(a) naturalmente.",
+                    "Observava outras pessoas para aprender comportamentos sociais adequados.",
+                    "Apesar de esforços, frequentemente sentia-me deslocado(a) em grupos sociais.",
+                    "Fui descrito(a) como tímido(a), esquisito(a), distante ou 'do seu próprio mundo'.",
+                    "Pessoas próximas comentavam que era difícil entender minhas necessidades emocionais.",
+                    "Revejo na infância comportamentos que agora reconheço como padrões diferentes.",
+                    
+                    // MÓDULO 2: COMUNICAÇÃO E INTERAÇÃO SOCIAL (8-17)
+                    "Tenho dificuldade em entender ironia, duplo sentido ou linguagem indireta.",
+                    "Já fui percebido(a) como rude, frio(a) ou desinteressado(a) sem essa intenção.",
+                    "Prefiro conversas diretas e objetivas a pequenas conversas sociais.",
+                    "Perco a noção de quando é minha vez de falar ou quando devo parar.",
+                    "Interações sociais me deixam significativamente cansado(a), mesmo que prazerosas.",
+                    "Tenho dificuldade em ler expressões faciais, entonação ou linguagem corporal.",
+                    "Monólogos sobre meus interesses são frequentes, mesmo que o outro não pareça engajado.",
+                    "Amizades geralmente são iniciadas e mantidas por outras pessoas.",
+                    "Recebo feedback de que pareço 'desligado(a)' durante conversas.",
+                    "Prefiro contato online ou escrito do que conversas face a face.",
+                    "Mudanças no padrão de comunicação de pessoas próximas me confundem facilmente.",
+                    
+                    // MÓDULO 3: PROCESSAMENTO SENSORIAL E REGULAÇÃO (18-28)
+                    "Tenho sensibilidade desproporcional a sons, luzes, cheiros ou texturas.",
+                    "Ambientes movimentados ou com múltiplos estímulos causam-me sobrecarga.",
+                    "Tenho desconforto significativo com determinadas roupas ou tags de roupa.",
+                    "Evito certos alimentos pela textura mesmo que o sabor seja aceitável.",
                     "Preciso me afastar de estímulos para conseguir me reorganizar.",
-                    "Quando estou cansado(a) ou estressado(a), minha sensibilidade aumenta.",
-                    // Módulo 4 (17-21)
-                    "Mudanças inesperadas me causam grande desconforto emocional.",
-                    "Preciso planejar com antecedência para me sentir seguro(a).",
-                    "Sinto necessidade de que as coisas sigam uma ordem previsível.",
-                    "Fico irritado(a) ou ansioso(a) quando algo sai do planejado.",
-                    "Tenho dificuldade em lidar com imprevistos.",
-                    // Módulo 5 (22-25)
-                    "Desenvolvo interesses intensos e profundos por temas específicos.",
-                    "Consigo passar longos períodos totalmente focado(a) em algo que me interessa.",
-                    "Tenho facilidade com tarefas lógicas, técnicas ou sistematizadas.",
-                    "Sinto-me mais confortável com atividades previsíveis do que com improvisos.",
-                    // Módulo 6 (26-30)
-                    "Tenho dificuldade em identificar ou nomear minhas emoções.",
-                    "Já vivenciei crises emocionais por sobrecarga.",
-                    "Preciso me isolar após interações sociais.",
-                    "Sinto cansaço constante sem causa física aparente.",
-                    "Funcionar socialmente exige muito esforço de mim.",
-                    // Módulo 7 (31-34)
-                    "Finjo naturalidade em situações sociais.",
-                    "Sinto que desempenho um papel para parecer socialmente adequado(a).",
-                    "Esforço-me conscientemente para parecer “normal”.",
-                    "Tenho receio de ser quem realmente sou em contextos sociais.",
-                    // Módulo 8 (35-38)
-                    "Tenho dificuldade em iniciar tarefas, mesmo quando são importantes.",
-                    "Me distraio facilmente com pensamentos ou estímulos externos.",
-                    "Oscilo entre períodos de hiperfoco e procrastinação.",
-                    "Minha desorganização gera prejuízos na minha rotina.",
-                    // Módulo 9 (39-42)
-                    "Sinto ansiedade frequente em contextos sociais.",
-                    "Evito situações por medo de errar ou ser julgado(a).",
-                    "Minha ansiedade aumenta quando perco o controle das situações.",
-                    "Já apresentei sintomas físicos de ansiedade, como tensão ou taquicardia."
+                    "Quando estou cansado(a) ou estressado(a), minha sensibilidade aumenta dramaticamente.",
+                    "Sou hipersensível a dor, tato ou propriocepção.",
+                    "Necessito de rotinas de conforto sensorial para me regular (stim, movimento, pressão).",
+                    "Estimulação excessiva resulta em 'shutdown' ou retirada completa.",
+                    "Variações sensoriais impactam significativamente meu funcionamento diário.",
+                    "Tenho preferências sensoriais muito específicas que não consegui mudar.",
+                    
+                    // MÓDULO 4: FLEXIBILIDADE COGNITIVA E ROTINA (29-38)
+                    "Mudanças inesperadas causam ansiedade ou desconforto emocional significativo.",
+                    "Preciso planejar antecipadamente para me sentir seguro(a).",
+                    "Tenho forte necessidade de que as coisas sigam uma ordem previsível.",
+                    "Desvios do plano causam frustração ou irritabilidade desproporcional.",
+                    "Tenho dificuldade em adaptar-me a mudanças de contexto ou perspectiva.",
+                    "Rituais, rotinas ou checklist são importantes para meu funcionamento.",
+                    "Sou rígido(a) em minhas abordagens e tenho dificuldade de pensar 'fora da caixa'.",
+                    "Transições entre atividades são particularmente desafiadoras.",
+                    "Quando planos mudam, preciso de tempo para reprocessar e aceitar.",
+                    "Minha ansiedade aumenta quando sinto perda de controle ou previsibilidade.",
+                    
+                    // MÓDULO 5: INTERESSES E COGNIÇÃO (39-47)
+                    "Desenvolvo interesses intensos e profundos que dominam minha atenção.",
+                    "Posso passar horas focado(a) em um tema que me interessa.",
+                    "Tenho facilidade natural com lógica, padrões, sistemas ou análise técnica.",
+                    "Meus interesses tendem a ser pouco convencionais ou muito específicos.",
+                    "Acumulo conhecimento detalhado sobre tópicos de interesse.",
+                    "Meu pensamento é orientado por padrões e lógica mais que por intuição social.",
+                    "Foco e atenção variam drasticamente dependendo do interesse na tarefa.",
+                    "Tenho facilidade em detectar inconsistências ou erros em sistemas.",
+                    "Prefiro atividades previsíveis e estruturadas a improvisação.",
+                    
+                    // MÓDULO 6: REGULAÇÃO EMOCIONAL E FADIGA (48-57)
+                    "Tenho dificuldade em nomear ou diferenciar minhas próprias emoções (alexitimia).",
+                    "Experimento 'meltdowns' ou crises emocionais por sobrecarga.",
+                    "Preciso de isolamento significativo após interações sociais para recuperação.",
+                    "Sinto cansaço crônico desproporcionalmente ao nível de atividade física.",
+                    "Tenho períodos de desmotivação ou depressão sem causa clara.",
+                    "Minha tolerância ao estresse é menor que a de pares.",
+                    "Sou hipersensível a crítica, rejeição ou confronto.",
+                    "Tenho dificuldade em comunicar minhas necessidades emocionais.",
+                    "Oscilo entre extremos de emoção (tudo ótimo ou tudo terrível).",
+                    "Fenômenos de derealização ou despersonalização ocorrem em momentos de estresse.",
+                    
+                    // MÓDULO 7: MASCARAMENTO E ESFORÇO COMPENSATÓRIO (58-65)
+                    "Conscientemente ajusto meu comportamento para parecer socialmente adequado(a).",
+                    "Sinto que desempenho um papel ou 'máscara' em contextos sociais.",
+                    "Esforço significativo é necessário para parecer 'normal' ou típico(a).",
+                    "Em privado, comporto-me diferentemente que em público.",
+                    "Receio ser percebido(a) como diferente ou estranho(a) se revelar a verdade.",
+                    "Meu funcionamento em público é significativamente diferentes do privado.",
+                    "Guio meu comportamento por 'scripts' ou roteiros sociais aprendidos.",
+                    "O mascaramento resulta em cansaço emocional ou físico.",
+                    
+                    // MÓDULO 8: ATENÇÃO E FUNÇÕES EXECUTIVAS (66-73)
+                    "Tenho dificuldade em iniciar tarefas mesmo quando são importantes.",
+                    "Procrastinação é um padrão crônico que me causa prejuízo.",
+                    "Oscilo entre hiperfoco intenso e completa falta de atenção.",
+                    "Minha desorganização gera consequências práticas na vida cotidiana.",
+                    "Perco coisas com frequência: documentos, pertences, direção.",
+                    "Tenho dificuldade em priorizar tarefas por importância.",
+                    "Impulsos podem fazer-me mudar de atividade rapidamente.",
+                    "Memoria de trabalho é desafiadora: preciso anotar informações frequentemente.",
+                    "Planejamento de longo prazo é particularmente difícil.",
+                    
+                    // MÓDULO 9: ANSIEDADE E SOMATIZAÇÃO (74-82)
+                    "Sinto ansiedade frequente em situações sociais.",
+                    "Evito atividades devido ao medo de errar ou ser julgado(a).",
+                    "Ansiedade aumenta dramaticamente quando sinto perda de controle.",
+                    "Apresento sintomas físicos de ansiedade: tremor, taquicardia, tensão.",
+                    "Tenho obsessões ou pensamentos repetitivos não-funcional.",
+                    "Somatização: dores físicas ou mal-estar sem causa médica clara.",
+                    "Ansiedade antecipatória prejudica meu funcionamento.",
+                    "Tenho rituais para controlar ansiedade que consomem tempo significativo.",
+                    "Pânico ou ansiedade intensa pode surgir sem trigger aparente.",
                 ],
                 modules: [
-                    { name: "MÓDULO 1: História de Vida", start: 0 },
-                    { name: "MÓDULO 2: Interação Social", start: 6 },
-                    { name: "MÓDULO 3: Processamento Sensorial", start: 12 },
-                    { name: "MÓDULO 4: Rotina e Previsibilidade", start: 17 },
-                    { name: "MÓDULO 5: Interesses e Cognição", start: 22 },
-                    { name: "MÓDULO 6: Regulação Emocional", start: 26 },
-                    { name: "MÓDULO 7: Mascaramento Social", start: 31 },
-                    { name: "MÓDULO 8: Atenção e Funções Executivas", start: 35 },
-                    { name: "MÓDULO 9: Ansiedade", start: 39 },
+                    { name: "HISTÓRICO DE VIDA", start: 0, questions: 8 },
+                    { name: "COMUNICAÇÃO SOCIAL", start: 8, questions: 10 },
+                    { name: "PROCESSAMENTO SENSORIAL", start: 18, questions: 11 },
+                    { name: "FLEXIBILIDADE COGNITIVA", start: 29, questions: 10 },
+                    { name: "INTERESSES & COGNIÇÃO", start: 39, questions: 9 },
+                    { name: "REGULAÇÃO EMOCIONAL", start: 48, questions: 10 },
+                    { name: "MASCARAMENTO SOCIAL", start: 58, questions: 8 },
+                    { name: "FUNÇÕES EXECUTIVAS", start: 66, questions: 8 },
+                    { name: "ANSIEDADE & SOMATIZAÇÃO", start: 74, questions: 8 },
                 ],
-                instructions: `<p>Responda considerando sua experiência ao longo da vida, desde a infância até a fase adulta, e não apenas o momento atual.</p><p>Marque a alternativa que melhor descreve a frequência com que cada situação ocorre.</p>`,
+                instructions: `
+                    <p><strong>Instruções para Autoavaliação Adulta:</strong></p>
+                    <ul class="instructions-list">
+                        <li>Responda considerando seu funcionamento ao longo de TODA sua vida, desde infância até presente</li>
+                        <li>Seja honesto(a): esta avaliação é mais precisa quanto melhor a reflexão</li>
+                        <li>Considere padrões consistentes, não situações isoladas</li>
+                        <li>Não há respostas "certas" ou "erradas" - há apenas seu padrão de funcionamento</li>
+                        <li>Avaliar-se custa tempo: reserve 20-30 minutos sem distrações</li>
+                        <li>Utilize a escala: 0=Nunca/Raramente, 1=Ocasionalmente, 2=Frequentemente, 3=Muito Frequentemente/Sempre</li>
+                    </ul>
+                `,
                 results: {
-                    profile1: { icon: '🟢', title: 'Variabilidade Típica', color: '#4CAF50', feedback: 'Seu resultado indica um padrão de funcionamento dentro da variabilidade esperada. Não foram identificados indicadores consistentes de um transtorno do neurodesenvolvimento.', report: 'O resultado desta triagem indica um padrão de funcionamento compatível com a variabilidade típica da população adulta. Caso exista sofrimento emocional atual, como ansiedade ou estresse, recomenda-se buscar avaliação profissional.' },
-                    profile2: { icon: '🟡', title: 'Traços Neurodivergentes Leves', color: '#FFC107', feedback: 'Seu resultado indica a presença de traços neurodivergentes leves, que podem estar associados a estilos cognitivos ou ansiedade.', report: 'Esses traços, isoladamente, não configuram diagnóstico, mas podem explicar dificuldades pontuais. A avaliação profissional é recomendada caso esses traços gerem impacto significativo na vida cotidiana.' },
-                    profile3: { icon: '🟠', title: 'TEA Nível 1 (Adulto Mascarado)', color: '#FF9800', feedback: 'Seu resultado aponta um perfil compatível com características do Transtorno do Espectro Autista em adultos, especialmente em pessoas com histórico de mascaramento social.', report: 'Observa-se um padrão persistente desde a infância, associado a esforço elevado para adaptação social, sensibilidade sensorial e necessidade de previsibilidade. Recomenda-se avaliação clínica especializada.' },
-                    profile4: { icon: '🔴', title: 'TEA Altamente Sugestivo', color: '#F44336', feedback: 'Seu resultado indica um padrão de funcionamento altamente sugestivo de características do Transtorno do Espectro Autista, com impacto significativo em diferentes áreas da vida.', report: 'Esse perfil costuma estar associado a longo histórico de esforço compensatório e sobrecarga emocional. A avaliação multidisciplinar é fortemente recomendada.' },
-                    profile5: { icon: '🔵', title: 'TDAH Predominante', color: '#2196F3', feedback: 'Seu resultado indica um funcionamento mais compatível com características do Transtorno do Déficit de Atenção/Hiperatividade.', report: 'As características observadas estão relacionadas à atenção, organização e funções executivas. Recomenda-se avaliação clínica específica para investigação de TDAH.' },
-                    profile6: { icon: '🟣', title: 'Dupla Condição (TEA + TDAH)', color: '#9C27B0', feedback: 'Seu resultado sugere a presença combinada de características do Transtorno do Espectro Autista e do Transtorno do Déficit de Atenção/Hiperatividade.', report: 'Esse perfil costuma envolver alternância entre hiperfoco e desorganização, e alto custo emocional. A avaliação clínica deve considerar ambas as condições de forma integrada.' },
-                    profile7: { icon: '🟠', title: 'Ansiedade Predominante', color: '#FF9800', feedback: 'Seu resultado indica ansiedade significativa como eixo principal de funcionamento, especialmente em contextos sociais e de controle.', report: 'Não foram identificados padrões consistentes de um transtorno do neurodesenvolvimento. Recomenda-se avaliação psicológica para compreensão e manejo adequado do quadro ansioso.' },
+                    profile1: {
+                        icon: '🟢',
+                        title: 'Funcionamento Neurotípico',
+                        feedback: 'Seu perfil indica um padrão de funcionamento neurocognitivo dentro da variação típica da população. Não foram identificados indicadores consistentes de neurodivergência primária.',
+                        report: 'O resultado desta avaliação não apresenta indicadores convergentes de um transtorno do neurodesenvolvimento. Seu funcionamento está alinhado com critérios de tipicidade neurocognitiva. Caso exista sofrimento emocional (ansiedade, depressão), recomenda-se avaliação psicológica complementar.',
+                        recommendation: 'Manter acompanhamento periódico do bem-estar emocional. Caso apresente dificuldades específicas em futuro, retome avaliação. Profissionais recomendados: psicólogo(a) clínico(a) para bem-estar geral.'
+                    },
+                    profile2: {
+                        icon: '🟡',
+                        title: 'Traços Neurodivergentes Leves',
+                        feedback: 'Seu perfil indica a presença de traços neurodivergentes leves, possivelmente associados a estilos cognitivos alternativos, ansiedade ou sensibilidade. Estes traços, isoladamente, não configuram diagnóstico.',
+                        report: 'Observa-se a presença de algumas características associadas a neurodivergência, mas sem convergência diagnóstica clara. Traços específicos podem estar relacionados a ansiedade, traços de personalidade ou variações normais. A avaliação profissional especializada é recomendada caso estes traços gerem impacto funcional significativo na vida cotidiana, trabalho ou relacionamentos.',
+                        recommendation: 'Procure avaliação com psicólogo(a) clínico(a) ou neuropsicólogo(a) se observar impacto funcional. Técnicas de autorregulação e mindfulness podem ser benéficas. Recomendado: Psicologia/Neuropsicologia clínica para investigação aprofundada.'
+                    },
+                    profile3: {
+                        icon: '🟠',
+                        title: 'Indicadores de TEA Nível 1 (Autismo Mascarado)',
+                        feedback: 'Seu resultado aponta um perfil compatível com características do Transtorno do Espectro Autista, potencialmente em adultos com histórico significativo de mascaramento e compensação social. Este padrão é frequentemente subestimado em avaliações superficiais.',
+                        report: 'Observa-se convergência de critérios para TEA: padrão persistente desde infância, dificuldades sociais-comunicativas, interesses específicos, sensibilidade sensorial e necessidade de previsibilidade. Destaca-se esforço compensatório elevado (mascaramento), frequentemente resultando em fadiga crônica e sobrecarga emocional. Este perfil é particularmente observado em indivíduos que desenvolveram mecanismos adaptativos sofisticados, especialmente mulheres e homens neurodivergentes de alto funcionamento cognitivo.',
+                        recommendation: 'Procure avaliação especializada de neuropsicologia ou psiquiatria do desenvolvimento com experiência em diagnóstico de autismo em adultos, especialmente mascarado. Profissionais ideais: neuropsicólogo(a) especializado(a) em TEA adulto, psiquiatra com expertise em neurodesenvolvimento, ou equipe multidisciplinar especializada.'
+                    },
+                    profile4: {
+                        icon: '🔴',
+                        title: 'Indicadores Altamente Sugestivos de TEA',
+                        feedback: 'Seu resultado indica um padrão de funcionamento altamente sugestivo de Transtorno do Espectro Autista com impacto significativo em múltiplas áreas funcionais. A convergência de critérios é consistente e clinicamente relevante.',
+                        report: 'Observa-se convergência robusta de critérios diagnósticos para TEA (DSM-5, CID-11): persistência de dificuldades sociais-comunicativas desde infância, padrões restritos e repetitivos, sensibilidades sensoriais significativas, necessidade de previsibilidade, interesses intensos focalizados. O impacto funcional é evidente em relacionamentos, ambiente profissional/acadêmico e autorregulação. Frequentemente acompanhado de ansiedade comórbida e fadiga relacionada ao mascaramento crônico. Este resultado justifica avaliação diagnóstica completa com urgência moderada.',
+                        recommendation: 'Procure avaliação diagnóstica multidisciplinar o mais brevemente possível com profissionais especializados. Inclua avaliação neuropsicológica completa, investigação psiquiátrica e, se possível, história desenvolvimento detalhada. Profissionais: psiquiatra/neurologista, neuropsicólogo(a), terapeuta ocupacional. Considere iniciação de suportes e acomodações enquanto aguarda diagnóstico formal.'
+                    },
+                    profile5: {
+                        icon: '🔵',
+                        title: 'Indicadores de TDAH Predominante',
+                        feedback: 'Seu resultado indica um funcionamento mais compatível com características do Transtorno do Déficit de Atenção/Hiperatividade. As dificuldades com atenção, organização, funções executivas e regulação de impulsos são proeminentes.',
+                        report: 'O perfil apresentado alinha-se com critérios para TDAH: dificuldade em iniciação de tarefas, procrastinação crônica, oscilação entre hiperfoco e déficit atencional, desorganização funcional, impulsividade, dificuldade com priorização, memória de trabalho prejudicada e possível hiperatividade/inquietação. Estes sintomas devem ter origem desenvolvimental (infância/adolescência) e causar impacto funcional, o que parece presente. Ansiedade comórbida é frequente e deve ser investigada.',
+                        recommendation: 'Procure avaliação psiquiátrica/neuropsicológica especializada em TDAH adulto. Investigação deve incluir histórico detalhado, testes cognitivos, escalas validadas e, se necessário, avaliação neuropsicológica complementar. Profissionais: psiquiatra especializado em TDAH, neuropsicólogo(a). Terapias comportamentais e, eventualmente, medicação podem ser benéficas após diagnóstico confirmado.'
+                    },
+                    profile6: {
+                        icon: '🟣',
+                        title: 'Indicadores de Dupla Neurodivergência (TEA + TDAH)',
+                        feedback: 'Seu resultado sugere a presença combinada de características do Transtorno do Espectro Autista e do Transtorno do Déficit de Atenção/Hiperatividade. Esta combinação é mais frequente que o acaso sugeriria e envolve dinâmicas neurocognitivas complexas.',
+                        report: 'O perfil apresenta convergência de critérios para ambas as condições: características autísticas (comunicação social, sensibilidade sensorial, necessidade de rotina, interesses específicos) e características de TDAH (déficit atencional, dificuldades executivas, impulsividade, hiperfoco alternado). Essa coocorrência resulta em padrão complexo: períodos de hiperfoco intenso alternados com desorganização, necessidade simulada de estrutura rígida mas também busca de variedade/estimulação. O impacto emocional frequentemente é significativo, com fadiga elevada. Subdiagnóstico é comum pois cada condição pode mascarar a outra.',
+                        recommendation: 'Avaliação multidisciplinar especializada é imperativa. Profissionais devem estar familiarizados com TEA+TDAH simultâneo. Investigação deve incluir: história desenvolvimental completa, avaliação neuropsicológica extensiva, testes específicos para ambas as condições, investigação de comorbidades (ansiedade, depressão). Profissionais ideais: equipe multidisciplinar com psiquiatra, neuropsicólogo(a) e terapeuta ocupacional. Abordagem integrada é crucial.'
+                    },
+                    profile7: {
+                        icon: '⚪',
+                        title: 'Ansiedade e Traços Associados Predominantes',
+                        feedback: 'Seu resultado indica que ansiedade significativa é o padrão mais evidente, com traços associados que merecem atenção profissional. Não foram identificados indicadores robustos de transtorno do neurodesenvolvimento primário.',
+                        report: 'O perfil apresentado alinha-se com padrões de ansiedade clinicamente relevante: medo de avaliação social, evitação, sintomas físicos de ansiedade, preocupação excessiva e possível ansiedade antecipatória. Embora alguns traços autistas ou de TDAH estejam presentes, não alcançam convergência diagnóstica. A ansiedade pode ser condição primária ou secundária (resultado de outras dificuldades não captadas nesta triagem). Investigação profissional é recomendada para diferenciação e tratamento adequado.',
+                        recommendation: 'Procure avaliação psicológica especializada em ansiedade com psicólogo(a) clínico(a) ou psiquiatra. Terapias como TCC (Terapia Cognitivo-Comportamental) e técnicas de regulação têm evidência forte. Possível necessidade de investigação complementar para descartar condições médicas associadas. Relaxamento, mindfulness e exercício físico são coadjuvantes recomendados.'
+                    }
                 }
             },
             kids: {
                 "0-3": {
-                    questions: ["A criança responde quando é chamada pelo nome.", "A criança emite sons, balbucios ou palavras para se comunicar.", "A criança aponta, mostra objetos ou usa gestos para se expressar.", "A criança demonstra prazer em interações sociais.", "A criança reage de forma intensa a sons, luzes ou texturas.", "A criança tem crises frequentes ou intensas sem motivo aparente."],
-                    thresholds: { green: 6, yellow: 12 },
+                    questions: [
+                        // COMUNICAÇÃO E LINGUAGEM (0-3)
+                        "A criança responde quando chamada pelo nome ou reconhece seu próprio nome.",
+                        "Emite sons, balbucios, palavras isoladas ou tenta comunicar desejos vocalmente.",
+                        "Usa palavras simples ou expressões para comunicar necessidades (água, mamãe, papai).",
+                        "Compreende instruções simples ('vem aqui', 'dá para mamãe').",
+                        "Utiliza gestos simples como acenar 'tchau' ou apontar para objetos de interesse.",
+                        "Tenta repetir ou imitar sons, palavras ou comportamentos de adultos.",
+                        "Vocaliza frequentemente em diferentes tons e intensidades.",
+                        "Engaja em troca de sons ('conversas' de balbucio) com cuidadores.",
+                        
+                        // INTERAÇÃO SOCIAL E CONTATO VISUAL (0-3)
+                        "Demonstra prazer, sorri ou responde positivamente em interações face-a-face.",
+                        "Procura ativamente a atenção de cuidadores (busca olhar, mostra objetos).",
+                        "Olha para o rosto das pessoas e mantém contato visual apropriado para a idade.",
+                        "Sorri socialmente em resposta a rostos e vozes familiares.",
+                        "Manifesta preferência por pessoas conhecidas (reconhece e reage diferente a estranhos).",
+                        "Engaja em brincadeira de 'Cadê você? Achei!' ou jogos simples de interação.",
+                        "Procura proximidade com cuidadores quando está cansado, assustado ou ferido.",
+                        "Responde a elogios ou aprovação com alegria ou interesse redobrado.",
+                        
+                        // PROCESSAMENTO SENSORIAL E TOLERÂNCIA (0-3)
+                        "Tolera bem toque, abraços e contato físico afetivo de cuidadores.",
+                        "Não apresenta reações exageradas a estímulos sensoriais normais.",
+                        "Reage apropriadamente a sons do dia-a-dia (não assustado por barulhos típicos).",
+                        "Mostra interesse em explorar objetos através de sensações (colocar na boca, tocar).",
+                        "Não demonstra desconforto significativo com diferentes texturas de alimento.",
+                        "Tolera bem banho, trocas de roupa e higiene sem reações extremas.",
+                        "Reage com intensidade desproporcional a sons, luzes, cheiros ou texturas.",
+                        "Evita certos tipos de toque ou torna-se defensivo(a) ao contato físico.",
+                        "Apresenta sensibilidade exagerada a certos alimentos, cheiros ou ambientes.",
+                        
+                        // REGULAÇÃO EMOCIONAL E COMPORTAMENTO (0-3)
+                        "Apresenta crises emocionais frequentes ou intensas aparentemente sem motivo desencadeador.",
+                        "Consegue ser acalmada relativamente facilmente quando chorando ou perturbada.",
+                        "Segue transições entre atividades sem resistência significativa.",
+                        "Comporta-se de forma segura, sem riscos excessivos durante brincadeiras.",
+                        "Apresenta padrões regulares de sono, apetite e humor.",
+                        "Reage com frustração apropriada à idade quando algo não sai como desejado.",
+                        "Comportamentos repetitivos (stimming) são ocasionais e não interferem no funcionamento.",
+                        "Apresenta comportamentos agressivos ou autofocados (morder, bater, puxar cabelo) frequentemente.",
+                        
+                        // BRINCADEIRA E EXPLORAÇÃO (0-3)
+                        "Engaja em brincadeira simbólica ou de faz de conta (simples).",
+                        "Explora objetos de múltiplas formas (lança, chacoalha, coloca em boca).",
+                        "Participa ativamente em brincadeiras compartilhadas com cuidadores.",
+                        "Mostra interesse em brinquedos variados, não apenas um ou dois.",
+                        "Brinca de forma segura e apropriada com brinquedos, sem comportamentos perigosos.",
+                        "Utiliza objetos funcionalmente (copo para beber, escova para cabelo).",
+                        "Segue brincadeiras de causa-efeito com entusiasmo (apertar botão que produz som).",
+                        
+                        // DESENVOLVIMENTO MOTOR E AUTONOMIA (0-3)
+                        "Alcança objetos e consegue transferi-los de uma mão para outra.",
+                        "Senta-se, engatinha ou caminha dentro das expectativas para idade.",
+                        "Consegue manipular objetos com precisão (pegar com pinça polegar-dedo).",
+                        "Tenta comer sozinha(o), ainda que com auxílio.",
+                        "Coopera minimamente durante higiene e trocas de roupa.",
+                        "Consegue segurar copo com ambas as mãos para beber.",
+                        "Segue padrões de comportamento simples (noite=dormir, alimentação=comer).",
+                        
+                        // RESPOSTA AO AMBIENTE E APRENDIZAGEM (0-3)
+                        "Responde a estímulos visuais simples (segue movimento, interessa-se por cores).",
+                        "Parece compreender muito mais do que consegue dizer verbalmente.",
+                        "Aprende rapidamente através de repetição e observação.",
+                        "Busca explorar novos ambientes quando se sente segura(o).",
+                        "Demonstra curiosidade sobre como as coisas funcionam.",
+                        "Brinca paralelamente com outras crianças, mesmo sem interação social direta."
+                    ],
+                    thresholds: { green: 95, yellow: 190 },
                     results: {
-                        green: { title: 'Desenvolvimento Dentro do Esperado', feedback: 'O desenvolvimento da criança apresenta-se compatível com o esperado para a faixa etária.', report: 'Recomenda-se manter a observação do desenvolvimento, favorecendo oportunidades de interação e brincadeira.' },
-                        yellow: { title: 'Sinais de Atenção no Desenvolvimento', feedback: 'As respostas indicam a presença de sinais de atenção que merecem acompanhamento.', report: 'Orientação profissional pode auxiliar na compreensão desses sinais e no direcionamento de estratégias adequadas.' },
-                        red: { title: 'Indicadores de Necessidade de Investigação', feedback: 'As informações fornecidas indicam sinais consistentes que sugerem necessidade de avaliação profissional especializada.', report: 'A identificação precoce contribui para intervenções mais eficazes. Recomenda-se buscar avaliação com especialistas.' }
+                        green: {
+                            title: 'Desenvolvimento Esperado para Idade',
+                            feedback: 'O desenvolvimento da criança apresenta-se compatível com as expectativas para a faixa etária de 0 a 3 anos em múltiplas áreas (comunicação, socialização, sensorial, motor e regulação emocional).',
+                            report: 'O resultado desta avaliação indica um padrão de desenvolvimento dentro da normalidade esperada. Marcos comunicativos, sociais, sensoriais e emocionais estão alinhados com a idade. A criança demonstra capacidades apropriadas em interação, compreensão, brincadeira e autorregulação. Recomenda-se manter observação contínua do desenvolvimento, criando oportunidades de brincadeira, interação social e exploração sensorial segura.',
+                            recommendation: 'Mantenha acompanhamento pediatra regular (6-12 meses). Estimulação através de brincadeira é fundamental nesta idade. Qualquer preocupação futura justifica reavaliação. Profissionais: pediatra, fonoaudiólogo(a) e psicólogo(a) do desenvolvimento para acompanhamento preventivo.'
+                        },
+                        yellow: {
+                            title: 'Sinais de Atenção no Desenvolvimento',
+                            feedback: 'O resultado indica a presença de sinais que merecem observação e acompanhamento cuidadoso. Alguns marcos podem estar levemente atrasados ou algumas sensibilidades podem estar presentes.',
+                            report: 'Observam-se alguns indicadores que desviam do desenvolvimento típico esperado para a faixa etária, particularmente em comunicação, resposta sensorial, interação social ou regulação comportamental. Estes sinais não configuram diagnóstico, mas justificam acompanhamento estruturado e possível intervenção precoce. A detecção e intervenção precoces (antes dos 3 anos) são potencialmente modificadores de trajetória desenvolvimental. Áreas de atenção podem ser: linguagem receptiva/expressiva, socialização, processamento sensorial, ou autorregulação.',
+                            recommendation: 'Procure avaliação com fonoaudiólogo(a) ou psicólogo(a) especializado em desenvolvimento infantil dentro de 2-3 meses. Profissionais podem recomendar estímulos específicos ou intervenção precoce. Mantenha comunicação com pediatra. Não adie avaliação: intervenção precoce (antes dos 3 anos) tem potencial transformador. Profissionais recomendados: fonoaudiologia, terapia ocupacional, psicologia do desenvolvimento.'
+                        },
+                        red: {
+                            title: 'Indicadores que Requerem Avaliação Especializada',
+                            feedback: 'O resultado sugere que a criança apresenta indicadores significativos que justificam avaliação profissional especializada o mais brevemente possível, idealmente em 2-4 semanas.',
+                            report: 'O padrão de respostas indica consistentemente desvios do desenvolvimento típico esperado para a idade, potencialmente sugestivo de atraso desenvolvimental global, transtorno do espectro autista, deficiência auditiva, atraso de linguagem, deficiência intelectual, ou outras condições que requerem investigação urgente. A avaliação multidisciplinar precoce (antes dos 3 anos) é crítica para identificação, diagnóstico diferencial, descarte de problemas auditivos/visuais, e planejamento de intervenção efetiva. Quanto mais cedo identificado, melhor o prognóstico e potencial de melhora funcional.',
+                            recommendation: 'Procure avaliação multidisciplinar URGENTE com pediatra especialista em desenvolvimento, fonoaudiólogo(a), psicólogo(a) e terapeuta ocupacional. Teste auditivo formal é obrigatório. Investigação oftalmológica se indicado. Não adie avaliação. Intervenção precoce intensiva integrada pode transformar prognóstico de forma significativa. Procure programas de intervenção precoce (EI) disponíveis em sua região. Profissionais: pediatra especialista, fonoaudiologia, psicologia, terapia ocupacional, audiologia, possível neurologia pediátrica.'
+                        }
                     }
                 },
                 "4-6": {
-                    questions: ["A criança inicia conversas espontaneamente.", "A criança busca interação com outras crianças.", "A criança participa de brincadeiras de faz de conta.", "A criança reage intensamente a estímulos sensoriais.", "A criança lida com frustrações de forma adequada à idade.", "A criança apresenta agitação excessiva."],
-                    thresholds: { green: 6, yellow: 12 },
-                     results: {
-                        green: { title: 'Funcionamento Esperado para a Idade', feedback: 'O resultado indica funcionamento compatível com a faixa etária. Não foram identificados sinais relevantes que indiquem necessidade de avaliação.', report: 'Recomenda-se manter o acompanhamento do desenvolvimento e o diálogo contínuo com a escola e a família.' },
-                        yellow: { title: 'Sinais de Atenção no Desenvolvimento', feedback: 'As respostas apontam sinais de atenção que podem impactar a adaptação escolar ou a interação social.', report: 'Este resultado não configura diagnóstico, mas indica a importância de observação contínua e, se necessário, orientação profissional.' },
-                        red: { title: 'Necessidade de Avaliação Especializada', feedback: 'O resultado sugere necessidade de avaliação profissional, considerando sinais persistentes que podem interferir no desenvolvimento.', report: 'A avaliação permitirá compreender melhor as necessidades da criança e orientar estratégias de apoio adequadas.' }
+                    questions: [
+                        "A criança inicia conversas ou expressa desejos verbalmente, ainda que com linguagem simples.",
+                        "Busca naturalmente interação com outras crianças e engaja em brincadeira recíproca.",
+                        "Participa de brincadeiras de faz de conta, atribuindo papéis e cenários imaginários.",
+                        "Reconhece e nomeia emoções básicas em si mesma e em outras pessoas.",
+                        "Reage com intensidade exagerada a estímulos sensoriais (sons, luzes, texturas, cheiros).",
+                        "Lida com frustrações de forma apropriada à idade, sem crises excessivas.",
+                        "Segue instruções simples e responde a seu nome de forma consistente.",
+                        "Apresenta agitação excessiva, inquietação ou dificuldade em ficar quieta.",
+                        "Coopera em rotinas básicas (higiene, alimentação) com mínima resistência.",
+                        "Demonstra interesse em aprender novas habilidades e explorar seu ambiente."
+                    ],
+                    thresholds: { green: 10, yellow: 20 },
+                    results: {
+                        green: {
+                            title: 'Funcionamento Esperado para Idade',
+                            feedback: 'O resultado indica que a criança apresenta funcionamento compatível com as expectativas para a faixa etária de 4 a 6 anos em comunicação, socialização, regulação emocional e processamento sensorial.',
+                            report: 'O padrão desenvolvimental está alinhado com marcadores esperados nesta faixa etária. A criança demonstra competências sociais, capacidade comunicativa, regulação emocional apropriada e sensibilidade sensorial típica. Recomenda-se manter estímulo positivo, criando ambientes que favoreçam aprendizagem, brincadeira e desenvolvimento de habilidades sociais.',
+                            recommendation: 'Continue estimulação positiva em casa e escola. Mantenha acompanhamento pediatra regular. Brincadeira estruturada e não-estruturada são fundamentais. Qualquer preocupação futura justifica reavaliação. Profissionais: pediatra, professor(a) e psicólogo(a) se necessário.'
+                        },
+                        yellow: {
+                            title: 'Dificuldades Leves a Moderadas em Desenvolvimento',
+                            feedback: 'O resultado aponta dificuldades que podem estar impactando aspectos da aprendizagem acadêmica, interação social ou autorregulação emocional. Observação e orientação profissional são recomendadas.',
+                            report: 'Observa-se a presença de algumas dificuldades em áreas do desenvolvimento, possivelmente impactando a criança em contextos escolares ou sociais. Estas dificuldades podem estar relacionadas a variações do neurodesenvolvimento, processamento sensorial, linguagem ou socialização. Orientação profissional não é apenas apropriada mas recomendada para estratégias específicas de apoio.',
+                            recommendation: 'Procure avaliação com fonoaudiólogo(a), psicólogo(a) ou pedagogo(a) especializado(a). Coordene com a escola para observações complementares. Intervenções comportamentais e educacionais específicas podem ser muito benéficas. Profissionais: fonoaudiologia, psicologia, pedagogia, possível terapia ocupacional.'
+                        },
+                        red: {
+                            title: 'Necessidade de Avaliação Especializada Urgente',
+                            feedback: 'O resultado indica que a criança apresenta indicadores significativos que requerem avaliação profissional especializada. Não deve ser adiado.',
+                            report: 'O padrão de respostas sugere dificuldades consistentes e potencialmente impactantes em áreas cruciais do desenvolvimento. A criança pode estar experimentando atrasos em linguagem, dificuldades sociais, déficits atencionis ou outras condições que beneficiam-se de detecção e intervenção precoces. Avaliação multidisciplinar é recomendada para diagnóstico diferencial e planejamento de apoio adequado.',
+                            recommendation: 'Procure avaliação multidisciplinar com fonoaudiólogo(a), psicólogo(a) e pediatra. Se possível, coordene com a escola para avaliação no contexto acadêmico. Intervenção estruturada pode fazer diferença significativa nesta idade. Profissionais: fonoaudiologia, psicologia, pedagogia, terapia ocupacional, possível neurologia pediátrica.'
+                        }
                     }
                 },
                 "7-12": {
-                    questions: ["A criança compreende regras sociais implícitas.", "A criança estabelece e mantém amizades.", "A criança se organiza para tarefas escolares.", "A criança lida bem com mudanças na rotina.", "A criança se sobrecarrega facilmente no ambiente escolar.", "A criança reconhece e expressa emoções."],
-                    thresholds: { green: 6, yellow: 12 },
-                     results: {
-                        green: { title: 'Funcionamento Adequado para a Idade', feedback: 'O resultado indica funcionamento compatível com a idade, sem evidências de prejuízo no desenvolvimento.', report: 'Recomenda-se manter acompanhamento do desenvolvimento, considerando mudanças naturais dessa fase.' },
-                        yellow: { title: 'Dificuldades Leves a Moderadas', feedback: 'As respostas indicam dificuldades que podem impactar aspectos da aprendizagem, socialização ou autorregulação.', report: 'Este resultado não estabelece diagnóstico, mas sugere a importância de orientação profissional para apoio adequado.' },
-                        red: { title: 'Indícios de Necessidade de Avaliação Multidisciplinar', feedback: 'O resultado aponta indícios consistentes de necessidade de avaliação, considerando impactos no desempenho escolar e nas relações sociais.', report: 'A avaliação especializada permitirá uma compreensão mais ampla do funcionamento da criança e o planejamento de estratégias de apoio individualizadas.' }
+                    questions: [
+                        // COMUNICAÇÃO E LINGUAGEM (7-12)
+                        "A criança compreende linguagem verbal complexa, incluindo nuances e contexto.",
+                        "Expressa-se com clareza e utiliza vocabulário apropriado para a idade.",
+                        "Consegue narrar histórias com sequência, coerência e detalhes relevantes.",
+                        "Participa de conversas em grupo, mantendo tópico e esperando sua vez.",
+                        "Compreende linguagem figurada, sarcasmo ou piadas (nem sempre, mas ocasionalmente).",
+                        "Consegue fazer apresentações ou falar em frente ao grupo com ansiedade apropriada.",
+                        "Utiliza linguagem para resolver conflitos ou negociar com peers.",
+                        "Consegue seguir instruções verbais complexas com múltiplos componentes.",
+                        "Comunica necessidades e emoções de forma clara e apropriada.",
+                        "Lê com compreensão e consegue discutir sobre leitura.",
+                        
+                        // INTERAÇÃO SOCIAL E AMIZADES (7-12)
+                        "A criança compreende e segue regras sociais implícitas, mesmo que ocasionalmente falhe.",
+                        "Estabelece e mantém amizades, buscando naturalmente companhia de pares.",
+                        "Consegue entender perspectivas diferentes da sua própria.",
+                        "Demonstra empatia genuína, preocupando-se com sentimentos de outros.",
+                        "Participa adequadamente de atividades em grupo na escola e fora.",
+                        "Consegue cooperar e trabalhar em grupo para objetivos comuns.",
+                        "Não é excessivamente tímida(o) ou agressiva(o) nas interações sociais.",
+                        "Consegue fazer amigos de forma natural, sem interferência de adultos.",
+                        "Consegue interpretar expressões faciais e linguagem corporal apropriadamente.",
+                        "Respeita limites pessoais e não invade espaço de outros.",
+                        "Engaja em humor social apropriado e consegue rir junto ao grupo.",
+                        "Não é rejeitada(o) por pares; consegue se integrar em dinâmica de grupo.",
+                        
+                        // APRENDIZAGEM ACADÊMICA (7-12)
+                        "Consegue focar em tarefas acadêmicas por tempo apropriado (30+ minutos).",
+                        "Organiza-se adequadamente para tarefas escolares, completando lições de casa.",
+                        "Compreende conceitos acadêmicos novos sem dificuldade significativa.",
+                        "Consegue multitarefas cognitivas (ler, compreender, aplicar conceito).",
+                        "Consegue se autocorrigir quando percebe um erro.",
+                        "Memória acadêmica é apropriada para a idade; consegue reter informações.",
+                        "Consegue resolver problemas acadêmicos com estratégias apropriadas.",
+                        "Não apresenta dificuldades significativas em leitura, escrita ou matemática.",
+                        "Consegue planejar projetos simples e executar com sequência lógica.",
+                        
+                        // FUNÇÕES EXECUTIVAS E ORGANIZAÇÃO (7-12)
+                        "Consegue organizar seus brinquedos, materiais escolares e espaço pessoal.",
+                        "Consegue manter materiais escolares organizados e não perde coisas frequentemente.",
+                        "Inicia tarefas de forma apropriada sem procrastinação excessiva.",
+                        "Consegue completar tarefas multi-passo sem supervisão constante.",
+                        "Consegue priorizar entre atividades múltiplas de forma apropriada.",
+                        "Não apresenta desorganização significativa que prejudica funcionamento.",
+                        "Consegue gerenciar tempo de forma razoável; não está constantemente atrasada(o).",
+                        "Consegue planejar frente, considerando consequências de ações.",
+                        "Demonstra responsabilidade com tarefas atribuídas.",
+                        
+                        // REGULAÇÃO EMOCIONAL (7-12)
+                        "Reconhece, nomeia e expressa emoções apropriadamente para a idade.",
+                        "Consegue lidar com frustração de forma apropriada sem comportamentos destrutivos.",
+                        "Consegue esperar, não demonstrando impaciência excessiva.",
+                        "Consegue tolerar dizer 'não' ou não conseguir o que quer sem reação exagerada.",
+                        "Não apresenta meltdowns ou crises emocionais frequentes.",
+                        "Consegue se recuperar de decepções de forma apropriada.",
+                        "Não apresenta agressão física ou verbal frequente.",
+                        "Mood é estável; não oscila drasticamente durante dia sem causa aparente.",
+                        "Consegue pedir ajuda quando apropriado.",
+                        "Consegue estar sozinha(o) sem ansiedade excessiva.",
+                        
+                        // PROCESSAMENTO SENSORIAL (7-12)
+                        "Consegue tolerar sons normais da escola e ambiente familiar.",
+                        "Consegue participar de atividades em ambientes com múltiplos estímulos.",
+                        "Consegue usar roupas variadas; não tem aversão rígida a tecidos.",
+                        "Consegue experimentar alimentos novos; variedade alimentar apropriada.",
+                        "Não apresenta reações defensivas ao toque de peers ou adultos.",
+                        "Participa de atividades motoras sem medo ou reticência excessiva.",
+                        "Consegue tolerar variações sensoriais em ambientes diferentes.",
+                        "Não apresenta necessidades sensoriais que interferem em funcionamento.",
+                        "Consegue participar de atividades hígiênicas normais sem dificuldade exagerada.",
+                        
+                        // BRINCADEIRA, INTERESSES E CRIATIVIDADE (7-12)
+                        "Engaja em brincadeiras apropriadas para a idade (jogos, esportes, criatividade).",
+                        "Consegue flexibilizar em brincadeiras, aceitando variações em regras.",
+                        "Demonstra interesses variados; não fixado em apenas um tema.",
+                        "Consegue sustentar interesse em atividades por tempo apropriado.",
+                        "Expõe criatividade através de múltiplas formas (arte, música, escrita, jogo).",
+                        "Consegue aceitar crítica ou sugestões sobre seus trabalhos criativos.",
+                        "Interesses são flexíveis; consegue aproveitar múltiplos espaços de lazer.",
+                        
+                        // FLEXIBILIDADE COGNITIVA E ROTINA (7-12)
+                        "Consegue lidar bem com mudanças na rotina escolar ou familiar.",
+                        "Consegue adaptar-se a novos ambientes, professores ou situações.",
+                        "Aceita mudanças em planos sem reação exagerada.",
+                        "Consegue flexibilizar pensamento; não está preso em uma única solução.",
+                        "Consegue fazer transições entre atividades sem dificuldade.",
+                        "Não apresenta necessidade obsessiva de previsibilidade.",
+                        "Consegue tolerar incerteza ou situações ambíguas.",
+                        
+                        // ANSIEDADE E COMPORTAMENTOS REPETITIVOS (7-12)
+                        "Não sente-se sobrecarregada(o) facilmente em ambiente escolar.",
+                        "Não apresenta medo excessivo em situações normais.",
+                        "Comportamentos repetitivos (stimming) são ocasionais e socialmente invisíveis.",
+                        "Não apresenta ritual obsessivos que interferem em funcionamento.",
+                        "Ansiedade antecipatória, se presente, é leve e manejável.",
+                        "Consegue lidar com avaliações acadêmicas sem ansiedade debilitante.",
+                        "Não apresenta somatizações frequentes (dores de cabeça, barriga sem causa).",
+                        "Consegue participar de atividades novas com ansiedade apropriada.",
+                        
+                        // AUTONOMIA E SEGURANÇA (7-12)
+                        "Consegue sair para playground, escola ou passeios sem medo excessivo.",
+                        "Consegue cuidar de si mesma(o) (higiene, alimentação) de forma apropriada.",
+                        "Não busca atenção constante; consegue brincar ou estudar independentemente.",
+                        "Consegue seguir instruções de segurança sem supervisão constante.",
+                        "Consegue comunicar quando tem dor, incômodo ou problema.",
+                        "Demonstra consciência apropriada de perigo vs. segurança.",
+                        "Consegue tomar decisões simples de forma independente.",
+                        
+                        // BEM-ESTAR GERAL (7-12)
+                        "Relatório geral do cuidador/educador é positivo sobre criança.",
+                        "Parece feliz e satisfeita na maioria do tempo.",
+                        "Dorme bem; não apresenta insônia ou pesadelos frequentes.",
+                        "Apetite é apropriado; não há restrições severas de alimentos.",
+                        "Crescimento físico está apropriado para a idade.",
+                        "Não apresenta sintomas de depressão ou ansiedade significativa.",
+                        "Consegue aproveitar atividades de lazer e diversão."
+                    ],
+                    thresholds: { green: 175, yellow: 350 },
+                    results: {
+                        green: {
+                            title: 'Funcionamento Adequado para a Idade',
+                            feedback: 'O resultado indica que a criança apresenta funcionamento compatível com as expectativas para a faixa etária de 7 a 12 anos em comunicação, socialização, aprendizagem, autorregulação e processamento sensorial.',
+                            report: 'O padrão de funcionamento está alinhado com marcadores esperados desta faixa etária em socialização, aprendizagem acadêmica, autorregulação emocional, funções executivas e processamento sensorial. A criança aparenta estar se desenvolvendo adequadamente tanto em contexto familiar quanto escolar. Demonstra capacidade de manutenção de amizades, aprendizagem acadêmica apropriada, regulação emocional e comportamental adequada, e tolerância sensorial típica. Não foram identificadas evidências significativas de prejuízo no desenvolvimento que justifiquem intervenção especializada.',
+                            recommendation: 'Mantenha acompanhamento pediatra regular (anual a cada dois anos). Suporte o desenvolvimento de habilidades sociais, autonomia e interesses variados. Mantenha diálogo aberto com a escola sobre andamento acadêmico e social. Estimule atividades enriquecedoras e diversificadas. Qualquer preocupação futura justifica reavaliação. Profissionais: pediatra, professor(a), psicólogo(a) escolar para acompanhamento preventivo.'
+                        },
+                        yellow: {
+                            title: 'Dificuldades que Justificam Avaliação Profissional',
+                            feedback: 'O resultado indica dificuldades específicas que estão impactando aprendizagem acadêmica, socialização com pares ou autorregulação emocional/comportamental. Avaliação e orientação profissional são recomendadas.',
+                            report: 'Observam-se indicadores de dificuldades em áreas importantes do funcionamento, possivelmente impactando o desempenho escolar, relacionamentos de pares e bem-estar emocional. Estas dificuldades podem estar associadas a: variações do neurodesenvolvimento (TEA leve, TDAH), dificuldades específicas de aprendizagem, ansiedade ou fobia escolar leve, deficiência processual sensorial, dificuldades executivas, deficiência auditiva/visual não diagnosticada, ou fatores emocionais (baixa autoestima, isolamento). As dificuldades identificadas não configuram necessariamente transtorno, mas justificam investigação profissional para clarificação e possível intervenção. O impacto funcional é evidente e merecedor de atenção.',
+                            recommendation: 'Procure avaliação com psicólogo(a) escolar, psicopedagogo(a) ou neuropsicólogo(a) dentro de 4-6 semanas. Coordene com a escola para observações complementares no contexto acadêmico e social. Investigação de fatores emocionais (ansiedade, autoestima, bullying) também é recomendada. Teste auditivo pode ser necessário se houver componente de compreensão auditiva. Profissionais: psicologia, psicopedagogia, fonoaudiologia se componente de linguagem, possível terapia ocupacional. Coordenação com escola para possíveis acomodações acadêmicas é benéfica.'
+                        },
+                        red: {
+                            title: 'Indicadores que Requerem Avaliação Multidisciplinar',
+                            feedback: 'O resultado sugere a presença de indicadores consistentes que requerem investigação profissional multidisciplinar URGENTE. A criança está enfrentando dificuldades significativas que impactam múltiplas áreas.',
+                            report: 'O padrão de respostas aponta para dificuldades substanciais que impactam significativamente funcionamento acadêmico, social e emocional. Pode estar em questão: transtorno do espectro autista (frequentemente subestimado em crianças, especialmente meninas), TDAH clinicamente significativo, deficiência intelectual leve a moderada, dificuldades específicas de aprendizagem (dislexia, discalculia, disgráfia), transtorno de ansiedade, transtorno depressivo, deficiência auditiva/visual, transtorno do processamento auditivo, ou outras condições neurocognitivas que requerem diagnóstico diferencial e intervenção especializada. O impacto é evidente em múltiplos contextos (escolar, familiar, social).',
+                            recommendation: 'Procure avaliação multidisciplinar URGENTE dentro de 2-4 semanas envolvendo: psicólogo(a) ou neuropsicólogo(a) (avaliação cognitiva e diagnóstica), pediatra ou médico especialista, possível fonoaudiólogo(a) (se componente de linguagem/processamento auditivo). A escola deve estar envolvida no processo avaliativo e possível planejamento de intervenção. Possível necessidade de Plano Educacional Individualizado (PEI) ou acomodações acadêmicas específicas. Teste auditivo e oftalmológico podem ser necessários para descartar fatores sensoriais. Profissionais: psicologia/neuropsicologia, pediatria, possível neurologia pediátrica, fonoaudiologia, terapia ocupacional, pedagogia especializada em educação inclusiva.'
+                        }
                     }
                 },
-                instructions: `<p>Responda considerando o comportamento mais frequente da criança, observado ao longo do tempo, e não situações isoladas.</p>`,
+                instructions: `<p><strong>Orientações para Resposta:</strong></p><ul class="instructions-list"><li>Responda baseando-se no comportamento MAIS FREQUENTE da criança, não situações isoladas</li><li>Considere comportamentos observados em múltiplos contextos (casa, escola, outras atividades)</li><li>Use escala: 0=Nunca/Raramente, 1=Ocasionalmente, 2=Frequentemente, 3=Muito Frequentemente</li><li>Seja honesto: avaliações precisas dependem de relatos precisos</li></ul>`
             },
             answerOptions: [
-                { text: '0 - Nunca', value: 0 },
-                { text: '1 - Raramente', value: 1 },
+                { text: '0 - Nunca / Raramente', value: 0 },
+                { text: '1 - Ocasionalmente', value: 1 },
                 { text: '2 - Frequentemente', value: 2 },
-                { text: '3 - Sempre', value: 3 },
+                { text: '3 - Muito Frequentemente / Sempre', value: 3 },
             ]
         };
 
-        // --- FUNÇÕES ---
-
+        // FUNÇÕES
         function showScreen(screenId) {
-            Object.values(screens).forEach(screen => screen.classList.remove('active'));
+            Object.values(screens).forEach(s => s.classList.remove('active'));
             if(screens[screenId]) screens[screenId].classList.add('active');
         }
 
         function resetState() {
-            state.testType = null;
-            state.ageGroup = null;
-            state.currentQuestionIndex = 0;
-            state.answers = [];
-            state.questions = [];
-            state.resultData = null;
+            state = {
+                testType: null,
+                ageGroup: null,
+                currentQuestionIndex: 0,
+                answers: [],
+                questions: [],
+                resultData: null,
+            };
             termsCheckbox.checked = false;
             termsContinueBtn.disabled = true;
-            document.getElementById('result-report-container').style.display = 'none';
+            document.getElementById('result-report').style.display = 'none';
+            document.getElementById('result-recommendation').style.display = 'none';
         }
 
-        function selectTestType(type) {
-            state.testType = type;
+        cardInfantil.addEventListener('click', () => {
+            state.testType = 'kids';
             showScreen('terms');
-        }
+        });
 
-        function handleTerms() {
+        cardAdulto.addEventListener('click', () => {
+            state.testType = 'adult';
+            showScreen('terms');
+        });
+
+        termsCheckbox.addEventListener('change', () => {
+            termsContinueBtn.disabled = !termsCheckbox.checked;
+        });
+
+        termsContinueBtn.addEventListener('click', () => {
             if (!termsCheckbox.checked) return;
             if (state.testType === 'kids') {
                 showScreen('ageSelection');
-            } else if (state.testType === 'adult') {
+            } else {
                 setupInstructions();
                 showScreen('instructions');
             }
-        }
-        
-        function selectAgeGroup(age) {
-            state.ageGroup = age;
-            setupInstructions();
-            showScreen('instructions');
-        }
+        });
+
+        document.getElementById('age-selection-screen').addEventListener('click', (e) => {
+            if (e.target.classList.contains('age-btn')) {
+                state.ageGroup = e.target.dataset.age;
+                setupInstructions();
+                showScreen('instructions');
+            }
+        });
 
         function setupInstructions() {
-            const instructionsTitle = document.getElementById('instructions-title');
-            const instructionsText = document.getElementById('instructions-text');
+            const title = document.getElementById('instructions-title');
+            const content = document.getElementById('instructions-content');
             if (state.testType === 'adult') {
-                instructionsTitle.innerText = 'Instruções - Teste Adulto';
-                instructionsText.innerHTML = db.adult.instructions;
+                title.innerText = 'Instruções para Avaliação Adulta';
+                content.innerHTML = db.adult.instructions;
             } else {
-                instructionsTitle.innerText = 'Instruções - Teste Infantil';
-                instructionsText.innerHTML = db.kids.instructions;
+                title.innerText = 'Instruções para Avaliação Infantil';
+                content.innerHTML = db.kids.instructions;
             }
         }
-        
-        function startTest() {
+
+        startTestBtn.addEventListener('click', () => {
             if (state.testType === 'adult') {
                 state.questions = db.adult.questions;
             } else {
                 state.questions = db.kids[state.ageGroup].questions;
             }
             state.currentQuestionIndex = 0;
-            state.answers = new Array(state.questions.length);
+            state.answers = new Array(state.questions.length).fill(null);
             showScreen('test');
             renderQuestion();
-        }
-        
+        });
+
         function renderQuestion() {
             if (state.currentQuestionIndex >= state.questions.length) {
                 finishTest();
                 return;
             }
 
-            const questionTextEl = document.getElementById('question-text');
-            const answerOptionsEl = document.getElementById('answer-options');
-            const progressTextEl = document.getElementById('progress-text');
-            const progressBarEl = document.getElementById('progress-bar');
-            const moduleIndicatorEl = document.getElementById('module-indicator');
-            
-            questionTextEl.innerText = state.questions[state.currentQuestionIndex];
-            answerOptionsEl.innerHTML = '';
-            
-            db.answerOptions.forEach(option => {
-                const button = document.createElement('button');
-                button.className = 'answer-btn';
-                button.innerText = option.text;
-                button.onclick = () => selectAnswer(option.value);
-                answerOptionsEl.appendChild(button);
+            const question = state.questions[state.currentQuestionIndex];
+            document.getElementById('question-text').innerText = question;
+            document.getElementById('progress-current').innerText = `Questão ${state.currentQuestionIndex + 1}`;
+            document.getElementById('progress-total').innerText = `de ${state.questions.length}`;
+
+            const progress = ((state.currentQuestionIndex) / state.questions.length) * 100;
+            document.getElementById('progress-bar-fill').style.width = `${progress}%`;
+
+            const grid = document.getElementById('answers-grid');
+            grid.innerHTML = '';
+            db.answerOptions.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = 'answer-option';
+                btn.innerText = opt.text;
+                btn.onclick = () => {
+                    state.answers[state.currentQuestionIndex] = opt.value;
+                    state.currentQuestionIndex++;
+                    renderQuestion();
+                };
+                grid.appendChild(btn);
             });
-            
-            // Atualiza progresso
-            const progress = (state.currentQuestionIndex / state.questions.length) * 100;
-            progressTextEl.innerText = `Pergunta ${state.currentQuestionIndex + 1} de ${state.questions.length}`;
-            progressBarEl.style.width = `${progress}%`;
-            
-            // Indicador de módulo (só para adultos)
+
             if (state.testType === 'adult') {
-                moduleIndicatorEl.style.display = 'inline-block';
+                const moduleBadge = document.getElementById('module-badge');
                 const currentModule = db.adult.modules.findLast(m => state.currentQuestionIndex >= m.start);
-                moduleIndicatorEl.innerText = currentModule.name;
-            } else {
-                 moduleIndicatorEl.style.display = 'none';
+                if (currentModule) {
+                    moduleBadge.innerText = currentModule.name;
+                    moduleBadge.style.display = 'inline-block';
+                }
             }
         }
-        
-        function selectAnswer(value) {
-            state.answers[state.currentQuestionIndex] = value;
-            state.currentQuestionIndex++;
-            renderQuestion();
-        }
-        
+
         function finishTest() {
             showScreen('loading');
             setTimeout(() => {
                 calculateResult();
                 displayResult();
                 showScreen('result');
-            }, 1500);
+            }, 2000);
         }
 
         function calculateResult() {
             if (state.testType === 'adult') {
-                const m = {
-                    M1: state.answers.slice(0, 6).reduce((a, b) => a + b, 0),
-                    M2: state.answers.slice(6, 12).reduce((a, b) => a + b, 0),
-                    M3: state.answers.slice(12, 17).reduce((a, b) => a + b, 0),
-                    M4: state.answers.slice(17, 22).reduce((a, b) => a + b, 0),
-                    M5: state.answers.slice(22, 26).reduce((a, b) => a + b, 0),
-                    M6: state.answers.slice(26, 31).reduce((a, b) => a + b, 0),
-                    M7: state.answers.slice(31, 35).reduce((a, b) => a + b, 0),
-                    M8: state.answers.slice(35, 39).reduce((a, b) => a + b, 0),
-                    M9: state.answers.slice(39, 43).reduce((a, b) => a + b, 0)
-                };
-                const subtotalTEA = m.M1 + m.M2 + m.M3 + m.M4 + m.M5 + m.M6 + m.M7;
-                const totalGeral = subtotalTEA + m.M8 + m.M9;
+                const m1 = state.answers.slice(0, 8).reduce((a, b) => a + b, 0);
+                const m2 = state.answers.slice(8, 18).reduce((a, b) => a + b, 0);
+                const m3 = state.answers.slice(18, 29).reduce((a, b) => a + b, 0);
+                const m4 = state.answers.slice(29, 39).reduce((a, b) => a + b, 0);
+                const m5 = state.answers.slice(39, 48).reduce((a, b) => a + b, 0);
+                const m6 = state.answers.slice(48, 58).reduce((a, b) => a + b, 0);
+                const m7 = state.answers.slice(58, 66).reduce((a, b) => a + b, 0);
+                const m8 = state.answers.slice(66, 74).reduce((a, b) => a + b, 0);
+                const m9 = state.answers.slice(74, 82).reduce((a, b) => a + b, 0);
+
+                const subtotalTEA = m1 + m2 + m3 + m4 + m5 + m6 + m7;
+                const totalGeral = subtotalTEA + m8 + m9;
 
                 let profileKey = 'profile1';
-                if (subtotalTEA >= 75) profileKey = 'profile4';
-                else if (subtotalTEA >= 60 && m.M8 >= 8) profileKey = 'profile6';
-                else if (subtotalTEA >= 60 && m.M7 >= 8 && m.M1 >= 10) profileKey = 'profile3';
-                else if (m.M8 >= 8 && subtotalTEA < 45) profileKey = 'profile5';
-                else if (m.M9 >= 8 && subtotalTEA < 40) profileKey = 'profile7';
-                else if (totalGeral >= 36 && totalGeral <= 65) profileKey = 'profile2';
+                if (subtotalTEA >= 100) profileKey = 'profile4';
+                else if (subtotalTEA >= 75 && m8 >= 12) profileKey = 'profile6';
+                else if (subtotalTEA >= 75 && m7 >= 12 && m1 >= 12) profileKey = 'profile3';
+                else if (m8 >= 12 && subtotalTEA < 50) profileKey = 'profile5';
+                else if (m9 >= 12 && subtotalTEA < 50) profileKey = 'profile7';
+                else if (totalGeral >= 40 && totalGeral <= 85) profileKey = 'profile2';
 
                 state.resultData = db.adult.results[profileKey];
             } else {
@@ -742,121 +1518,115 @@
                 let resultKey = 'red';
                 if (totalScore <= config.thresholds.green) resultKey = 'green';
                 else if (totalScore <= config.thresholds.yellow) resultKey = 'yellow';
-                
-                state.resultData = {
-                    icon: resultKey === 'green' ? '🟢' : (resultKey === 'yellow' ? '🟡' : '🔴'),
-                    color: resultKey === 'green' ? '#4CAF50' : (resultKey === 'yellow' ? '#FFC107' : '#F44336'),
-                    ...config.results[resultKey]
-                };
+
+                state.resultData = config.results[resultKey];
             }
         }
-        
+
         function displayResult() {
             document.getElementById('result-icon').innerText = state.resultData.icon;
             document.getElementById('result-title').innerText = state.resultData.title;
             document.getElementById('result-feedback').innerText = state.resultData.feedback;
-            document.querySelector('.result-card').style.borderTopColor = state.resultData.color;
 
-            if(state.resultData.report) {
-                document.getElementById('result-report-container').style.display = 'block';
-                document.getElementById('result-report').innerText = state.resultData.report;
+            const resultContainer = document.querySelector('.result-container');
+            const colors = {
+                '🟢': '#00a86b', '🟡': '#fcd34d', '🟠': '#f97316',
+                '🔴': '#dc2626', '🔵': '#3b82f6', '🟣': '#a78bfa', '⚪': '#94a3b8'
+            };
+            resultContainer.style.borderTopColor = colors[state.resultData.icon] || '#1e3a5f';
+
+            if (state.resultData.report) {
+                document.getElementById('result-report').style.display = 'block';
+                document.getElementById('report-text').innerText = state.resultData.report;
+            }
+
+            if (state.resultData.recommendation) {
+                document.getElementById('result-recommendation').style.display = 'block';
+                document.getElementById('recommendation-text').innerText = state.resultData.recommendation;
             }
         }
 
-        function generateAndDownloadPDF() {
+        downloadPdfBtn.addEventListener('click', () => {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
-            const resultData = state.resultData;
+            const pageHeight = doc.internal.pageSize.getHeight();
+            const pageWidth = doc.internal.pageSize.getWidth();
+            let yPosition = 20;
 
             // Header
-            doc.setFillColor(30, 58, 138); // azul-dark
-            doc.rect(0, 0, 210, 30, 'F');
+            doc.setFillColor(30, 58, 95);
+            doc.rect(0, 0, pageWidth, 35, 'F');
             doc.setTextColor(255, 255, 255);
-            doc.setFont('helvetica', 'bold');
-            doc.setFontSize(20);
-            doc.text("NeuroTriagem - Relatório Orientativo", 105, 18, { align: 'center' });
+            doc.setFont('Helvetica', 'bold');
+            doc.setFontSize(22);
+            doc.text('NeuroTriagem Pro', 20, 22);
+            doc.setFontSize(10);
+            doc.text('Avaliação Orientativa do Funcionamento Neurocognitivo', 20, 30);
 
-            // Corpo
-            doc.setTextColor(30, 41, 59); // text-primary
-            doc.setFontSize(12);
-            doc.text(`Data: ${new Date().toLocaleDateString('pt-BR')}`, 20, 45);
-            doc.text(`Tipo de Teste: ${state.testType === 'kids' ? 'Infantil' : 'Adulto'}`, 20, 52);
-            if(state.ageGroup) {
-                 doc.text(`Faixa Etária: ${state.ageGroup} anos`, 20, 59);
+            yPosition = 50;
+            doc.setTextColor(30, 58, 95);
+            doc.setFont('Helvetica', 'normal');
+            doc.setFontSize(11);
+            doc.text(`Data da Avaliação: ${new Date().toLocaleDateString('pt-BR')}`, 20, yPosition);
+            yPosition += 8;
+            doc.text(`Tipo: ${state.testType === 'kids' ? 'Infantil' : 'Adulto'}`, 20, yPosition);
+            if (state.ageGroup) {
+                yPosition += 8;
+                doc.text(`Faixa Etária: ${state.ageGroup} anos`, 20, yPosition);
             }
 
-            // Resultado
-            doc.setFontSize(18);
-            doc.setFont('helvetica', 'bold');
-            doc.text("Resultado da Triagem", 20, 75);
+            yPosition += 15;
+            doc.setFont('Helvetica', 'bold');
+            doc.setFontSize(14);
+            doc.text('RESULTADO DA AVALIAÇÃO', 20, yPosition);
 
-            doc.setFontSize(16);
-            doc.setTextColor(resultData.color.slice(1)); // Remove '#'
-            doc.text(`${resultData.icon} ${resultData.title}`, 20, 85);
-            
-            doc.setFont('helvetica', 'normal');
-            doc.setFontSize(12);
-            doc.setTextColor(100, 116, 139); // text-secondary
-            let splitFeedback = doc.splitTextToSize(resultData.feedback, 170);
-            doc.text(splitFeedback, 20, 95);
+            yPosition += 12;
+            doc.setFont('Helvetica', 'bold');
+            doc.setFontSize(13);
+            doc.text(`${state.resultData.icon} ${state.resultData.title}`, 20, yPosition);
 
-            // Relatório Detalhado
-            if (resultData.report) {
-                doc.setFontSize(14);
-                doc.setFont('helvetica', 'bold');
-                doc.setTextColor(30, 41, 59);
-                doc.text("Relatório Detalhado", 20, 125);
-                
-                doc.setFont('helvetica', 'normal');
+            yPosition += 10;
+            doc.setFont('Helvetica', 'normal');
+            doc.setFontSize(11);
+            const feedbackLines = doc.splitTextToSize(state.resultData.feedback, 170);
+            doc.text(feedbackLines, 20, yPosition);
+            yPosition += feedbackLines.length * 5 + 5;
+
+            if (state.resultData.report) {
+                if (yPosition > pageHeight - 60) {
+                    doc.addPage();
+                    yPosition = 20;
+                }
+                doc.setFont('Helvetica', 'bold');
                 doc.setFontSize(12);
-                doc.setTextColor(100, 116, 139);
-                let splitReport = doc.splitTextToSize(resultData.report, 170);
-                doc.text(splitReport, 20, 135);
+                doc.text('ANÁLISE DETALHADA', 20, yPosition);
+                yPosition += 8;
+                doc.setFont('Helvetica', 'normal');
+                doc.setFontSize(10);
+                const reportLines = doc.splitTextToSize(state.resultData.report, 170);
+                doc.text(reportLines, 20, yPosition);
+                yPosition += reportLines.length * 4 + 5;
             }
-            
-            // Aviso Ético
-            doc.setFillColor(255, 251, 235); // Amarelo claro
-            doc.rect(15, 230, 180, 20, 'F');
-            doc.setTextColor(30, 41, 59);
-            doc.setFontSize(10);
-            let splitWarning = doc.splitTextToSize("⚠️ Importante: Este resultado é uma triagem orientativa e não constitui diagnóstico. Recomenda-se avaliação profissional para confirmação e orientação adequada.", 170);
-            doc.text(splitWarning, 20, 236);
 
-            // Footer com QR Code
-            doc.setFillColor(30, 58, 138); // azul-dark
-            doc.rect(0, 277, 210, 20, 'F');
-            doc.setTextColor(255, 255, 255);
-            doc.setFontSize(10);
-            doc.text("NeuroTriagem © 2025 | Informação não é rótulo. É cuidado.", 20, 287);
-            
-            // Gerar QR Code
-            const qr = qrcode(0, 'L');
-            qr.addData('https://www.instagram.com/neuromargarethapoio');
-            qr.make();
-            const qrImg = qr.createDataURL(4);
-            doc.addImage(qrImg, 'JPEG', 170, 278, 18, 18);
-            
-            doc.save("Relatorio_NeuroTriagem.pdf");
-        }
-
-        // --- EVENT LISTENERS ---
-        cardInfantil.addEventListener('click', () => selectTestType('kids'));
-        cardAdulto.addEventListener('click', () => selectTestType('adult'));
-        
-        termsCheckbox.addEventListener('change', () => {
-            termsContinueBtn.disabled = !termsCheckbox.checked;
-        });
-        
-        termsContinueBtn.addEventListener('click', handleTerms);
-
-        document.getElementById('age-selection-screen').addEventListener('click', (e) => {
-            if (e.target.matches('.answer-btn')) {
-                selectAgeGroup(e.target.dataset.age);
+            if (yPosition > pageHeight - 40) {
+                doc.addPage();
+                yPosition = 20;
             }
+
+            doc.setFillColor(255, 241, 138);
+            doc.rect(15, yPosition - 2, 180, 25, 'F');
+            doc.setTextColor(30, 58, 95);
+            doc.setFont('Helvetica', 'bold');
+            doc.setFontSize(10);
+            doc.text('⚠️ IMPORTANTE', 20, yPosition + 3);
+            doc.setFont('Helvetica', 'normal');
+            doc.setFontSize(9);
+            const disclaimerLines = doc.splitTextToSize('Este resultado é uma triagem orientativa e NÃO constitui diagnóstico. Avaliação profissional especializada é obrigatória para confirmação diagnóstica.', 165);
+            doc.text(disclaimerLines, 20, yPosition + 10);
+
+            doc.save('NeuroTriagem_Relatorio.pdf');
         });
 
-        startTestBtn.addEventListener('click', startTest);
-        downloadPdfBtn.addEventListener('click', generateAndDownloadPDF);
         newTestBtn.addEventListener('click', () => {
             resetState();
             showScreen('home');
