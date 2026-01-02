@@ -11,7 +11,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.js"></script>
     <style>
         :root {
             --azul-primario: #1e3a5f;
@@ -36,6 +35,7 @@
             --gradient-verde: linear-gradient(135deg, #00a86b 0%, #7dd3c0 100%);
             --gradient-roxo: linear-gradient(135deg, #a78bfa 0%, #5b9edb 100%);
         }
+
         * {
             margin: 0;
             padding: 0;
@@ -43,16 +43,19 @@
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
         }
+
         html, body {
             width: 100%;
             height: 100%;
             overflow: hidden;
         }
+
         body {
             font-family: 'Figtree', sans-serif;
             background-color: var(--cinza-claro);
             color: var(--cinza-texto);
         }
+
         .screen {
             position: fixed;
             top: 0;
@@ -69,22 +72,27 @@
             overflow-y: auto;
             z-index: 1;
         }
+
         .screen.active {
             display: flex;
         }
+
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
+
         @keyframes slideInUp {
             from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
         }
+
         .container {
             width: 100%;
             max-width: 800px;
             margin: 0 auto;
         }
+
         h1 {
             font-family: 'Poppins', sans-serif;
             font-size: clamp(2rem, 6vw, 3.5rem);
@@ -93,6 +101,7 @@
             margin-bottom: 0.5rem;
             letter-spacing: -0.5px;
         }
+
         h2 {
             font-family: 'Poppins', sans-serif;
             font-size: clamp(1.5rem, 4vw, 2.2rem);
@@ -100,24 +109,28 @@
             color: var(--azul-primario);
             margin-bottom: 1rem;
         }
+
         h3 {
             font-family: 'Poppins', sans-serif;
             font-size: 1.3rem;
             font-weight: 600;
             color: var(--azul-secundario);
         }
+
         p {
             color: var(--cinza-texto);
             line-height: 1.8;
             margin-bottom: 1rem;
             font-size: 1rem;
         }
+
         .subtitle {
             color: #64748b;
             font-size: 1.1rem;
             margin-bottom: 2rem;
             font-weight: 500;
         }
+
         .btn {
             font-family: 'Poppins', sans-serif;
             font-weight: 600;
@@ -135,13 +148,16 @@
             letter-spacing: 0.5px;
             font-size: 0.95rem;
         }
+
         .btn:hover {
             transform: translateY(-2px);
             box-shadow: var(--shadow-lg);
         }
+
         .btn:active {
             transform: translateY(0);
         }
+
         .btn:disabled {
             background: var(--cinza-border);
             color: var(--cinza-texto);
@@ -149,32 +165,38 @@
             box-shadow: var(--shadow-sm);
             transform: none;
         }
+
         .btn-secondary {
             background: white;
             border: 2px solid var(--azul-primario);
             color: var(--azul-primario);
             box-shadow: var(--shadow-sm);
         }
+
         .btn-secondary:hover {
             background: var(--azul-primario);
             color: white;
             box-shadow: var(--shadow-md);
         }
+
         .btn-small {
             padding: 0.7rem 1.5rem;
             font-size: 0.9rem;
         }
+
         /* WELCOME SCREEN */
         #welcome-screen {
             justify-content: flex-start;
             padding-top: 2rem;
             padding-bottom: 2rem;
         }
+
         .welcome-header {
             text-align: center;
             margin-bottom: 2rem;
             animation: slideInUp 0.6s ease-out;
         }
+
         .welcome-badge {
             display: inline-block;
             background: var(--azul-light);
@@ -187,6 +209,7 @@
             text-transform: uppercase;
             letter-spacing: 1px;
         }
+
         .welcome-content {
             background: white;
             border-radius: 16px;
@@ -195,9 +218,11 @@
             margin-bottom: 2rem;
             animation: slideInUp 0.8s ease-out;
         }
+
         .welcome-content h2 {
             margin-top: 0;
         }
+
         .info-box {
             background: var(--azul-ultra-light);
             border-left: 4px solid var(--azul-primario);
@@ -205,47 +230,56 @@
             border-radius: 10px;
             margin-bottom: 1.5rem;
         }
+
         .info-box h4 {
             color: var(--azul-primario);
             margin-bottom: 0.8rem;
             font-weight: 600;
         }
+
         .info-box p {
             margin-bottom: 0;
             font-size: 0.95rem;
         }
+
         .highlight {
             color: var(--azul-primario);
             font-weight: 600;
         }
+
         .welcome-buttons {
             display: flex;
             gap: 1rem;
             justify-content: center;
             flex-wrap: wrap;
         }
+
         /* HOME SCREEN */
         #home-screen {
             justify-content: flex-start;
             padding-top: 2rem;
             padding-bottom: 2rem;
         }
+
         .logo-section {
             text-align: center;
             margin-bottom: 2rem;
             animation: slideInUp 0.6s ease-out;
         }
+
         .card-grid {
             display: grid;
             grid-template-columns: 1fr;
             gap: 1.5rem;
             margin-bottom: 2rem;
         }
+
         @media (min-width: 768px) {
             .card-grid {
                 grid-template-columns: 1fr 1fr;
             }
         }
+
         .choice-card {
             background: white;
             border-radius: 16px;
@@ -257,25 +291,31 @@
             text-align: center;
             animation: slideInUp 0.6s ease-out backwards;
         }
+
         .choice-card:nth-child(1) { animation-delay: 0.1s; }
         .choice-card:nth-child(2) { animation-delay: 0.2s; }
+
         .choice-card:hover {
             transform: translateY(-8px);
             box-shadow: var(--shadow-lg);
             border-color: var(--azul-primario);
         }
+
         .choice-card-icon {
             font-size: 3.5rem;
             margin-bottom: 1rem;
         }
+
         .choice-card h3 {
             color: var(--azul-primario);
             margin-bottom: 0.8rem;
         }
+
         .choice-card p {
             font-size: 0.95rem;
             margin-bottom: 0;
         }
+
         .ethical-banner {
             background: linear-gradient(135deg, #fef3c7 0%, #fef08a 100%);
             border-left: 4px solid var(--amarelo-atencao);
@@ -283,22 +323,26 @@
             padding: 1.5rem;
             margin-top: 2rem;
         }
+
         .ethical-banner strong {
             color: var(--azul-primario);
             display: block;
             margin-bottom: 0.5rem;
         }
+
         .ethical-banner p {
             color: var(--azul-primario);
             font-size: 0.95rem;
             margin-bottom: 0;
         }
+
         /* TERMS SCREEN */
         #terms-screen {
             justify-content: flex-start;
             padding-top: 2rem;
             padding-bottom: 2rem;
         }
+
         .terms-container {
             background: white;
             border-radius: 16px;
@@ -306,54 +350,66 @@
             box-shadow: var(--shadow-lg);
             animation: slideInUp 0.6s ease-out;
         }
+
         .terms-header {
             text-align: center;
             margin-bottom: 2rem;
             padding-bottom: 2rem;
             border-bottom: 2px solid var(--cinza-border);
         }
+
         .terms-header h2 {
             margin-bottom: 0.5rem;
         }
+
         .terms-header p {
             color: var(--cinza-texto);
             margin-bottom: 0;
         }
+
         .terms-content {
             max-height: 55vh;
             overflow-y: auto;
             margin-bottom: 2rem;
             padding-right: 0.5rem;
         }
+
         .terms-content::-webkit-scrollbar {
             width: 6px;
         }
+
         .terms-content::-webkit-scrollbar-track {
             background: var(--cinza-border);
             border-radius: 10px;
         }
+
         .terms-content::-webkit-scrollbar-thumb {
             background: var(--azul-primario);
             border-radius: 10px;
         }
+
         .terms-content h3 {
             margin-top: 1.5rem;
             margin-bottom: 0.8rem;
             color: var(--azul-primario);
         }
+
         .terms-content p {
             font-size: 0.95rem;
             color: var(--cinza-texto);
             line-height: 1.8;
         }
+
         .terms-content ul {
             margin-left: 1.5rem;
             margin-bottom: 1rem;
         }
+
         .terms-content li {
             margin-bottom: 0.5rem;
             color: var(--cinza-texto);
         }
+
         .checkbox-wrapper {
             display: flex;
             align-items: flex-start;
@@ -363,6 +419,7 @@
             background: var(--azul-ultra-light);
             border-radius: 10px;
         }
+
         .checkbox-wrapper input {
             width: 20px;
             height: 20px;
@@ -371,23 +428,27 @@
             accent-color: var(--azul-primario);
             flex-shrink: 0;
         }
+
         .checkbox-wrapper label {
             cursor: pointer;
             font-size: 0.95rem;
             color: var(--cinza-texto);
             line-height: 1.6;
         }
+
         .terms-buttons {
             display: flex;
             gap: 1rem;
             justify-content: flex-end;
         }
+
         /* AGE SELECTION SCREEN */
         #age-selection-screen {
             justify-content: flex-start;
             padding-top: 2rem;
             padding-bottom: 2rem;
         }
+
         .age-selection-content {
             background: white;
             border-radius: 16px;
@@ -395,17 +456,20 @@
             box-shadow: var(--shadow-md);
             animation: slideInUp 0.6s ease-out;
         }
+
         .age-buttons {
             display: grid;
             grid-template-columns: 1fr;
             gap: 1.2rem;
             margin-top: 2rem;
         }
+
         @media (min-width: 768px) {
             .age-buttons {
                 grid-template-columns: 1fr 1fr 1fr;
             }
         }
+
         .age-btn {
             padding: 1.5rem;
             border: 2px solid var(--cinza-border);
@@ -418,18 +482,21 @@
             font-size: 1rem;
             line-height: 1.4;
         }
+
         .age-btn:hover {
             border-color: var(--azul-primario);
             background: var(--azul-ultra-light);
             transform: translateY(-3px);
             box-shadow: var(--shadow-md);
         }
+
         /* INSTRUCTIONS SCREEN */
         #instructions-screen {
             justify-content: flex-start;
             padding-top: 2rem;
             padding-bottom: 2rem;
         }
+
         .instructions-box {
             background: white;
             border-radius: 16px;
@@ -438,24 +505,29 @@
             margin-bottom: 2rem;
             animation: slideInUp 0.6s ease-out;
         }
+
         .instructions-box h2 {
             color: var(--azul-primario);
             margin-bottom: 1.5rem;
         }
+
         .instructions-box p {
             margin-bottom: 1rem;
             line-height: 1.8;
         }
+
         .instructions-list {
             list-style: none;
             margin: 1.5rem 0;
         }
+
         .instructions-list li {
             padding: 0.8rem 0;
             padding-left: 2rem;
             position: relative;
             color: var(--cinza-texto);
         }
+
         .instructions-list li:before {
             content: "✓";
             position: absolute;
@@ -464,16 +536,19 @@
             font-weight: bold;
             font-size: 1.2rem;
         }
+
         /* TEST SCREEN */
         #test-screen {
             justify-content: flex-start;
             padding-top: 2rem;
         }
+
         .progress-section {
             width: 100%;
             margin-bottom: 2rem;
             animation: slideInUp 0.6s ease-out;
         }
+
         .progress-bar-container {
             width: 100%;
             height: 6px;
@@ -482,11 +557,13 @@
             overflow: hidden;
             margin-bottom: 1rem;
         }
+
         .progress-bar-fill {
             height: 100%;
             background: var(--gradient-azul);
             transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
+
         .progress-text {
             display: flex;
             justify-content: space-between;
@@ -494,6 +571,7 @@
             color: var(--cinza-texto);
             font-weight: 600;
         }
+
         .module-badge {
             display: inline-block;
             background: var(--gradient-roxo);
@@ -506,6 +584,7 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
+
         .question-container {
             background: white;
             border-radius: 16px;
@@ -515,18 +594,21 @@
             animation: slideInUp 0.6s ease-out;
             border-left: 4px solid var(--azul-primario);
         }
+
         .question-container h3 {
             color: var(--azul-primario);
             font-size: 1.4rem;
             line-height: 1.6;
             margin-bottom: 0;
         }
+
         .answers-grid {
             display: grid;
             grid-template-columns: 1fr;
             gap: 1rem;
             margin-top: 1.5rem;
         }
+
         .answer-option {
             padding: 1.2rem;
             border: 2px solid var(--cinza-border);
@@ -538,18 +620,33 @@
             font-weight: 500;
             font-size: 1rem;
         }
+
         .answer-option:hover {
             border-color: var(--azul-primario);
             background: var(--azul-ultra-light);
             transform: translateX(4px);
         }
+
         .answer-option:active {
             transform: translateX(4px) scale(0.98);
         }
+        
+        /* Modificador para opções SIM/NÃO */
+        .answer-option.yes:hover {
+            border-color: var(--verde-neuro);
+            background: #ecfdf5;
+        }
+        
+        .answer-option.no:hover {
+            border-color: var(--vermelho-alerta);
+            background: #fef2f2;
+        }
+
         /* LOADING SCREEN */
         #loading-screen {
             background: var(--gradient-azul);
         }
+
         .loading-spinner {
             width: 60px;
             height: 60px;
@@ -559,24 +656,29 @@
             animation: spin 1s linear infinite;
             margin-bottom: 2rem;
         }
+
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+
         .loading-text h2 {
             margin-bottom: 0.5rem;
             color: white;
             text-align: center;
         }
+
         .loading-text p {
             color: rgba(255, 255, 255, 0.8);
             text-align: center;
         }
+
         /* RESULT SCREEN */
         #result-screen {
              justify-content: flex-start;
              padding-top: 2rem;
         }
+
         .result-container {
             background: white;
             border-radius: 16px;
@@ -586,18 +688,21 @@
             max-width: 750px;
             border-top: 6px solid var(--azul-primario);
         }
+
         .result-icon {
             font-size: 5rem;
             margin-bottom: 1.5rem;
             display: block;
             text-align: center;
         }
+
         .result-title {
             font-size: 2rem;
             color: var(--azul-primario);
             margin-bottom: 1rem;
             text-align: center;
         }
+
         .result-feedback {
             font-size: 1.1rem;
             color: var(--cinza-texto);
@@ -606,6 +711,7 @@
             padding-bottom: 2rem;
             border-bottom: 2px solid var(--cinza-border);
         }
+
         .result-report {
             background: var(--azul-ultra-light);
             border-left: 4px solid var(--azul-primario);
@@ -613,16 +719,20 @@
             border-radius: 10px;
             margin-bottom: 2rem;
         }
+
         .result-report h4 {
             color: var(--azul-primario);
             margin-bottom: 1rem;
             font-weight: 600;
         }
+
         .result-report p {
             color: var(--cinza-texto);
             font-size: 0.95rem;
             line-height: 1.8;
+            margin-bottom: 0.5rem;
         }
+
         .recommendation-box {
             background: linear-gradient(135deg, #dcfce7 0%, #ecfdf5 100%);
             border-left: 4px solid var(--verde-neuro);
@@ -630,16 +740,28 @@
             border-radius: 10px;
             margin-bottom: 2rem;
         }
+        
+        .recommendation-box.alert {
+            background: linear-gradient(135deg, #fee2e2 0%, #fef2f2 100%);
+            border-left: 4px solid var(--vermelho-alerta);
+        }
+
         .recommendation-box h4 {
             color: var(--verde-neuro);
             margin-bottom: 0.8rem;
             font-weight: 600;
         }
+        
+        .recommendation-box.alert h4 {
+            color: var(--vermelho-alerta);
+        }
+
         .recommendation-box p {
             color: var(--cinza-texto);
             font-size: 0.95rem;
             margin-bottom: 0;
         }
+
         .result-actions {
             display: flex;
             gap: 1rem;
@@ -647,6 +769,7 @@
             flex-wrap: wrap;
             justify-content: center;
         }
+
         .disclaimer {
             background: linear-gradient(135deg, #fef3c7 0%, #fef08a 100%);
             border-left: 4px solid var(--amarelo-atencao);
@@ -654,21 +777,31 @@
             border-radius: 10px;
             margin-top: 2rem;
         }
+
         .disclaimer p {
             color: var(--azul-primario);
             font-weight: 500;
             margin-bottom: 0.5rem;
         }
+
         .disclaimer small {
             color: var(--cinza-texto);
             display: block;
             margin-top: 0.5rem;
         }
+
         .scrollable {
             overflow-y: auto;
             max-height: 100vh;
             padding-right: 0.5rem;
         }
+        
+        /* Utilitários de cor para o resultado */
+        .text-red-600 { color: #dc2626; font-weight: bold; }
+        .text-orange-600 { color: #ea580c; font-weight: bold; }
+        .text-yellow-600 { color: #d97706; font-weight: bold; }
+        .text-green-600 { color: #059669; font-weight: bold; }
+
         @media (max-width: 768px) {
             .btn {
                 padding: 0.9rem 1.8rem;
@@ -706,7 +839,6 @@
     </style>
 </head>
 <body>
-
     <!-- SCREEN 1: WELCOME / LANDING PAGE -->
     <div id="welcome-screen" class="screen active scrollable">
         <div class="container">
@@ -720,7 +852,7 @@
                 
                 <div class="info-box">
                     <h4>🧠 Uma Ferramenta Científica</h4>
-                    <p>NeuroTriagem Pro é uma avaliação <span class="highlight">orientativa</span> baseada em evidências científicas internacionalmente reconhecidas (DSM-5, CID-11). É desenvolvida para auxiliar na identificação de padrões do neurodesenvolvimento.</p>
+                    <p>NeuroTriagem Pro é uma avaliação <span class="highlight">orientativa</span>. É desenvolvida para auxiliar na identificação de padrões do neurodesenvolvimento (TEA e TDAH).</p>
                 </div>
                 <div class="info-box">
                     <h4>⚖️ O Que NÃO É</h4>
@@ -730,16 +862,12 @@
                     <h4>🔒 Seus Dados Estão Seguros</h4>
                     <p>Todos os dados são processados <span class="highlight">localmente no seu navegador</span>. Nada é enviado para servidores. Sua privacidade é garantida pela Lei de Proteção de Dados (LGPD).</p>
                 </div>
-                <div class="info-box">
-                    <h4>⏱️ Quanto Tempo Leva?</h4>
-                    <p>A avaliação leva aproximadamente <span class="highlight">20-40 minutos</span> dependendo da sua faixa etária. Reserve um tempo tranquilo, sem distrações.</p>
-                </div>
+                
                 <h3 style="margin-top: 2rem; color: var(--azul-primario);">Como Funciona?</h3>
                 <p><strong>1️⃣ Você escolhe</strong> se é uma avaliação infantil ou adulta</p>
-                <p><strong>2️⃣ Você lê</strong> os termos e política de privacidade com transparência total</p>
-                <p><strong>3️⃣ Você responde</strong> questões honestas sobre seu funcionamento ou da criança</p>
-                <p><strong>4️⃣ Você recebe</strong> um relatório detalhado com recomendações profissionais</p>
-                <p style="margin-top: 2rem; font-style: italic; color: var(--cinza-texto);">Pronto(a) para começar? Clique em "Continuar" abaixo.</p>
+                <p><strong>2️⃣ Você lê</strong> os termos e política de privacidade</p>
+                <p><strong>3️⃣ Você responde</strong> Sim ou Não para questões sobre funcionamento</p>
+                <p><strong>4️⃣ Você recebe</strong> um relatório detalhado com pontuação</p>
             </div>
             <div class="welcome-buttons">
                 <button id="welcome-continue-btn" class="btn">➜ Continuar para Avaliação</button>
@@ -762,17 +890,17 @@
                 <div class="choice-card" id="card-infantil">
                     <div class="choice-card-icon">👧</div>
                     <h3>Avaliação Infantil</h3>
-                    <p>Para crianças de 0 a 12 anos, respondido por pais ou responsáveis legais com base em observações comportamentais sistemáticas.</p>
+                    <p>Para crianças de 0 a 17 anos, respondido por pais ou responsáveis legais com base em observações comportamentais.</p>
                 </div>
                 <div class="choice-card" id="card-adulto">
                     <div class="choice-card-icon">👥</div>
                     <h3>Avaliação Adulta</h3>
-                    <p>Autoaplicável para maiores de 18 anos. Reflexão estruturada sobre seu histórico e padrões atuais de funcionamento.</p>
+                    <p>Autoaplicável para maiores de 18 anos. Reflexão estruturada sobre seu histórico e padrões atuais.</p>
                 </div>
             </div>
              <div class="ethical-banner">
                 <strong>⚠️ Declaração Importante</strong>
-                <p>Na próxima página você verá todos os detalhes dos termos e privacidade <span class="highlight">antes de fazer qualquer teste</span>. Você controlará o processo.</p>
+                <p>Na próxima página você verá todos os detalhes dos termos e privacidade <span class="highlight">antes de fazer qualquer teste</span>.</p>
             </div>
         </div>
     </div>
@@ -787,28 +915,23 @@
                 </div>
                 <div class="terms-content">
                     <h3>1. Natureza da Ferramenta</h3>
-                    <p>A NeuroTriagem Pro é uma ferramenta de triagem e não de diagnóstico. Ela serve como um guia orientativo, baseado em critérios internacionais, para identificar possíveis indicadores de condições do neurodesenvolvimento. Os resultados não confirmam nem descartam qualquer diagnóstico e não substituem uma avaliação clínica completa por um profissional qualificado (médico, psicólogo, etc.).</p>
+                    <p>A NeuroTriagem Pro é uma ferramenta de triagem e não de diagnóstico. Ela serve como um guia orientativo para identificar possíveis indicadores de condições do neurodesenvolvimento (Autismo e TDAH).</p>
                     
                     <h3>2. Privacidade e Segurança dos Dados (LGPD)</h3>
-                    <p>Sua privacidade é nossa prioridade. Todos os dados que você insere nesta avaliação são processados exclusivamente no seu dispositivo (navegador). Nenhuma informação pessoal ou resposta é enviada, armazenada ou compartilhada com servidores externos. Ao fechar a página, todos os dados são permanentemente apagados. A ferramenta está em conformidade com a Lei Geral de Proteção de Dados (LGPD) do Brasil.</p>
+                    <p>Sua privacidade é nossa prioridade. Todos os dados que você insere nesta avaliação são processados exclusivamente no seu dispositivo (navegador). Nenhuma informação pessoal ou resposta é enviada para servidores externos.</p>
                     
                     <h3>3. Responsabilidade do Usuário</h3>
                     <p>Ao utilizar a NeuroTriagem Pro, você reconhece que:</p>
                     <ul>
-                        <li>As respostas devem ser fornecidas de forma honesta e cuidadosa para garantir a precisão da triagem.</li>
-                        <li>Os resultados são para fins informativos e educacionais.</li>
-                        <li>É sua responsabilidade procurar um profissional de saúde qualificado para uma avaliação formal e interpretação dos resultados.</li>
+                        <li>As respostas devem ser fornecidas de forma honesta.</li>
+                        <li>Os resultados são para fins informativos.</li>
+                        <li>É sua responsabilidade procurar um profissional de saúde qualificado para diagnóstico.</li>
                     </ul>
-
-                    <h3>4. Limitações de Uso</h3>
-                    <p>Esta ferramenta não deve ser usada para autodiagnóstico, para tomar decisões sobre tratamentos ou como prova em qualquer contexto legal ou médico. Os desenvolvedores não se responsabilizam pelo uso indevido dos resultados ou por qualquer decisão tomada com base nesta triagem.</p>
                 </div>
-
                 <div class="checkbox-wrapper">
                     <input type="checkbox" id="terms-checkbox">
-                    <label for="terms-checkbox">Li, compreendi e concordo com todos os Termos de Uso e a Política de Privacidade. Reconheço que esta ferramenta não é um diagnóstico e que devo procurar um profissional para uma avaliação completa.</label>
+                    <label for="terms-checkbox">Li, compreendi e concordo com todos os Termos de Uso. Reconheço que esta ferramenta não é um diagnóstico.</label>
                 </div>
-
                 <div class="terms-buttons">
                     <button id="terms-back-btn" class="btn btn-secondary">Voltar</button>
                     <button id="terms-continue-btn" class="btn" disabled>Aceitar e Continuar</button>
@@ -824,11 +947,11 @@
                  <h2>Selecione a Faixa Etária</h2>
                  <p class="subtitle">A escolha correta garante que as perguntas sejam adequadas.</p>
                  <div class="age-buttons">
-                     <button class="age-btn">0 a 3 anos</button>
-                     <button class="age-btn">4 a 6 anos</button>
-                     <button class="age-btn">7 a 12 anos</button>
-                     <button class="age-btn">13 a 17 anos (Adolescente)</button>
-                     <button class="age-btn">18+ (Adulto)</button>
+                     <button class="age-btn" data-age="0-3">0 a 3 anos</button>
+                     <button class="age-btn" data-age="4-6">4 a 6 anos</button>
+                     <button class="age-btn" data-age="7-12">7 a 12 anos</button>
+                     <button class="age-btn" data-age="13-17">13 a 17 anos (Adolescente)</button>
+                     <button class="age-btn" data-age="18+">18+ (Adulto)</button>
                  </div>
             </div>
         </div>
@@ -841,12 +964,11 @@
                 <h2>Instruções para a Avaliação</h2>
                 <p>Para garantir que a triagem seja precisa, por favor, siga as orientações abaixo:</p>
                 <ul class="instructions-list">
-                    <li><strong>Ambiente Tranquilo:</strong> Escolha um local calmo e sem interrupções.</li>
-                    <li><strong>Seja Honesto(a):</strong> Responda com base no que é verdade para você ou para a criança, não no que você acha que é a "resposta certa".</li>
-                    <li><strong>Não Pense Demais:</strong> Sua primeira impressão geralmente é a mais precisa.</li>
-                    <li><strong>Responda Todas:</strong> É importante responder a todas as perguntas para o resultado ser completo.</li>
+                    <li><strong>Ambiente Tranquilo:</strong> Escolha um local calmo.</li>
+                    <li><strong>Seja Honesto(a):</strong> Responda com base na verdade, não no ideal.</li>
+                    <li><strong>Respostas Simples:</strong> Todas as perguntas são respondidas com SIM ou NÃO.</li>
                 </ul>
-                <p>Lembre-se, não há respostas certas ou erradas. O objetivo é entender o funcionamento neurocognitivo.</p>
+                <p>O teste avaliará indicadores de TEA (Transtorno do Espectro Autista) e TDAH.</p>
                 <button id="start-test-btn" class="btn">Iniciar Avaliação</button>
             </div>
         </div>
@@ -864,15 +986,12 @@
                     <div class="progress-bar-fill" id="progress-bar"></div>
                 </div>
             </div>
-            <div class="module-badge" id="module-name">Módulo: Atenção e Foco</div>
+            <div class="module-badge" id="module-name">Avaliação Neurocognitiva</div>
             <div class="question-container">
-                <h3 id="question-text">Com que frequência você tem dificuldade em manter a atenção em tarefas ou atividades de lazer?</h3>
+                <h3 id="question-text">Carregando pergunta...</h3>
             </div>
-            <div class="answers-grid">
-                <button class="answer-option" data-value="0">Nunca ou raramente</fbutton>
-                <button class="answer-option" data-value="1">Às vezes</button>
-                <button class="answer-option" data-value="2">Com frequência</button>
-                <button class="answer-option" data-value="3">Muito frequentemente</button>
+            <div class="answers-grid" id="answers-container">
+                <!-- Buttons injected by JS -->
             </div>
         </div>
     </div>
@@ -882,7 +1001,7 @@
         <div class="loading-spinner"></div>
         <div class="loading-text">
             <h2>Processando seus resultados...</h2>
-            <p>Isso levará apenas alguns instantes.</p>
+            <p>Calculando scores de Autismo e TDAH.</p>
         </div>
     </div>
 
@@ -891,162 +1010,430 @@
         <div class="container">
             <div class="result-container">
                  <span class="result-icon">📊</span>
-                 <h2 class="result-title">Relatório Orientativo Concluído</h2>
+                 <h2 class="result-title">Relatório de Triagem</h2>
                  <div class="result-feedback">
-                    <p>Agradecemos por seu tempo e honestidade. Abaixo está um resumo orientativo baseado em suas respostas. Este relatório é projetado para oferecer insights e direcionar próximos passos, caso sejam necessários.</p>
+                    <p id="result-intro-text">Abaixo está o resumo detalhado baseado em suas respostas.</p>
                  </div>
                 
-                 <div class="result-report">
-                    <h4>Análise Preliminar</h4>
-                    <p>Suas respostas indicam padrões que <span class="highlight">sugerem uma investigação mais aprofundada</span> em áreas relacionadas à atenção e funções executivas. Foram observados indicadores consistentes com desafios em manter o foco em atividades prolongadas e organizar tarefas.</p>
+                 <!-- Scores Container -->
+                 <div id="scores-container">
+                     <!-- Injected via JS -->
                  </div>
-                 
-                 <div class="recommendation-box">
-                    <h4>Recomendação Profissional</h4>
-                    <p>É <span class="highlight">altamente recomendado</span> que você compartilhe estes resultados com um profissional qualificado (psicólogo especialista em neuropsicologia, psiquiatra ou neurologista) para uma avaliação diagnóstica completa e formal.</p>
+
+                 <!-- Recommendation Container -->
+                 <div id="recommendation-container" class="recommendation-box">
+                    <h4>Recomendação</h4>
+                    <p id="recommendation-text">...</p>
                  </div>
 
                  <div class="disclaimer">
                      <p><strong>⚠️ Lembrete Importante: NÃO é um Diagnóstico</strong></p>
-                     <small>Este relatório é uma ferramenta de triagem e não possui valor diagnóstico. Somente um profissional de saúde pode fornecer um diagnóstico preciso após uma avaliação clínica completa.</small>
+                     <small>Este relatório é uma ferramenta de triagem. Somente um profissional de saúde pode fornecer um diagnóstico preciso.</small>
                  </div>
-
                  <div class="result-actions">
                      <button id="download-pdf-btn" class="btn">Baixar Relatório (PDF)</button>
-                     <button id="restart-btn" class="btn btn-secondary">Reiniciar Avaliação</button>
+                     <button id="restart-btn" class="btn btn-secondary">Nova Avaliação</button>
                  </div>
             </div>
         </div>
     </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-    const { jsPDF } = window.jspdf;
-
-    const screens = document.querySelectorAll('.screen');
-    const welcomeContinueBtn = document.getElementById('welcome-continue-btn');
-    const cardInfantil = document.getElementById('card-infantil');
-    const cardAdulto = document.getElementById('card-adulto');
-    const termsBackBtn = document.getElementById('terms-back-btn');
-    const termsCheckbox = document.getElementById('terms-checkbox');
-    const termsContinueBtn = document.getElementById('terms-continue-btn');
-    const ageButtons = document.querySelectorAll('.age-btn');
-    const startTestBtn = document.getElementById('start-test-btn');
-    const answerOptions = document.querySelectorAll('.answer-option');
-    const downloadPdfBtn = document.getElementById('download-pdf-btn');
-    const restartBtn = document.getElementById('restart-btn');
-
-    // --- State ---
-    let currentQuestionIndex = 0;
-    const totalQuestions = 10; // Placeholder for total number of questions
-
-    // --- Functions ---
-    const showScreen = (screenId) => {
-        screens.forEach(screen => {
-            screen.classList.remove('active');
-        });
-        const activeScreen = document.getElementById(screenId);
-        if (activeScreen) {
-            activeScreen.classList.add('active');
-            activeScreen.scrollTop = 0; // Scroll to top on new screen
+    // --- DATASETS (From React Source) ---
+    const ageGroups = {
+        '0-3': {
+            title: '0 a 3 anos',
+            questions: [
+                { id: 1, text: 'Faz contato visual sustentado durante mamadas ou brincadeiras?', concern: 'no', type: 'autismo' },
+                { id: 2, text: 'Sorri de volta quando você sorri para ele/ela?', concern: 'no', type: 'autismo' },
+                { id: 3, text: 'Responde virando a cabeça quando chama pelo nome?', concern: 'no', type: 'autismo' },
+                { id: 4, text: 'Aponta com o dedo para mostrar algo interessante (não apenas pedir)?', concern: 'no', type: 'autismo' },
+                { id: 5, text: 'Imita seus gestos (tchau, bater palmas, beijo)?', concern: 'no', type: 'autismo' },
+                { id: 6, text: 'Brinca de faz-de-conta (fingir falar no telefone, dar comida para boneca)?', concern: 'no', type: 'autismo' },
+                { id: 7, text: 'Perdeu alguma habilidade que já tinha (palavras, gestos, contato social)?', concern: 'yes', type: 'autismo' },
+                { id: 8, text: 'Faz movimentos repetitivos com mãos, dedos ou corpo sem propósito?', concern: 'yes', type: 'autismo' },
+                { id: 9, text: 'Fica extremamente irritado com sons, luzes ou texturas específicas?', concern: 'yes', type: 'autismo' },
+                { id: 10, text: 'Prefere ficar sozinho do que interagir com pessoas?', concern: 'yes', type: 'autismo' },
+                { id: 11, text: 'Está sempre em movimento extremo, não para nem para comer?', concern: 'yes', type: 'tdah' },
+                { id: 12, text: 'Corre ou escala em situações claramente perigosas sem perceber o risco?', concern: 'yes', type: 'tdah' },
+                { id: 13, text: 'Sofre acidentes frequentes por agir sem olhar ou pensar?', concern: 'yes', type: 'tdah' },
+                { id: 14, text: 'É impossível mantê-lo sentado mesmo por 2-3 minutos em atividades?', concern: 'yes', type: 'tdah' },
+                { id: 15, text: 'Age impulsivamente pegando, jogando ou destruindo coisas sem intenção?', concern: 'yes', type: 'tdah' }
+            ]
+        },
+        '4-6': {
+            title: '4 a 6 anos',
+            questions: [
+                { id: 1, text: 'Mantém conversas simples de ida e volta sobre temas do dia a dia?', concern: 'no', type: 'autismo' },
+                { id: 2, text: 'Percebe quando outras pessoas estão tristes ou machucadas e demonstra preocupação?', concern: 'no', type: 'autismo' },
+                { id: 3, text: 'Participa de brincadeiras de grupo com outras crianças (não apenas brincar perto)?', concern: 'no', type: 'autismo' },
+                { id: 4, text: 'Usa a linguagem de forma flexível e criativa (não apenas frases decoradas)?', concern: 'no', type: 'autismo' },
+                { id: 5, text: 'Entende piadas simples, metáforas ou linguagem não-literal?', concern: 'no', type: 'autismo' },
+                { id: 6, text: 'Tem rituais ou rotinas rígidas e entra em crise se mudadas?', concern: 'yes', type: 'autismo' },
+                { id: 7, text: 'Tem interesses obsessivos muito intensos e limitados (ex: só fala de dinossauros)?', concern: 'yes', type: 'autismo' },
+                { id: 8, text: 'Repete falas de desenhos ou pessoas de forma repetitiva e fora de contexto?', concern: 'yes', type: 'autismo' },
+                { id: 9, text: 'Interrompe constantemente conversas ou atividades dos outros?', concern: 'yes', type: 'tdah' },
+                { id: 10, text: 'Não consegue esperar sua vez em jogos ou filas?', concern: 'yes', type: 'tdah' },
+                { id: 11, text: 'Perde brinquedos, roupas, materiais constantemente?', concern: 'yes', type: 'tdah' },
+                { id: 12, text: 'Não segue instruções simples de 2-3 passos (parece não escutar)?', concern: 'yes', type: 'tdah' },
+                { id: 13, text: 'Muda rapidamente de uma atividade para outra sem completar nenhuma?', concern: 'yes', type: 'tdah' },
+                { id: 14, text: 'Fala excessivamente e sem pausar, sem permitir outros falarem?', concern: 'yes', type: 'tdah' },
+                { id: 15, text: 'Tem dificuldade extrema em brincar silenciosamente?', concern: 'yes', type: 'tdah' }
+            ]
+        },
+        '7-12': {
+            title: '7 a 12 anos',
+            questions: [
+                { id: 1, text: 'Consegue fazer e manter amizades duradouras com colegas?', concern: 'no', type: 'autismo' },
+                { id: 2, text: 'Entende regras sociais não escritas (espaço pessoal, tom de voz adequado)?', concern: 'no', type: 'autismo' },
+                { id: 3, text: 'Adapta sua comunicação conforme a situação (formal vs informal)?', concern: 'no', type: 'autismo' },
+                { id: 4, text: 'Identifica sarcasmo, ironia ou duplo sentido em conversas?', concern: 'no', type: 'autismo' },
+                { id: 5, text: 'Demonstra empatia e compreende perspectivas diferentes da sua?', concern: 'no', type: 'autismo' },
+                { id: 6, text: 'Evita contato físico (abraços, apertos de mão) de forma consistente?', concern: 'yes', type: 'autismo' },
+                { id: 7, text: 'Tem dificuldade significativa com mudanças inesperadas na rotina escolar?', concern: 'yes', type: 'autismo' },
+                { id: 8, text: 'Interpreta tudo literalmente, perdendo o significado figurado?', concern: 'yes', type: 'autismo' },
+                { id: 9, text: 'Comete erros por descuido em trabalhos escolares mesmo sabendo o conteúdo?', concern: 'yes', type: 'tdah' },
+                { id: 10, text: 'Evita ou posterga tarefas que exigem esforço mental sustentado?', concern: 'yes', type: 'tdah' },
+                { id: 11, text: 'Esquece atividades diárias (lição de casa, recados, compromissos)?', concern: 'yes', type: 'tdah' },
+                { id: 12, text: 'Distrai-se facilmente durante aulas ou conversas?', concern: 'yes', type: 'tdah' },
+                { id: 13, text: 'Mexe constantemente mãos/pés ou se remexe na cadeira?', concern: 'yes', type: 'tdah' },
+                { id: 14, text: 'Responde antes da pergunta ser completada?', concern: 'yes', type: 'tdah' },
+                { id: 15, text: 'Tem dificuldade em organizar tarefas e materiais escolares?', concern: 'yes', type: 'tdah' }
+            ]
+        },
+        '13-17': {
+            title: '13 a 17 anos (Adolescente)',
+            questions: [
+                { id: 1, text: 'Navega relacionamentos complexos e conflitos sociais adequadamente?', concern: 'no', type: 'autismo' },
+                { id: 2, text: 'Compreende e usa gírias, memes e linguagem cultural da sua idade?', concern: 'no', type: 'autismo' },
+                { id: 3, text: 'Lê nas entrelinhas em textos, conversas e situações sociais?', concern: 'no', type: 'autismo' },
+                { id: 4, text: 'Ajusta comportamento conforme contexto social (escola, casa, festas)?', concern: 'no', type: 'autismo' },
+                { id: 5, text: 'Demonstra interesse apropriado em relacionamentos românticos?', concern: 'no', type: 'autismo' },
+                { id: 6, text: 'Isola-se socialmente por escolha, evitando interações com pares?', concern: 'yes', type: 'autismo' },
+                { id: 7, text: 'Tem dificuldade extrema com transições (mudança de escola, rotina)?', concern: 'yes', type: 'autismo' },
+                { id: 8, text: 'Mantém interesses restritos que interferem no funcionamento social?', concern: 'yes', type: 'autismo' },
+                { id: 9, text: 'Tem dificuldade em planejar e executar projetos de longo prazo?', concern: 'yes', type: 'tdah' },
+                { id: 10, text: 'Procrastina cronicamente mesmo com consequências sérias?', concern: 'yes', type: 'tdah' },
+                { id: 11, text: 'Toma decisões impulsivas que causam problemas (gastos, relacionamentos)?', concern: 'yes', type: 'tdah' },
+                { id: 12, text: 'Subestima tempo necessário para tarefas consistentemente?', concern: 'yes', type: 'tdah' },
+                { id: 13, text: 'Tem dificuldade em manter atenção em aulas ou ao estudar sozinho?', concern: 'yes', type: 'tdah' },
+                { id: 14, text: 'Sente inquietação interna constante (mente sempre acelerada)?', concern: 'yes', type: 'tdah' },
+                { id: 15, text: 'Interrompe ou domina conversas sem perceber?', concern: 'yes', type: 'tdah' }
+            ]
+        },
+        '18+': {
+            title: '18+ (Adulto)',
+            questions: [
+                { id: 1, text: 'Mantém emprego estável e relações profissionais adequadas?', concern: 'no', type: 'autismo' },
+                { id: 2, text: 'Gerencia conflitos interpessoais de forma efetiva?', concern: 'no', type: 'autismo' },
+                { id: 3, text: 'Adapta-se a mudanças no ambiente de trabalho ou pessoal?', concern: 'no', type: 'autismo' },
+                { id: 4, text: 'Compreende política corporativa e dinâmicas sociais complexas?', concern: 'no', type: 'autismo' },
+                { id: 5, text: 'Mantém relacionamentos íntimos e de amizade satisfatórios?', concern: 'no', type: 'autismo' },
+                { id: 6, text: 'Prefere rotinas extremamente rígidas e sente ansiedade com imprevistos?', concern: 'yes', type: 'autismo' },
+                { id: 7, text: 'Tem dificuldade em "ler a sala" e entender dinâmicas de grupo?', concern: 'yes', type: 'autismo' },
+                { id: 8, text: 'Sente exaustão extrema após interações sociais?', concern: 'yes', type: 'autismo' },
+                { id: 9, text: 'Tem histórico de subdesempenho profissional apesar de capacidade?', concern: 'yes', type: 'tdah' },
+                { id: 10, text: 'Problemas crônicos com pontualidade e cumprimento de prazos?', concern: 'yes', type: 'tdah' },
+                { id: 11, text: 'Inicia múltiplos projetos mas raramente os completa?', concern: 'yes', type: 'tdah' },
+                { id: 12, text: 'Relacionamentos prejudicados por esquecimentos ou impulsividade?', concern: 'yes', type: 'tdah' },
+                { id: 13, text: 'Dificuldade em gerenciar finanças (contas, orçamento)?', concern: 'yes', type: 'tdah' },
+                { id: 14, text: 'Busca constantemente estimulação ou novidade?', concern: 'yes', type: 'tdah' },
+                { id: 15, text: 'Sente que não atinge seu potencial apesar de esforço?', concern: 'yes', type: 'tdah' }
+            ]
         }
     };
-    
-    const updateProgressBar = () => {
-        const progress = (currentQuestionIndex / totalQuestions) * 100;
-        const progressBar = document.getElementById('progress-bar');
-        const progressPercentage = document.getElementById('progress-percentage');
-        
-        if(progressBar && progressPercentage) {
-            progressBar.style.width = `${progress}%`;
-            progressPercentage.textContent = `${Math.round(progress)}%`;
-        }
-    };
 
-    // --- Event Listeners ---
-    welcomeContinueBtn.addEventListener('click', () => showScreen('home-screen'));
-    
-    cardInfantil.addEventListener('click', () => showScreen('terms-screen'));
-    cardAdulto.addEventListener('click', () => showScreen('terms-screen'));
+    document.addEventListener('DOMContentLoaded', () => {
+        const { jsPDF } = window.jspdf;
 
-    termsBackBtn.addEventListener('click', () => showScreen('home-screen'));
+        // State
+        let state = {
+            currentScreen: 'welcome-screen',
+            selectedAge: null,
+            currentQuestionIndex: 0,
+            answers: {},
+            totalQuestions: 0
+        };
 
-    termsCheckbox.addEventListener('change', () => {
-        termsContinueBtn.disabled = !termsCheckbox.checked;
-    });
-
-    termsContinueBtn.addEventListener('click', () => {
-        if (termsCheckbox.checked) {
-            showScreen('age-selection-screen');
-        }
-    });
-    
-    ageButtons.forEach(button => {
-        button.addEventListener('click', () => showScreen('instructions-screen'));
-    });
-
-    startTestBtn.addEventListener('click', () => {
-        currentQuestionIndex = 0;
-        updateProgressBar();
-        showScreen('test-screen');
-    });
-
-    answerOptions.forEach(button => {
-        button.addEventListener('click', () => {
-            currentQuestionIndex++;
-            if (currentQuestionIndex >= totalQuestions) {
-                showScreen('loading-screen');
-                setTimeout(() => {
-                    showScreen('result-screen');
-                }, 2500); // Simulate processing time
-            } else {
-                updateProgressBar();
-                // Logic to load next question would go here
-                document.getElementById('question-text').textContent = `Esta é a pergunta de exemplo número ${currentQuestionIndex + 1}. Como você se sente?`;
+        // Selectors
+        const els = {
+            screens: document.querySelectorAll('.screen'),
+            btns: {
+                welcomeContinue: document.getElementById('welcome-continue-btn'),
+                cardInfantil: document.getElementById('card-infantil'),
+                cardAdulto: document.getElementById('card-adulto'),
+                termsBack: document.getElementById('terms-back-btn'),
+                termsContinue: document.getElementById('terms-continue-btn'),
+                startTest: document.getElementById('start-test-btn'),
+                downloadPdf: document.getElementById('download-pdf-btn'),
+                restart: document.getElementById('restart-btn')
+            },
+            termsCheckbox: document.getElementById('terms-checkbox'),
+            ageButtons: document.querySelectorAll('.age-btn'),
+            questionText: document.getElementById('question-text'),
+            answersContainer: document.getElementById('answers-container'),
+            progressBar: document.getElementById('progress-bar'),
+            progressText: document.getElementById('progress-percentage'),
+            moduleName: document.getElementById('module-name'),
+            resultElements: {
+                scores: document.getElementById('scores-container'),
+                recommendation: document.getElementById('recommendation-container'),
+                recommendationText: document.getElementById('recommendation-text')
             }
-        });
-    });
+        };
 
-    restartBtn.addEventListener('click', () => {
-        // Reset state and go to welcome screen
-        currentQuestionIndex = 0;
-        termsCheckbox.checked = false;
-        termsContinueBtn.disabled = true;
+        // --- Logic Functions ---
+
+        const showScreen = (screenId) => {
+            els.screens.forEach(s => s.classList.remove('active'));
+            const active = document.getElementById(screenId);
+            if(active) {
+                active.classList.add('active');
+                active.scrollTop = 0;
+            }
+        };
+
+        const updateProgress = () => {
+            const pct = (state.currentQuestionIndex / state.totalQuestions) * 100;
+            els.progressBar.style.width = `${pct}%`;
+            els.progressText.textContent = `${Math.round(pct)}%`;
+        };
+
+        const renderQuestion = () => {
+            const group = ageGroups[state.selectedAge];
+            const q = group.questions[state.currentQuestionIndex];
+            
+            els.questionText.textContent = q.text;
+            
+            // Define Module Title based on question type (Visual flair)
+            els.moduleName.textContent = q.type === 'autismo' 
+                ? 'Módulo: Interação Social e Comunicação' 
+                : 'Módulo: Atenção e Hiperatividade';
+                
+            els.moduleName.style.background = q.type === 'autismo'
+                ? 'linear-gradient(135deg, #a78bfa 0%, #5b9edb 100%)' // Roxo/Azul
+                : 'linear-gradient(135deg, #fcd34d 0%, #f97316 100%)'; // Amarelo/Laranja
+
+            // Create Buttons dynamically
+            els.answersContainer.innerHTML = '';
+            
+            const btnYes = document.createElement('button');
+            btnYes.className = 'answer-option yes';
+            btnYes.innerHTML = '<strong>SIM</strong>';
+            btnYes.onclick = () => handleAnswer(q.id, 'yes');
+            
+            const btnNo = document.createElement('button');
+            btnNo.className = 'answer-option no';
+            btnNo.innerHTML = '<strong>NÃO</strong>';
+            btnNo.onclick = () => handleAnswer(q.id, 'no');
+
+            els.answersContainer.appendChild(btnYes);
+            els.answersContainer.appendChild(btnNo);
+        };
+
+        const handleAnswer = (qid, value) => {
+            state.answers[qid] = value;
+            state.currentQuestionIndex++;
+
+            if (state.currentQuestionIndex >= state.totalQuestions) {
+                finishTest();
+            } else {
+                updateProgress();
+                renderQuestion();
+            }
+        };
+
+        const calculateScore = () => {
+            const group = ageGroups[state.selectedAge];
+            let autismScore = 0;
+            let tdahScore = 0;
+
+            group.questions.forEach(q => {
+                const ans = state.answers[q.id];
+                // Logic from React component: match concern type
+                if ((q.concern === 'yes' && ans === 'yes') || (q.concern === 'no' && ans === 'no')) {
+                    if (q.type === 'autismo') autismScore++;
+                    if (q.type === 'tdah') tdahScore++;
+                }
+            });
+
+            return { autismScore, tdahScore };
+        };
+
+        const getResultMessage = (score, type) => {
+            // Logic mirrored from React component
+            if (type === 'autismo') {
+                if (score >= 5) return { level: 'alto', text: 'ALERTA ALTO - Avaliação especializada URGENTE recomendada', colorClass: 'text-red-600' };
+                if (score >= 3) return { level: 'médio', text: 'ALERTA MODERADO - Consulta com especialista recomendada', colorClass: 'text-orange-600' };
+                if (score >= 1) return { level: 'baixo', text: 'Sinais leves - Monitorar e discutir com médico', colorClass: 'text-yellow-600' };
+                return { level: 'normal', text: 'Sem sinais significativos neste momento', colorClass: 'text-green-600' };
+            } else { // tdah
+                if (score >= 6) return { level: 'alto', text: 'ALERTA ALTO - Avaliação especializada URGENTE recomendada', colorClass: 'text-red-600' };
+                if (score >= 4) return { level: 'médio', text: 'ALERTA MODERADO - Consulta com especialista recomendada', colorClass: 'text-orange-600' };
+                if (score >= 2) return { level: 'baixo', text: 'Sinais leves - Monitorar e discutir com médico', colorClass: 'text-yellow-600' };
+                return { level: 'normal', text: 'Sem sinais significativos neste momento', colorClass: 'text-green-600' };
+            }
+        };
+
+        const finishTest = () => {
+            showScreen('loading-screen');
+            
+            setTimeout(() => {
+                const results = calculateScore();
+                const autismInfo = getResultMessage(results.autismScore, 'autismo');
+                const tdahInfo = getResultMessage(results.tdahScore, 'tdah');
+                
+                // Build Result HTML
+                els.resultElements.scores.innerHTML = `
+                    <div class="result-report">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5rem;">
+                            <h4>Autismo (TEA)</h4>
+                            <span class="${autismInfo.colorClass}" style="font-size:1.1rem;">${results.autismScore}/8 Sinais</span>
+                        </div>
+                        <p class="${autismInfo.colorClass}">${autismInfo.text}</p>
+                    </div>
+
+                    <div class="result-report" style="margin-top:1rem;">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5rem;">
+                            <h4>TDAH</h4>
+                            <span class="${tdahInfo.colorClass}" style="font-size:1.1rem;">${results.tdahScore}/7 Sinais</span>
+                        </div>
+                        <p class="${tdahInfo.colorClass}">${tdahInfo.text}</p>
+                    </div>
+                `;
+
+                // Recommendation Logic
+                const isHighRisk = (results.autismScore >= 3 || results.tdahScore >= 4);
+                
+                if (isHighRisk) {
+                    els.resultElements.recommendation.className = 'recommendation-box alert';
+                    els.resultElements.recommendation.innerHTML = `
+                        <h4>🚨 AÇÃO NECESSÁRIA</h4>
+                        <ul style="margin-left: 1.2rem; color: #dc2626;">
+                            <li>Procurar neuropediatra, psiquiatra ou neuropsicólogo.</li>
+                            <li>Avaliação multidisciplinar é recomendada.</li>
+                            <li>Intervenção precoce é fundamental para o prognóstico.</li>
+                        </ul>
+                    `;
+                } else {
+                    els.resultElements.recommendation.className = 'recommendation-box';
+                    els.resultElements.recommendation.innerHTML = `
+                        <h4>Recomendação</h4>
+                        <p>Continue monitorando. Se tiver dúvidas persistentes, consulte um pediatra ou clínico geral para orientação.</p>
+                    `;
+                }
+
+                showScreen('result-screen');
+            }, 2000);
+        };
+
+        // --- Event Binding ---
+
+        els.btns.welcomeContinue.addEventListener('click', () => showScreen('home-screen'));
+        
+        // Navigation Logic
+        const goToTerms = () => showScreen('terms-screen');
+        els.btns.cardInfantil.addEventListener('click', goToTerms);
+        els.btns.cardAdulto.addEventListener('click', goToTerms);
+        
+        els.btns.termsBack.addEventListener('click', () => showScreen('home-screen'));
+        
+        els.termsCheckbox.addEventListener('change', (e) => {
+            els.btns.termsContinue.disabled = !e.target.checked;
+        });
+        
+        els.btns.termsContinue.addEventListener('click', () => {
+            if (els.termsCheckbox.checked) showScreen('age-selection-screen');
+        });
+
+        // Age Selection
+        els.ageButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                state.selectedAge = btn.dataset.age;
+                state.totalQuestions = ageGroups[state.selectedAge].questions.length;
+                showScreen('instructions-screen');
+            });
+        });
+
+        // Start Test
+        els.btns.startTest.addEventListener('click', () => {
+            state.currentQuestionIndex = 0;
+            state.answers = {};
+            updateProgress();
+            renderQuestion();
+            showScreen('test-screen');
+        });
+
+        // Restart
+        els.btns.restart.addEventListener('click', () => {
+            state = {
+                currentScreen: 'welcome-screen',
+                selectedAge: null,
+                currentQuestionIndex: 0,
+                answers: {},
+                totalQuestions: 0
+            };
+            els.termsCheckbox.checked = false;
+            els.btns.termsContinue.disabled = true;
+            showScreen('welcome-screen');
+        });
+
+        // PDF Generation
+        els.btns.downloadPdf.addEventListener('click', () => {
+            const doc = new jsPDF();
+            const results = calculateScore();
+            const autismInfo = getResultMessage(results.autismScore, 'autismo');
+            const tdahInfo = getResultMessage(results.tdahScore, 'tdah');
+
+            doc.setFont("helvetica", "bold");
+            doc.setFontSize(18);
+            doc.setTextColor(30, 58, 95); // Azul Primario
+            doc.text("Relatório NeuroTriagem Pro", 20, 20);
+
+            doc.setFontSize(12);
+            doc.setTextColor(100);
+            doc.setFont("helvetica", "normal");
+            doc.text(`Faixa Etária Avaliada: ${ageGroups[state.selectedAge].title}`, 20, 30);
+            doc.text(`Data: ${new Date().toLocaleDateString()}`, 20, 36);
+
+            // Scores
+            doc.setDrawColor(200);
+            doc.line(20, 45, 190, 45);
+
+            doc.setFontSize(14);
+            doc.setTextColor(0);
+            doc.setFont("helvetica", "bold");
+            doc.text("Resultados Preliminares:", 20, 55);
+
+            // Autismo
+            doc.setFontSize(12);
+            doc.text(`Autismo (TEA): ${results.autismScore}/8 Sinais`, 20, 65);
+            doc.setFont("helvetica", "normal");
+            doc.setFontSize(10);
+            doc.text(`Interpretação: ${autismInfo.text}`, 20, 70);
+
+            // TDAH
+            doc.setFont("helvetica", "bold");
+            doc.setFontSize(12);
+            doc.text(`TDAH: ${results.tdahScore}/7 Sinais`, 20, 85);
+            doc.setFont("helvetica", "normal");
+            doc.setFontSize(10);
+            doc.text(`Interpretação: ${tdahInfo.text}`, 20, 90);
+
+            doc.line(20, 100, 190, 100);
+
+            // Disclaimer
+            doc.setFontSize(9);
+            doc.setTextColor(150);
+            doc.text("AVISO LEGAL: Este documento é resultado de uma triagem online e NÃO constitui diagnóstico médico.", 20, 110);
+            doc.text("Consulte um profissional de saúde qualificado para avaliação clínica.", 20, 115);
+
+            doc.save("Relatorio-NeuroTriagem.pdf");
+        });
+
+        // Init
         showScreen('welcome-screen');
     });
-
-    downloadPdfBtn.addEventListener('click', () => {
-        const doc = new jsPDF();
-        
-        // Basic PDF content - this can be greatly expanded
-        doc.setFont("helvetica", "bold");
-        doc.setFontSize(16);
-        doc.text("Relatório Orientativo - NeuroTriagem Pro", 20, 20);
-        
-        doc.setFont("helvetica", "normal");
-        doc.setFontSize(12);
-        doc.text("Este é um resumo dos seus resultados.", 20, 30);
-        
-        const reportText = document.querySelector('.result-report p').innerText;
-        const recommendationText = document.querySelector('.recommendation-box p').innerText;
-
-        doc.text("Análise Preliminar:", 20, 40);
-        doc.setFontSize(10);
-        doc.text(doc.splitTextToSize(reportText, 170), 20, 45);
-        
-        doc.setFontSize(12);
-        doc.text("Recomendação Profissional:", 20, 70);
-        doc.setFontSize(10);
-        doc.text(doc.splitTextToSize(recommendationText, 170), 20, 75);
-
-        doc.save("Relatorio-NeuroTriagem-Pro.pdf");
-    });
-
-
-    // Initialize
-    showScreen('welcome-screen');
-});
 </script>
-
 </body>
 </html>
