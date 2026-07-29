@@ -2,1438 +2,2141 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="NeuroTriagem Pro - Avaliação Orientativa do Funcionamento Neurocognitivo">
-    <title>NeuroTriagem Pro - Avaliação do Desenvolvimento Neurocognitivo</title>
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#09274B">
+    <meta name="description" content="NeuroTriagem: um mapa orientativo para organizar observações sobre desenvolvimento, comunicação, atenção e autorregulação.">
+    <title>NeuroTriagem | Mapa de Observações</title>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
+
     <style>
         :root {
-            --azul-primario: #1e3a5f;
-            --azul-secundario: #2e5aa8;
-            --azul-accent: #3b7acc;
-            --azul-light: #5b9edb;
-            --azul-ultra-light: #f0f6ff;
-            --verde-neuro: #00a86b;
-            --verde-light: #7dd3c0;
-            --amarelo-atencao: #fcd34d;
-            --vermelho-alerta: #dc2626;
-            --roxo-criativo: #a78bfa;
-            --cinza-claro: #f8fafc;
-            --cinza-border: #e2e8f0;
-            --cinza-texto: #475569;
-            --white: #ffffff;
-            --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
-            --shadow-md: 0 4px 12px rgba(30,58,95,0.1);
-            --shadow-lg: 0 10px 30px rgba(30,58,95,0.15);
-            --shadow-xl: 0 20px 50px rgba(30,58,95,0.2);
-            --gradient-azul: linear-gradient(135deg, #1e3a5f 0%, #2e5aa8 100%);
-            --gradient-verde: linear-gradient(135deg, #00a86b 0%, #7dd3c0 100%);
-            --gradient-roxo: linear-gradient(135deg, #a78bfa 0%, #5b9edb 100%);
+            --navy: #09274B;
+            --navy-soft: #1B3A63;
+            --terracotta: #A64B2A;
+            --terracotta-light: #C88664;
+            --rose: #F3DED0;
+            --rose-deep: #E8B4A8;
+            --sand: #B98B76;
+            --cream: #FFF8F3;
+            --white: #FFFFFF;
+            --ink: #17253A;
+            --muted: #657083;
+            --line: rgba(9, 39, 75, 0.12);
+            --green: #377A67;
+            --green-soft: #E8F3EE;
+            --amber: #9B641E;
+            --amber-soft: #FFF3DA;
+            --danger: #9F3D32;
+            --danger-soft: #FCEAE6;
+            --shadow-sm: 0 8px 24px rgba(9, 39, 75, 0.08);
+            --shadow-md: 0 18px 48px rgba(9, 39, 75, 0.13);
+            --shadow-lg: 0 28px 72px rgba(9, 39, 75, 0.18);
+            --radius-sm: 14px;
+            --radius-md: 22px;
+            --radius-lg: 32px;
         }
 
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
         }
 
-        html, body {
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
+        html {
+            scroll-behavior: smooth;
+            background: var(--cream);
         }
 
         body {
-            font-family: 'Figtree', sans-serif;
-            background-color: var(--cinza-claro);
-            color: var(--cinza-texto);
+            min-width: 320px;
+            min-height: 100vh;
+            min-height: 100dvh;
+            overflow-x: hidden;
+            font-family: "Manrope", sans-serif;
+            color: var(--ink);
+            background:
+                radial-gradient(circle at 8% 8%, rgba(232, 180, 168, 0.52), transparent 30%),
+                radial-gradient(circle at 92% 88%, rgba(200, 134, 100, 0.24), transparent 31%),
+                linear-gradient(145deg, #FFF9F5 0%, #F8EAE1 52%, #F6E2D7 100%);
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            opacity: 0.26;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.08'/%3E%3C/svg%3E");
+            z-index: 0;
+        }
+
+        button,
+        input {
+            font: inherit;
+        }
+
+        button,
+        a {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        button:focus-visible,
+        a:focus-visible,
+        input:focus-visible,
+        [tabindex="-1"]:focus-visible {
+            outline: 3px solid var(--terracotta-light);
+            outline-offset: 4px;
+        }
+
+        a {
+            color: var(--navy);
+        }
+
+        .skip-link {
+            position: fixed;
+            top: 12px;
+            left: 12px;
+            z-index: 100;
+            transform: translateY(-160%);
+            padding: 10px 14px;
+            border-radius: 10px;
+            color: var(--white);
+            background: var(--navy);
+        }
+
+        .skip-link:focus {
+            transform: translateY(0);
+        }
+
+        .ambient {
+            position: fixed;
+            border-radius: 999px;
+            filter: blur(1px);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .ambient-one {
+            width: 220px;
+            height: 220px;
+            top: -80px;
+            right: -60px;
+            background: rgba(166, 75, 42, 0.13);
+        }
+
+        .ambient-two {
+            width: 160px;
+            height: 160px;
+            bottom: 5%;
+            left: -70px;
+            background: rgba(9, 39, 75, 0.09);
         }
 
         .screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 2rem;
-            background: linear-gradient(135deg, #f8fafc 0%, #f0f6ff 100%);
-            animation: fadeIn 0.6s ease-out forwards;
-            overflow-y: auto;
+            position: relative;
             z-index: 1;
+            display: none;
+            width: 100%;
+            min-height: 100vh;
+            min-height: 100dvh;
+            padding:
+                max(24px, env(safe-area-inset-top))
+                max(22px, env(safe-area-inset-right))
+                max(28px, env(safe-area-inset-bottom))
+                max(22px, env(safe-area-inset-left));
         }
 
         .screen.active {
             display: flex;
+            animation: screen-in 0.46s ease both;
         }
 
-        @keyframes fadeIn {
+        .screen--center {
+            align-items: center;
+            justify-content: center;
+        }
+
+        .screen--top {
+            align-items: flex-start;
+            justify-content: center;
+        }
+
+        @keyframes screen-in {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        @keyframes slideInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+        .shell {
+            width: min(100%, 920px);
+            margin: auto;
         }
 
-        .container {
-            width: 100%;
-            max-width: 800px;
-            margin: 0 auto;
+        .shell--narrow {
+            width: min(100%, 720px);
+        }
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--navy);
+            font-weight: 800;
+            letter-spacing: -0.3px;
+        }
+
+        .brand-mark {
+            display: grid;
+            width: 38px;
+            height: 38px;
+            place-items: center;
+            border-radius: 14px;
+            color: var(--white);
+            background: linear-gradient(145deg, var(--navy), var(--navy-soft));
+            box-shadow: var(--shadow-sm);
+        }
+
+        .brand-mark svg {
+            width: 23px;
+            height: 23px;
+        }
+
+        .brand small {
+            display: block;
+            margin-top: 1px;
+            color: var(--terracotta);
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: 1.3px;
+            text-transform: uppercase;
+        }
+
+        .privacy-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 8px 11px;
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            color: var(--navy);
+            background: rgba(255, 255, 255, 0.6);
+            font-size: 11px;
+            font-weight: 700;
+            backdrop-filter: blur(10px);
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 15px;
+            color: var(--terracotta);
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .eyebrow::before {
+            content: "";
+            width: 28px;
+            height: 2px;
+            border-radius: 99px;
+            background: currentColor;
+        }
+
+        h1,
+        h2,
+        h3 {
+            color: var(--navy);
+        }
+
+        h1,
+        h2 {
+            font-family: "Cormorant Garamond", serif;
+            letter-spacing: -0.035em;
         }
 
         h1 {
-            font-family: 'Poppins', sans-serif;
-            font-size: clamp(2rem, 6vw, 3.5rem);
-            font-weight: 800;
-            color: var(--azul-primario);
-            margin-bottom: 0.5rem;
-            letter-spacing: -0.5px;
+            max-width: 720px;
+            font-size: clamp(3.15rem, 8vw, 5.6rem);
+            line-height: 0.88;
         }
 
         h2 {
-            font-family: 'Poppins', sans-serif;
-            font-size: clamp(1.5rem, 4vw, 2.2rem);
-            font-weight: 700;
-            color: var(--azul-primario);
-            margin-bottom: 1rem;
+            font-size: clamp(2.35rem, 6vw, 3.8rem);
+            line-height: 0.98;
         }
 
         h3 {
-            font-family: 'Poppins', sans-serif;
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: var(--azul-secundario);
+            font-size: 1rem;
+            line-height: 1.35;
         }
 
         p {
-            color: var(--cinza-texto);
-            line-height: 1.8;
-            margin-bottom: 1rem;
-            font-size: 1rem;
+            color: var(--muted);
+            line-height: 1.7;
         }
 
-        .subtitle {
-            color: #64748b;
-            font-size: 1.1rem;
-            margin-bottom: 2rem;
-            font-weight: 500;
+        .hero {
+            display: grid;
+            grid-template-columns: minmax(0, 1.05fr) minmax(300px, 0.75fr);
+            gap: clamp(30px, 6vw, 72px);
+            align-items: center;
+            padding: clamp(22px, 5vw, 54px) 0 28px;
+        }
+
+        .hero-copy {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-copy h1 em {
+            color: var(--terracotta);
+            font-style: normal;
+        }
+
+        .hero-lead {
+            max-width: 620px;
+            margin: 24px 0 26px;
+            color: #4F5B6D;
+            font-size: clamp(1rem, 2.2vw, 1.16rem);
+        }
+
+        .trust-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 9px;
+            margin-bottom: 28px;
+        }
+
+        .trust-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 8px 11px;
+            border: 1px solid rgba(9, 39, 75, 0.1);
+            border-radius: 999px;
+            color: var(--navy);
+            background: rgba(255, 255, 255, 0.63);
+            font-size: 11px;
+            font-weight: 700;
         }
 
         .btn {
-            font-family: 'Poppins', sans-serif;
-            font-weight: 600;
-            font-size: 1rem;
-            padding: 1rem 2.5rem;
-            border-radius: 12px;
-            border: none;
+            display: inline-flex;
+            min-height: 54px;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 14px 22px;
+            border: 0;
+            border-radius: 16px;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            color: var(--white);
+            background: linear-gradient(135deg, var(--navy), #1C4775);
+            box-shadow: 0 14px 30px rgba(9, 39, 75, 0.2);
+            font-size: 13px;
+            font-weight: 800;
+            letter-spacing: 0.3px;
             text-decoration: none;
-            color: white;
-            background: var(--gradient-azul);
-            box-shadow: var(--shadow-md);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            font-size: 0.95rem;
+            transition: transform 0.22s ease, box-shadow 0.22s ease, background 0.22s ease;
         }
 
         .btn:hover {
             transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
+            box-shadow: 0 18px 38px rgba(9, 39, 75, 0.26);
         }
 
         .btn:active {
-            transform: translateY(0);
+            transform: translateY(0) scale(0.985);
         }
 
         .btn:disabled {
-            background: var(--cinza-border);
-            color: var(--cinza-texto);
             cursor: not-allowed;
-            box-shadow: var(--shadow-sm);
+            color: #8C94A1;
+            background: #E4E5E7;
+            box-shadow: none;
             transform: none;
         }
 
-        .btn-secondary {
-            background: white;
-            border: 2px solid var(--azul-primario);
-            color: var(--azul-primario);
+        .btn--terracotta {
+            background: linear-gradient(135deg, var(--terracotta), var(--terracotta-light));
+            box-shadow: 0 14px 30px rgba(166, 75, 42, 0.22);
+        }
+
+        .btn--secondary {
+            border: 1px solid rgba(9, 39, 75, 0.18);
+            color: var(--navy);
+            background: rgba(255, 255, 255, 0.7);
+            box-shadow: none;
+        }
+
+        .btn--secondary:hover {
+            background: var(--white);
             box-shadow: var(--shadow-sm);
         }
 
-        .btn-secondary:hover {
-            background: var(--azul-primario);
-            color: white;
+        .btn--wide {
+            min-width: 240px;
+        }
+
+        .hero-visual {
+            position: relative;
+            min-height: 420px;
+        }
+
+        .visual-card {
+            position: absolute;
+            inset: 24px 10px 12px 28px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.78);
+            border-radius: 42% 58% 38% 62% / 54% 38% 62% 46%;
+            background:
+                radial-gradient(circle at 70% 18%, rgba(255, 255, 255, 0.72), transparent 24%),
+                linear-gradient(145deg, var(--rose), #EBC7B6);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .visual-card svg {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .visual-note {
+            position: absolute;
+            right: -2px;
+            bottom: 20px;
+            width: 188px;
+            padding: 14px 16px;
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            border-radius: 18px;
+            color: var(--navy);
+            background: rgba(255, 248, 243, 0.9);
             box-shadow: var(--shadow-md);
+            backdrop-filter: blur(14px);
+            font-size: 11px;
+            font-weight: 700;
+            line-height: 1.45;
         }
 
-        .btn-small {
-            padding: 0.7rem 1.5rem;
-            font-size: 0.9rem;
-        }
-
-        /* WELCOME SCREEN */
-        #welcome-screen {
-            justify-content: flex-start;
-            padding-top: 2rem;
-            padding-bottom: 2rem;
-        }
-
-        .welcome-header {
-            text-align: center;
-            margin-bottom: 2rem;
-            animation: slideInUp 0.6s ease-out;
-        }
-
-        .welcome-badge {
-            display: inline-block;
-            background: var(--azul-light);
-            color: white;
-            padding: 0.5rem 1.2rem;
-            border-radius: 50px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            text-transform: uppercase;
+        .visual-note span {
+            display: block;
+            margin-bottom: 3px;
+            color: var(--terracotta);
+            font-size: 9px;
+            font-weight: 800;
             letter-spacing: 1px;
+            text-transform: uppercase;
         }
 
-        .welcome-content {
-            background: white;
-            border-radius: 16px;
-            padding: 2.5rem;
-            box-shadow: var(--shadow-md);
-            margin-bottom: 2rem;
-            animation: slideInUp 0.8s ease-out;
+        .mini-disclaimer {
+            max-width: 700px;
+            margin-top: 18px;
+            color: #727B88;
+            font-size: 11px;
+            line-height: 1.6;
         }
 
-        .welcome-content h2 {
-            margin-top: 0;
+        .panel {
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.78);
+            border-radius: var(--radius-lg);
+            background: rgba(255, 248, 243, 0.88);
+            box-shadow: var(--shadow-lg);
+            backdrop-filter: blur(18px);
         }
 
-        .info-box {
-            background: var(--azul-ultra-light);
-            border-left: 4px solid var(--azul-primario);
-            padding: 1.5rem;
-            border-radius: 10px;
-            margin-bottom: 1.5rem;
+        .panel-head {
+            padding: clamp(24px, 5vw, 42px);
+            border-bottom: 1px solid var(--line);
+            background:
+                radial-gradient(circle at 92% 0%, rgba(232, 180, 168, 0.58), transparent 34%),
+                rgba(255, 255, 255, 0.38);
         }
 
-        .info-box h4 {
-            color: var(--azul-primario);
-            margin-bottom: 0.8rem;
-            font-weight: 600;
+        .panel-head p {
+            max-width: 650px;
+            margin-top: 12px;
         }
 
-        .info-box p {
-            margin-bottom: 0;
-            font-size: 0.95rem;
+        .panel-body {
+            padding: clamp(22px, 5vw, 42px);
         }
 
-        .highlight {
-            color: var(--azul-primario);
-            font-weight: 600;
-        }
-
-        .welcome-buttons {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        /* HOME SCREEN */
-        #home-screen {
-            justify-content: flex-start;
-            padding-top: 2rem;
-            padding-bottom: 2rem;
-        }
-
-        .logo-section {
-            text-align: center;
-            margin-bottom: 2rem;
-            animation: slideInUp 0.6s ease-out;
-        }
-
-        .card-grid {
+        .choice-grid {
             display: grid;
-            grid-template-columns: 1fr;
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        @media (min-width: 768px) {
-            .card-grid {
-                grid-template-columns: 1fr 1fr;
-            }
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 16px;
         }
 
         .choice-card {
-            background: white;
-            border-radius: 16px;
-            padding: 2rem;
-            box-shadow: var(--shadow-md);
-            border: 2px solid transparent;
-            transition: all 0.3s ease;
+            position: relative;
+            min-height: 250px;
+            overflow: hidden;
+            padding: 24px;
+            border: 1px solid var(--line);
+            border-radius: 24px;
             cursor: pointer;
-            text-align: center;
-            animation: slideInUp 0.6s ease-out backwards;
+            color: var(--ink);
+            background: var(--white);
+            box-shadow: var(--shadow-sm);
+            text-align: left;
+            transition: transform 0.24s ease, border-color 0.24s ease, box-shadow 0.24s ease;
         }
-
-        .choice-card:nth-child(1) { animation-delay: 0.1s; }
-        .choice-card:nth-child(2) { animation-delay: 0.2s; }
 
         .choice-card:hover {
-            transform: translateY(-8px);
-            box-shadow: var(--shadow-lg);
-            border-color: var(--azul-primario);
+            transform: translateY(-4px);
+            border-color: rgba(166, 75, 42, 0.46);
+            box-shadow: var(--shadow-md);
         }
 
-        .choice-card-icon {
-            font-size: 3.5rem;
-            margin-bottom: 1rem;
+        .choice-card::after {
+            content: "→";
+            position: absolute;
+            right: 22px;
+            bottom: 19px;
+            display: grid;
+            width: 38px;
+            height: 38px;
+            place-items: center;
+            border-radius: 13px;
+            color: var(--white);
+            background: var(--navy);
+            font-size: 18px;
+        }
+
+        .choice-art {
+            display: grid;
+            width: 82px;
+            height: 82px;
+            margin-bottom: 22px;
+            place-items: center;
+            border-radius: 26px;
+            background: var(--rose);
+        }
+
+        .choice-card:nth-child(2) .choice-art {
+            background: #E6EBF2;
+        }
+
+        .choice-art svg {
+            width: 60px;
+            height: 60px;
         }
 
         .choice-card h3 {
-            color: var(--azul-primario);
-            margin-bottom: 0.8rem;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
         }
 
         .choice-card p {
-            font-size: 0.95rem;
-            margin-bottom: 0;
+            max-width: 300px;
+            padding-right: 34px;
+            font-size: 13px;
         }
 
-        .ethical-banner {
-            background: linear-gradient(135deg, #fef3c7 0%, #fef08a 100%);
-            border-left: 4px solid var(--amarelo-atencao);
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-top: 2rem;
-        }
-
-        .ethical-banner strong {
-            color: var(--azul-primario);
-            display: block;
-            margin-bottom: 0.5rem;
-        }
-
-        .ethical-banner p {
-            color: var(--azul-primario);
-            font-size: 0.95rem;
-            margin-bottom: 0;
-        }
-
-        /* TERMS SCREEN */
-        #terms-screen {
-            justify-content: flex-start;
-            padding-top: 2rem;
-            padding-bottom: 2rem;
-        }
-
-        .terms-container {
-            background: white;
-            border-radius: 16px;
-            padding: 2.5rem;
-            box-shadow: var(--shadow-lg);
-            animation: slideInUp 0.6s ease-out;
-        }
-
-        .terms-header {
-            text-align: center;
-            margin-bottom: 2rem;
-            padding-bottom: 2rem;
-            border-bottom: 2px solid var(--cinza-border);
-        }
-
-        .terms-header h2 {
-            margin-bottom: 0.5rem;
-        }
-
-        .terms-header p {
-            color: var(--cinza-texto);
-            margin-bottom: 0;
-        }
-
-        .terms-content {
-            max-height: 55vh;
-            overflow-y: auto;
-            margin-bottom: 2rem;
-            padding-right: 0.5rem;
-        }
-
-        .terms-content::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .terms-content::-webkit-scrollbar-track {
-            background: var(--cinza-border);
-            border-radius: 10px;
-        }
-
-        .terms-content::-webkit-scrollbar-thumb {
-            background: var(--azul-primario);
-            border-radius: 10px;
-        }
-
-        .terms-content h3 {
-            margin-top: 1.5rem;
-            margin-bottom: 0.8rem;
-            color: var(--azul-primario);
-        }
-
-        .terms-content p {
-            font-size: 0.95rem;
-            color: var(--cinza-texto);
-            line-height: 1.8;
-        }
-
-        .terms-content ul {
-            margin-left: 1.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .terms-content li {
-            margin-bottom: 0.5rem;
-            color: var(--cinza-texto);
-        }
-
-        .checkbox-wrapper {
-            display: flex;
-            align-items: flex-start;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-            padding: 1rem;
-            background: var(--azul-ultra-light);
-            border-radius: 10px;
-        }
-
-        .checkbox-wrapper input {
-            width: 20px;
-            height: 20px;
-            margin-top: 3px;
-            cursor: pointer;
-            accent-color: var(--azul-primario);
-            flex-shrink: 0;
-        }
-
-        .checkbox-wrapper label {
-            cursor: pointer;
-            font-size: 0.95rem;
-            color: var(--cinza-texto);
-            line-height: 1.6;
-        }
-
-        .terms-buttons {
-            display: flex;
-            gap: 1rem;
-            justify-content: flex-end;
-        }
-
-        /* AGE SELECTION SCREEN */
-        #age-selection-screen {
-            justify-content: flex-start;
-            padding-top: 2rem;
-            padding-bottom: 2rem;
-        }
-
-        .age-selection-content {
-            background: white;
-            border-radius: 16px;
-            padding: 2.5rem;
-            box-shadow: var(--shadow-md);
-            animation: slideInUp 0.6s ease-out;
-        }
-
-        .age-buttons {
+        .age-grid {
             display: grid;
-            grid-template-columns: 1fr;
-            gap: 1.2rem;
-            margin-top: 2rem;
-        }
-
-        @media (min-width: 768px) {
-            .age-buttons {
-                grid-template-columns: 1fr 1fr 1fr;
-            }
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
         }
 
         .age-btn {
-            padding: 1.5rem;
-            border: 2px solid var(--cinza-border);
-            background: white;
-            border-radius: 12px;
+            min-height: 86px;
+            padding: 16px;
+            border: 1px solid var(--line);
+            border-radius: 18px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            text-align: center;
-            font-weight: 600;
-            font-size: 1rem;
-            line-height: 1.4;
+            color: var(--navy);
+            background: var(--white);
+            box-shadow: var(--shadow-sm);
+            font-size: 14px;
+            font-weight: 800;
+            text-align: left;
+            transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+        }
+
+        .age-btn span {
+            display: block;
+            margin-top: 4px;
+            color: var(--muted);
+            font-size: 11px;
+            font-weight: 500;
         }
 
         .age-btn:hover {
-            border-color: var(--azul-primario);
-            background: var(--azul-ultra-light);
-            transform: translateY(-3px);
-            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+            border-color: var(--terracotta-light);
+            background: #FFFCFA;
         }
 
-        /* INSTRUCTIONS SCREEN */
-        #instructions-screen {
-            justify-content: flex-start;
-            padding-top: 2rem;
-            padding-bottom: 2rem;
+        .guide-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 12px;
+            margin: 22px 0;
         }
 
-        .instructions-box {
-            background: white;
-            border-radius: 16px;
-            padding: 2.5rem;
-            box-shadow: var(--shadow-md);
-            margin-bottom: 2rem;
-            animation: slideInUp 0.6s ease-out;
+        .guide-item {
+            padding: 17px;
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.76);
         }
 
-        .instructions-box h2 {
-            color: var(--azul-primario);
-            margin-bottom: 1.5rem;
+        .guide-icon {
+            display: grid;
+            width: 38px;
+            height: 38px;
+            margin-bottom: 12px;
+            place-items: center;
+            border-radius: 13px;
+            color: var(--white);
+            background: var(--terracotta);
+            font-size: 18px;
         }
 
-        .instructions-box p {
-            margin-bottom: 1rem;
-            line-height: 1.8;
+        .guide-item strong {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--navy);
+            font-size: 12px;
         }
 
-        .instructions-list {
-            list-style: none;
-            margin: 1.5rem 0;
+        .guide-item p {
+            font-size: 11px;
+            line-height: 1.55;
         }
 
-        .instructions-list li {
-            padding: 0.8rem 0;
-            padding-left: 2rem;
-            position: relative;
-            color: var(--cinza-texto);
-        }
-
-        .instructions-list li:before {
-            content: "✓";
-            position: absolute;
-            left: 0;
-            color: var(--verde-neuro);
-            font-weight: bold;
-            font-size: 1.2rem;
-        }
-
-        /* TEST SCREEN */
-        #test-screen {
-            justify-content: flex-start;
-            padding-top: 2rem;
-        }
-
-        .progress-section {
-            width: 100%;
-            margin-bottom: 2rem;
-            animation: slideInUp 0.6s ease-out;
-        }
-
-        .progress-bar-container {
-            width: 100%;
-            height: 6px;
-            background: var(--cinza-border);
-            border-radius: 10px;
-            overflow: hidden;
-            margin-bottom: 1rem;
-        }
-
-        .progress-bar-fill {
-            height: 100%;
-            background: var(--gradient-azul);
-            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .progress-text {
+        .consent {
             display: flex;
-            justify-content: space-between;
-            font-size: 0.9rem;
-            color: var(--cinza-texto);
-            font-weight: 600;
+            align-items: flex-start;
+            gap: 12px;
+            margin: 22px 0;
+            padding: 16px;
+            border: 1px solid rgba(9, 39, 75, 0.1);
+            border-radius: 18px;
+            background: rgba(243, 222, 208, 0.52);
         }
 
-        .module-badge {
-            display: inline-block;
-            background: var(--gradient-roxo);
-            color: white;
-            padding: 0.6rem 1.2rem;
-            border-radius: 50px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            margin-bottom: 1.5rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+        .consent input {
+            width: 22px;
+            height: 22px;
+            margin-top: 1px;
+            flex: 0 0 auto;
+            accent-color: var(--navy);
         }
 
-        .question-container {
-            background: white;
-            border-radius: 16px;
-            padding: 2.5rem;
-            box-shadow: var(--shadow-md);
-            margin-bottom: 2rem;
-            animation: slideInUp 0.6s ease-out;
-            border-left: 4px solid var(--azul-primario);
-        }
-
-        .question-container h3 {
-            color: var(--azul-primario);
-            font-size: 1.4rem;
+        .consent label {
+            color: #4E5B6C;
+            cursor: pointer;
+            font-size: 12px;
             line-height: 1.6;
-            margin-bottom: 0;
+        }
+
+        .source-note {
+            margin-top: 16px;
+            border-top: 1px solid var(--line);
+            padding-top: 16px;
+        }
+
+        .source-note summary {
+            cursor: pointer;
+            color: var(--navy);
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .source-note p {
+            margin-top: 10px;
+            font-size: 11px;
+        }
+
+        .actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .test-shell {
+            display: flex;
+            min-height: calc(100vh - 56px);
+            min-height: calc(100dvh - 56px);
+            flex-direction: column;
+        }
+
+        .test-top {
+            width: min(100%, 760px);
+            margin: 0 auto 18px;
+        }
+
+        .progress-meta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 9px;
+            color: var(--navy);
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .progress-track {
+            height: 8px;
+            overflow: hidden;
+            border-radius: 999px;
+            background: rgba(9, 39, 75, 0.1);
+        }
+
+        .progress-fill {
+            width: 0;
+            height: 100%;
+            border-radius: inherit;
+            background: linear-gradient(90deg, var(--terracotta), var(--terracotta-light));
+            transition: width 0.35s ease;
+        }
+
+        .question-stage {
+            display: flex;
+            width: min(100%, 760px);
+            margin: auto;
+            flex: 1;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .module-pill {
+            display: inline-flex;
+            align-self: flex-start;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+            padding: 8px 11px;
+            border: 1px solid rgba(166, 75, 42, 0.14);
+            border-radius: 999px;
+            color: var(--terracotta);
+            background: rgba(255, 255, 255, 0.72);
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 0.4px;
+        }
+
+        .question-card {
+            position: relative;
+            min-height: 190px;
+            padding: clamp(26px, 6vw, 46px);
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            border-radius: var(--radius-lg);
+            background:
+                radial-gradient(circle at 95% 0%, rgba(232, 180, 168, 0.54), transparent 36%),
+                rgba(255, 248, 243, 0.92);
+            box-shadow: var(--shadow-md);
+        }
+
+        .question-number {
+            display: block;
+            margin-bottom: 12px;
+            color: var(--sand);
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+        }
+
+        .question-card h2 {
+            max-width: 680px;
+            font-family: "Manrope", sans-serif;
+            font-size: clamp(1.25rem, 3.6vw, 1.72rem);
+            font-weight: 700;
+            letter-spacing: -0.025em;
+            line-height: 1.42;
+        }
+
+        .answer-hint {
+            margin: 18px 0 10px;
+            color: var(--muted);
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
         }
 
         .answers-grid {
             display: grid;
-            grid-template-columns: 1fr;
-            gap: 1rem;
-            margin-top: 1.5rem;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
         }
 
         .answer-option {
-            padding: 1.2rem;
-            border: 2px solid var(--cinza-border);
-            background: white;
-            border-radius: 10px;
+            display: flex;
+            min-height: 62px;
+            align-items: center;
+            gap: 12px;
+            padding: 13px 15px;
+            border: 1px solid rgba(9, 39, 75, 0.14);
+            border-radius: 16px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            color: var(--ink);
+            background: rgba(255, 255, 255, 0.82);
+            box-shadow: 0 5px 14px rgba(9, 39, 75, 0.05);
+            font-size: 12px;
+            font-weight: 700;
             text-align: left;
-            font-weight: 500;
-            font-size: 1rem;
+            transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease;
         }
 
         .answer-option:hover {
-            border-color: var(--azul-primario);
-            background: var(--azul-ultra-light);
-            transform: translateX(4px);
+            transform: translateY(-2px);
+            border-color: rgba(166, 75, 42, 0.55);
+            background: var(--white);
         }
 
-        .answer-option:active {
-            transform: translateX(4px) scale(0.98);
-        }
-        
-        /* Modificador para opções SIM/NÃO */
-        .answer-option.yes:hover {
-            border-color: var(--verde-neuro);
-            background: #ecfdf5;
-        }
-        
-        .answer-option.no:hover {
-            border-color: var(--vermelho-alerta);
-            background: #fef2f2;
+        .answer-option.selected {
+            border-color: var(--terracotta);
+            background: #FFF4EE;
         }
 
-        /* LOADING SCREEN */
-        #loading-screen {
-            background: var(--gradient-azul);
-        }
-
-        .loading-spinner {
-            width: 60px;
-            height: 60px;
-            border: 4px solid rgba(255, 255, 255, 0.3);
-            border-top: 4px solid var(--white);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-bottom: 2rem;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .loading-text h2 {
-            margin-bottom: 0.5rem;
-            color: white;
-            text-align: center;
-        }
-
-        .loading-text p {
-            color: rgba(255, 255, 255, 0.8);
-            text-align: center;
-        }
-
-        /* RESULT SCREEN */
-        #result-screen {
-             justify-content: flex-start;
-             padding-top: 2rem;
-        }
-
-        .result-container {
-            background: white;
-            border-radius: 16px;
-            padding: 3rem;
-            box-shadow: var(--shadow-lg);
-            animation: slideInUp 0.8s ease-out;
-            max-width: 750px;
-            border-top: 6px solid var(--azul-primario);
-        }
-
-        .result-icon {
-            font-size: 5rem;
-            margin-bottom: 1.5rem;
-            display: block;
-            text-align: center;
-        }
-
-        .result-title {
-            font-size: 2rem;
-            color: var(--azul-primario);
-            margin-bottom: 1rem;
-            text-align: center;
-        }
-
-        .result-feedback {
-            font-size: 1.1rem;
-            color: var(--cinza-texto);
-            line-height: 1.8;
-            margin-bottom: 2rem;
-            padding-bottom: 2rem;
-            border-bottom: 2px solid var(--cinza-border);
-        }
-
-        .result-report {
-            background: var(--azul-ultra-light);
-            border-left: 4px solid var(--azul-primario);
-            padding: 1.5rem;
+        .answer-dot {
+            display: grid;
+            width: 30px;
+            height: 30px;
+            flex: 0 0 auto;
+            place-items: center;
             border-radius: 10px;
-            margin-bottom: 2rem;
+            color: var(--navy);
+            background: var(--rose);
+            font-size: 12px;
+            font-weight: 800;
         }
 
-        .result-report h4 {
-            color: var(--azul-primario);
-            margin-bottom: 1rem;
-            font-weight: 600;
-        }
-
-        .result-report p {
-            color: var(--cinza-texto);
-            font-size: 0.95rem;
-            line-height: 1.8;
-            margin-bottom: 0.5rem;
-        }
-
-        .recommendation-box {
-            background: linear-gradient(135deg, #dcfce7 0%, #ecfdf5 100%);
-            border-left: 4px solid var(--verde-neuro);
-            padding: 1.5rem;
-            border-radius: 10px;
-            margin-bottom: 2rem;
-        }
-        
-        .recommendation-box.alert {
-            background: linear-gradient(135deg, #fee2e2 0%, #fef2f2 100%);
-            border-left: 4px solid var(--vermelho-alerta);
-        }
-
-        .recommendation-box h4 {
-            color: var(--verde-neuro);
-            margin-bottom: 0.8rem;
-            font-weight: 600;
-        }
-        
-        .recommendation-box.alert h4 {
-            color: var(--vermelho-alerta);
-        }
-
-        .recommendation-box p {
-            color: var(--cinza-texto);
-            font-size: 0.95rem;
-            margin-bottom: 0;
-        }
-
-        .result-actions {
+        .test-nav {
             display: flex;
-            gap: 1rem;
-            margin-top: 2rem;
-            flex-wrap: wrap;
-            justify-content: center;
+            width: min(100%, 760px);
+            margin: 18px auto 0;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
         }
 
-        .disclaimer {
-            background: linear-gradient(135deg, #fef3c7 0%, #fef08a 100%);
-            border-left: 4px solid var(--amarelo-atencao);
-            padding: 1.5rem;
-            border-radius: 10px;
-            margin-top: 2rem;
+        .back-question {
+            min-height: 44px;
+            padding: 10px 4px;
+            border: 0;
+            cursor: pointer;
+            color: var(--navy);
+            background: transparent;
+            font-size: 11px;
+            font-weight: 800;
         }
 
-        .disclaimer p {
-            color: var(--azul-primario);
-            font-weight: 500;
-            margin-bottom: 0.5rem;
+        .test-helper {
+            color: var(--muted);
+            font-size: 10px;
+            text-align: right;
         }
 
-        .disclaimer small {
-            color: var(--cinza-texto);
+        .loading-card {
+            width: min(100%, 500px);
+            padding: 38px;
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            border-radius: var(--radius-lg);
+            background: rgba(255, 248, 243, 0.92);
+            box-shadow: var(--shadow-lg);
+            text-align: center;
+        }
+
+        .loading-orbit {
+            position: relative;
+            width: 86px;
+            height: 86px;
+            margin: 0 auto 24px;
+            border: 2px solid rgba(9, 39, 75, 0.12);
+            border-radius: 50%;
+            animation: orbit 1.4s linear infinite;
+        }
+
+        .loading-orbit::before,
+        .loading-orbit::after {
+            content: "";
+            position: absolute;
+            border-radius: 50%;
+        }
+
+        .loading-orbit::before {
+            width: 22px;
+            height: 22px;
+            top: -5px;
+            left: 11px;
+            background: var(--terracotta);
+        }
+
+        .loading-orbit::after {
+            width: 14px;
+            height: 14px;
+            right: 5px;
+            bottom: 2px;
+            background: var(--navy);
+        }
+
+        @keyframes orbit {
+            to { transform: rotate(360deg); }
+        }
+
+        .loading-card h2 {
+            margin-bottom: 10px;
+            font-size: 2.4rem;
+        }
+
+        .loading-card p {
+            font-size: 13px;
+        }
+
+        .result-hero {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 18px;
+            align-items: center;
+            margin-bottom: 24px;
+            padding: clamp(22px, 5vw, 34px);
+            border-radius: 24px;
+            color: var(--white);
+            background:
+                radial-gradient(circle at 90% 0%, rgba(200, 134, 100, 0.55), transparent 34%),
+                linear-gradient(135deg, var(--navy), #173F6B);
+        }
+
+        .result-hero-icon {
+            display: grid;
+            width: 68px;
+            height: 68px;
+            place-items: center;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 22px;
+            background: rgba(255, 255, 255, 0.12);
+            font-size: 30px;
+        }
+
+        .result-hero h2,
+        .result-hero p {
+            color: var(--white);
+        }
+
+        .result-hero h2 {
+            margin-bottom: 5px;
+            font-size: clamp(2rem, 5vw, 3rem);
+        }
+
+        .result-hero p {
+            font-size: 12px;
+            opacity: 0.82;
+        }
+
+        .result-summary {
+            margin-bottom: 18px;
+            padding: 20px;
+            border: 1px solid var(--line);
+            border-radius: 20px;
+            background: var(--white);
+        }
+
+        .result-summary strong {
             display: block;
-            margin-top: 0.5rem;
+            margin-bottom: 7px;
+            color: var(--navy);
+            font-size: 13px;
         }
 
-        .scrollable {
-            overflow-y: auto;
-            max-height: 100vh;
-            padding-right: 0.5rem;
+        .result-summary p {
+            font-size: 12px;
         }
-        
-        /* Utilitários de cor para o resultado */
-        .text-red-600 { color: #dc2626; font-weight: bold; }
-        .text-orange-600 { color: #ea580c; font-weight: bold; }
-        .text-yellow-600 { color: #d97706; font-weight: bold; }
-        .text-green-600 { color: #059669; font-weight: bold; }
 
-        @media (max-width: 768px) {
-            .btn {
-                padding: 0.9rem 1.8rem;
-                font-size: 0.9rem;
+        .domain-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px;
+            margin-bottom: 18px;
+        }
+
+        .domain-card {
+            min-width: 0;
+            padding: 20px;
+            border: 1px solid var(--line);
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.86);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .domain-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 13px;
+        }
+
+        .domain-top h3 {
+            font-size: 13px;
+        }
+
+        .domain-status {
+            flex: 0 0 auto;
+            padding: 5px 8px;
+            border-radius: 999px;
+            color: var(--green);
+            background: var(--green-soft);
+            font-size: 8px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .domain-status.has-items {
+            color: var(--amber);
+            background: var(--amber-soft);
+        }
+
+        .observation-list {
+            list-style: none;
+        }
+
+        .observation-list li {
+            position: relative;
+            margin-top: 9px;
+            padding-left: 17px;
+            color: #596475;
+            font-size: 10.5px;
+            line-height: 1.5;
+        }
+
+        .observation-list li::before {
+            content: "";
+            position: absolute;
+            top: 7px;
+            left: 0;
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--terracotta-light);
+        }
+
+        .next-steps {
+            padding: 22px;
+            border: 1px solid rgba(55, 122, 103, 0.2);
+            border-radius: 20px;
+            background: var(--green-soft);
+        }
+
+        .next-steps h3 {
+            margin-bottom: 12px;
+            color: #285E50;
+        }
+
+        .step-list {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 10px;
+            list-style: none;
+        }
+
+        .step-list li {
+            padding: 13px;
+            border-radius: 14px;
+            color: #3F5E55;
+            background: rgba(255, 255, 255, 0.58);
+            font-size: 10.5px;
+            line-height: 1.5;
+        }
+
+        .step-list strong {
+            display: block;
+            margin-bottom: 4px;
+            color: #285E50;
+        }
+
+        .attention-note {
+            display: none;
+            margin-top: 14px;
+            padding: 15px;
+            border-left: 4px solid var(--danger);
+            border-radius: 14px;
+            color: var(--danger);
+            background: var(--danger-soft);
+            font-size: 11px;
+            font-weight: 700;
+            line-height: 1.55;
+        }
+
+        .attention-note.visible {
+            display: block;
+        }
+
+        .result-disclaimer {
+            margin: 17px 0;
+            padding: 16px;
+            border: 1px solid var(--line);
+            border-radius: 16px;
+            color: var(--muted);
+            background: rgba(255, 255, 255, 0.55);
+            font-size: 10.5px;
+            line-height: 1.6;
+        }
+
+        .signature {
+            margin-top: 24px;
+            color: var(--navy);
+            font-family: "Cormorant Garamond", serif;
+            font-size: 1.35rem;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .signature span {
+            display: block;
+            margin-top: 2px;
+            color: var(--terracotta);
+            font-family: "Manrope", sans-serif;
+            font-size: 8px;
+            letter-spacing: 1.25px;
+            text-transform: uppercase;
+        }
+
+        .no-script {
+            margin: 20px;
+            padding: 18px;
+            border-radius: 16px;
+            color: var(--navy);
+            background: var(--cream);
+            font-family: sans-serif;
+        }
+
+        @media (max-width: 760px) {
+            .screen {
+                padding:
+                    max(16px, env(safe-area-inset-top))
+                    max(16px, env(safe-area-inset-right))
+                    max(22px, env(safe-area-inset-bottom))
+                    max(16px, env(safe-area-inset-left));
             }
-            .result-container {
-                padding: 2rem;
+
+            .privacy-pill {
+                display: none;
             }
-            .result-actions {
-                flex-direction: column;
+
+            .hero {
+                grid-template-columns: 1fr;
+                gap: 10px;
+                padding-top: 14px;
             }
+
+            .hero-visual {
+                order: -1;
+                min-height: 238px;
+            }
+
+            .visual-card {
+                inset: 4px 18% 8px;
+            }
+
+            .visual-note {
+                right: 7%;
+                bottom: 5px;
+                width: 158px;
+                padding: 11px 13px;
+                font-size: 9px;
+            }
+
+            .hero-copy {
+                text-align: center;
+            }
+
+            .hero-copy h1 {
+                margin-inline: auto;
+                font-size: clamp(2.9rem, 14vw, 4.2rem);
+            }
+
+            .eyebrow,
+            .trust-row,
+            .actions {
+                justify-content: center;
+            }
+
+            .hero-lead {
+                margin: 18px auto 20px;
+                font-size: 0.94rem;
+            }
+
+            .trust-row {
+                margin-bottom: 22px;
+            }
+
+            .mini-disclaimer {
+                margin-inline: auto;
+                text-align: center;
+            }
+
+            .choice-grid,
+            .domain-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .choice-card {
+                min-height: 205px;
+            }
+
+            .guide-grid,
+            .step-list {
+                grid-template-columns: 1fr;
+            }
+
+            .guide-item {
+                display: grid;
+                grid-template-columns: 42px 1fr;
+                column-gap: 11px;
+                align-items: center;
+            }
+
+            .guide-icon {
+                grid-row: span 2;
+                margin-bottom: 0;
+            }
+
+            .age-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .test-shell {
+                min-height: calc(100dvh - 38px);
+            }
+
+            .question-stage {
+                justify-content: flex-start;
+                padding-top: 5vh;
+            }
+
+            .question-card {
+                min-height: 166px;
+                padding: 24px 20px;
+                border-radius: 24px;
+            }
+
+            .question-card h2 {
+                font-size: 1.18rem;
+                line-height: 1.45;
+            }
+
+            .answers-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .answer-option {
+                min-height: 56px;
+            }
+
+            .test-nav {
+                margin-top: 12px;
+            }
+
+            .test-helper {
+                max-width: 180px;
+            }
+
+            .result-hero {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .result-hero-icon {
+                margin-inline: auto;
+            }
+
             .result-actions .btn {
                 width: 100%;
             }
-            .terms-container {
-                padding: 1.5rem;
+        }
+
+        @media (max-width: 390px) {
+            .brand {
+                font-size: 13px;
             }
-            .terms-buttons {
-                flex-direction: column;
+
+            .panel-head,
+            .panel-body {
+                padding: 21px 18px;
             }
-            .terms-buttons .btn {
+
+            .visual-card {
+                inset-inline: 14%;
+            }
+
+            .trust-chip {
+                font-size: 9px;
+            }
+
+            .btn--wide {
                 width: 100%;
+                min-width: 0;
             }
-            .question-container {
-                padding: 1.5rem;
-            }
-            .welcome-buttons {
-                flex-direction: column;
-                width: 100%;
-            }
-            .welcome-buttons .btn {
-                width: 100%;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                scroll-behavior: auto !important;
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
             }
         }
     </style>
 </head>
+
 <body>
-    <!-- SCREEN 1: WELCOME / LANDING PAGE -->
-    <div id="welcome-screen" class="screen active scrollable">
-        <div class="container">
-            <div class="welcome-header">
-                <div class="welcome-badge">Bem-vindo(a)</div>
-                <h1>NeuroTriagem Pro</h1>
-                <p class="subtitle">Entenda seu Funcionamento Neurocognitivo</p>
-            </div>
-            <div class="welcome-content">
-                <h2>O que é NeuroTriagem Pro?</h2>
-                
-                <div class="info-box">
-                    <h4>🧠 Uma Ferramenta Científica</h4>
-                    <p>NeuroTriagem Pro é uma avaliação <span class="highlight">orientativa</span>. É desenvolvida para auxiliar na identificação de padrões do neurodesenvolvimento (TEA e TDAH).</p>
-                </div>
-                <div class="info-box">
-                    <h4>⚖️ O Que NÃO É</h4>
-                    <p>Esta ferramenta <span class="highlight">NÃO é diagnóstico</span>. Não substitui avaliação profissional presencial. Os resultados são indicativos e devem ser sempre avaliados por profissionais especializados.</p>
-                </div>
-                <div class="info-box">
-                    <h4>🔒 Seus Dados Estão Seguros</h4>
-                    <p>Todos os dados são processados <span class="highlight">localmente no seu navegador</span>. Nada é enviado para servidores. Sua privacidade é garantida pela Lei de Proteção de Dados (LGPD).</p>
-                </div>
-                
-                <h3 style="margin-top: 2rem; color: var(--azul-primario);">Como Funciona?</h3>
-                <p><strong>1️⃣ Você escolhe</strong> se é uma avaliação infantil ou adulta</p>
-                <p><strong>2️⃣ Você lê</strong> os termos e política de privacidade</p>
-                <p><strong>3️⃣ Você responde</strong> Sim ou Não para questões sobre funcionamento</p>
-                <p><strong>4️⃣ Você recebe</strong> um relatório detalhado com pontuação</p>
-            </div>
-            <div class="welcome-buttons">
-                <button id="welcome-continue-btn" class="btn">➜ Continuar para Avaliação</button>
-            </div>
-            <div class="ethical-banner">
-                <strong>📋 Transparência Total</strong>
-                <p>Acreditamos em informação clara. Você verá exatamente o que vai responder e para quê antes de começar qualquer teste.</p>
-            </div>
-        </div>
-    </div>
+    <a class="skip-link" href="#main-content">Pular para o conteúdo</a>
+    <div class="ambient ambient-one" aria-hidden="true"></div>
+    <div class="ambient ambient-two" aria-hidden="true"></div>
 
-    <!-- SCREEN 2: HOME / CHOOSE TEST TYPE -->
-    <div id="home-screen" class="screen scrollable">
-        <div class="container">
-            <div class="logo-section">
-                <h2 style="margin-bottom: 0.5rem;">Qual Avaliação Deseja Fazer?</h2>
-                <p class="subtitle">Escolha a opção que corresponde à sua situação</p>
-            </div>
-            <div class="card-grid">
-                <div class="choice-card" id="card-infantil">
-                    <div class="choice-card-icon">👧</div>
-                    <h3>Avaliação Infantil</h3>
-                    <p>Para crianças de 0 a 17 anos, respondido por pais ou responsáveis legais com base em observações comportamentais.</p>
+    <main id="main-content">
+        <section id="welcome-screen" class="screen screen--center active" aria-hidden="false">
+            <div class="shell">
+                <div class="topbar">
+                    <div class="brand">
+                        <span class="brand-mark" aria-hidden="true">
+                            <svg viewBox="0 0 48 48" fill="none">
+                                <path d="M11 25c4-10 10-10 13-1 3 9 9 9 13-1" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+                                <path d="M11 23c4 10 10 10 13 1 3-9 9-9 13 1" stroke="currentColor" stroke-width="4" stroke-linecap="round" opacity=".72"/>
+                            </svg>
+                        </span>
+                        <span>NeuroTriagem<small>por Margareth Almeida</small></span>
+                    </div>
+                    <span class="privacy-pill">🔒 Respostas no seu dispositivo</span>
                 </div>
-                <div class="choice-card" id="card-adulto">
-                    <div class="choice-card-icon">👥</div>
-                    <h3>Avaliação Adulta</h3>
-                    <p>Autoaplicável para maiores de 18 anos. Reflexão estruturada sobre seu histórico e padrões atuais.</p>
-                </div>
-            </div>
-             <div class="ethical-banner">
-                <strong>⚠️ Declaração Importante</strong>
-                <p>Na próxima página você verá todos os detalhes dos termos e privacidade <span class="highlight">antes de fazer qualquer teste</span>.</p>
-            </div>
-        </div>
-    </div>
 
-    <!-- SCREEN 3: TERMS AND CONDITIONS -->
-    <div id="terms-screen" class="screen scrollable">
-        <div class="container">
-            <div class="terms-container">
-                <div class="terms-header">
-                    <h2>Termos de Uso e Consentimento Informado</h2>
-                    <p>Leia com atenção antes de prosseguir. Sua compreensão é importante.</p>
-                </div>
-                <div class="terms-content">
-                    <h3>1. Natureza da Ferramenta</h3>
-                    <p>A NeuroTriagem Pro é uma ferramenta de triagem e não de diagnóstico. Ela serve como um guia orientativo para identificar possíveis indicadores de condições do neurodesenvolvimento (Autismo e TDAH).</p>
-                    
-                    <h3>2. Privacidade e Segurança dos Dados (LGPD)</h3>
-                    <p>Sua privacidade é nossa prioridade. Todos os dados que você insere nesta avaliação são processados exclusivamente no seu dispositivo (navegador). Nenhuma informação pessoal ou resposta é enviada para servidores externos.</p>
-                    
-                    <h3>3. Responsabilidade do Usuário</h3>
-                    <p>Ao utilizar a NeuroTriagem Pro, você reconhece que:</p>
-                    <ul>
-                        <li>As respostas devem ser fornecidas de forma honesta.</li>
-                        <li>Os resultados são para fins informativos.</li>
-                        <li>É sua responsabilidade procurar um profissional de saúde qualificado para diagnóstico.</li>
-                    </ul>
-                </div>
-                <div class="checkbox-wrapper">
-                    <input type="checkbox" id="terms-checkbox">
-                    <label for="terms-checkbox">Li, compreendi e concordo com todos os Termos de Uso. Reconheço que esta ferramenta não é um diagnóstico.</label>
-                </div>
-                <div class="terms-buttons">
-                    <button id="terms-back-btn" class="btn btn-secondary">Voltar</button>
-                    <button id="terms-continue-btn" class="btn" disabled>Aceitar e Continuar</button>
+                <div class="hero">
+                    <div class="hero-copy">
+                        <div class="eyebrow">Mapa orientativo</div>
+                        <h1>Observe com cuidado. <em>Entenda o próximo passo.</em></h1>
+                        <p class="hero-lead">
+                            Um roteiro acolhedor para organizar o que você percebe sobre comunicação,
+                            interação, atenção e autorregulação — sem rótulos e sem diagnóstico online.
+                        </p>
+                        <div class="trust-row" aria-label="Informações rápidas">
+                            <span class="trust-chip">⏱ Cerca de 4 minutos</span>
+                            <span class="trust-chip">✓ Linguagem simples</span>
+                            <span class="trust-chip">♡ Feito para orientar</span>
+                        </div>
+                        <div class="actions">
+                            <button type="button" id="welcome-continue-btn" class="btn btn--terracotta btn--wide">
+                                Começar com calma <span aria-hidden="true">→</span>
+                            </button>
+                        </div>
+                        <p class="mini-disclaimer">
+                            Este é um organizador de observações. Não é instrumento diagnóstico nem substitui
+                            uma avaliação feita por profissionais qualificados.
+                        </p>
+                    </div>
+
+                    <div class="hero-visual" aria-hidden="true">
+                        <div class="visual-card">
+                            <svg viewBox="0 0 420 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="337" cy="91" r="52" fill="#FFF8F3" opacity=".72"/>
+                                <circle cx="93" cy="378" r="67" fill="#C88664" opacity=".22"/>
+                                <path d="M75 180C119 84 256 58 342 145C414 218 372 368 282 411C188 456 60 377 75 180Z" fill="#FFF8F3" opacity=".48"/>
+                                <path d="M115 338C131 268 173 228 224 228C275 228 318 271 330 341" stroke="#09274B" stroke-width="15" stroke-linecap="round"/>
+                                <circle cx="222" cy="173" r="62" fill="#B98B76"/>
+                                <path d="M163 165C169 104 251 80 292 132C270 119 245 114 221 119C195 125 176 143 163 165Z" fill="#09274B"/>
+                                <path d="M155 348C162 299 188 267 222 267C257 267 285 301 291 348" fill="#A64B2A"/>
+                                <path d="M108 327C116 284 139 255 170 255C190 255 207 267 219 287" stroke="#09274B" stroke-width="12" stroke-linecap="round"/>
+                                <circle cx="166" cy="212" r="46" fill="#DFA78A"/>
+                                <path d="M126 204C130 162 181 146 209 178C191 169 171 168 155 175C141 181 132 191 126 204Z" fill="#603B33"/>
+                                <path d="M127 343C132 308 148 286 169 286C191 286 208 309 211 343" fill="#C88664"/>
+                                <path d="M284 96C297 77 326 76 340 94C351 108 349 129 336 141L310 164L282 142C264 128 265 107 284 96Z" fill="#A64B2A" opacity=".9"/>
+                                <path d="M181 210C189 221 202 227 215 227" stroke="#09274B" stroke-width="5" stroke-linecap="round"/>
+                                <path d="M223 208C233 218 247 219 258 210" stroke="#09274B" stroke-width="5" stroke-linecap="round"/>
+                                <circle cx="179" cy="197" r="4" fill="#09274B"/>
+                                <circle cx="245" cy="193" r="4" fill="#09274B"/>
+                                <circle cx="154" cy="211" r="3.5" fill="#09274B"/>
+                                <circle cx="185" cy="208" r="3.5" fill="#09274B"/>
+                                <path d="M152 226C161 233 170 232 178 224" stroke="#09274B" stroke-width="4" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                        <div class="visual-note">
+                            <span>O foco é compreender</span>
+                            Comportamento comunica necessidades, contexto e formas diferentes de funcionar.
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
+        </section>
 
-    <!-- SCREEN 4: AGE SELECTION -->
-    <div id="age-selection-screen" class="screen scrollable">
-        <div class="container">
-            <div class="age-selection-content">
-                 <h2>Selecione a Faixa Etária</h2>
-                 <p class="subtitle">A escolha correta garante que as perguntas sejam adequadas.</p>
-                 <div class="age-buttons">
-                     <button class="age-btn" data-age="0-3">0 a 3 anos</button>
-                     <button class="age-btn" data-age="4-6">4 a 6 anos</button>
-                     <button class="age-btn" data-age="7-12">7 a 12 anos</button>
-                     <button class="age-btn" data-age="13-17">13 a 17 anos (Adolescente)</button>
-                     <button class="age-btn" data-age="18+">18+ (Adulto)</button>
-                 </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- SCREEN 5: INSTRUCTIONS -->
-    <div id="instructions-screen" class="screen scrollable">
-        <div class="container">
-             <div class="instructions-box">
-                <h2>Instruções para a Avaliação</h2>
-                <p>Para garantir que a triagem seja precisa, por favor, siga as orientações abaixo:</p>
-                <ul class="instructions-list">
-                    <li><strong>Ambiente Tranquilo:</strong> Escolha um local calmo.</li>
-                    <li><strong>Seja Honesto(a):</strong> Responda com base na verdade, não no ideal.</li>
-                    <li><strong>Respostas Simples:</strong> Todas as perguntas são respondidas com SIM ou NÃO.</li>
-                </ul>
-                <p>O teste avaliará indicadores de TEA (Transtorno do Espectro Autista) e TDAH.</p>
-                <button id="start-test-btn" class="btn">Iniciar Avaliação</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- SCREEN 6: TEST -->
-    <div id="test-screen" class="screen">
-        <div class="container">
-            <div class="progress-section">
-                 <div class="progress-text">
-                    <span>Progresso</span>
-                    <span id="progress-percentage">0%</span>
+        <section id="audience-screen" class="screen screen--center" aria-hidden="true">
+            <div class="shell shell--narrow">
+                <div class="topbar">
+                    <div class="brand">
+                        <span class="brand-mark" aria-hidden="true">∞</span>
+                        <span>NeuroTriagem<small>Mapa orientativo</small></span>
+                    </div>
                 </div>
-                <div class="progress-bar-container">
-                    <div class="progress-bar-fill" id="progress-bar"></div>
+
+                <div class="panel">
+                    <div class="panel-head">
+                        <div class="eyebrow">Primeiro passo</div>
+                        <h2 id="audience-title" tabindex="-1">Para quem você vai responder?</h2>
+                        <p>Isso ajusta a linguagem, as perguntas e a orientação final.</p>
+                    </div>
+                    <div class="panel-body">
+                        <div class="choice-grid">
+                            <button type="button" id="card-child" class="choice-card">
+                                <span class="choice-art" aria-hidden="true">
+                                    <svg viewBox="0 0 72 72" fill="none">
+                                        <circle cx="36" cy="29" r="15" fill="#D99B7C"/>
+                                        <path d="M19 63C20 49 27 42 36 42C45 42 52 49 53 63" fill="#A64B2A"/>
+                                        <path d="M22 27C23 15 33 10 42 14C48 17 51 23 51 29C45 24 38 21 31 22C27 23 24 25 22 27Z" fill="#09274B"/>
+                                        <circle cx="31" cy="29" r="1.8" fill="#09274B"/>
+                                        <circle cx="42" cy="29" r="1.8" fill="#09274B"/>
+                                        <path d="M31 35C34 38 39 38 42 35" stroke="#09274B" stroke-width="2" stroke-linecap="round"/>
+                                    </svg>
+                                </span>
+                                <h3>Criança ou adolescente</h3>
+                                <p>Respondido por mãe, pai ou responsável com base no que observa no cotidiano.</p>
+                            </button>
+
+                            <button type="button" id="card-adult" class="choice-card">
+                                <span class="choice-art" aria-hidden="true">
+                                    <svg viewBox="0 0 72 72" fill="none">
+                                        <circle cx="36" cy="27" r="15" fill="#B98B76"/>
+                                        <path d="M16 65C18 48 26 40 36 40C47 40 55 49 57 65" fill="#09274B"/>
+                                        <path d="M22 25C22 14 30 8 39 10C48 11 53 19 51 28C44 21 35 18 22 25Z" fill="#4B342F"/>
+                                        <circle cx="31" cy="28" r="1.8" fill="#09274B"/>
+                                        <circle cx="42" cy="28" r="1.8" fill="#09274B"/>
+                                        <path d="M31 34C34 37 39 37 42 34" stroke="#09274B" stroke-width="2" stroke-linecap="round"/>
+                                    </svg>
+                                </span>
+                                <h3>Adulto</h3>
+                                <p>Uma autorreflexão estruturada sobre padrões atuais e experiências ao longo da vida.</p>
+                            </button>
+                        </div>
+                        <div class="actions" style="margin-top:18px">
+                            <button type="button" class="btn btn--secondary" data-back="welcome-screen">← Voltar</button>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="module-badge" id="module-name">Avaliação Neurocognitiva</div>
-            <div class="question-container">
-                <h3 id="question-text">Carregando pergunta...</h3>
+        </section>
+
+        <section id="age-screen" class="screen screen--center" aria-hidden="true">
+            <div class="shell shell--narrow">
+                <div class="panel">
+                    <div class="panel-head">
+                        <div class="eyebrow">Faixa etária</div>
+                        <h2 id="age-title" tabindex="-1">Qual é a idade?</h2>
+                        <p>Escolha a faixa mais próxima. Alguns comportamentos dependem da idade e do contexto.</p>
+                    </div>
+                    <div class="panel-body">
+                        <div class="age-grid">
+                            <button type="button" class="age-btn" data-age="0-3">0 a 3 anos<span>Primeira infância</span></button>
+                            <button type="button" class="age-btn" data-age="4-6">4 a 6 anos<span>Educação infantil</span></button>
+                            <button type="button" class="age-btn" data-age="7-12">7 a 12 anos<span>Infância escolar</span></button>
+                            <button type="button" class="age-btn" data-age="13-17">13 a 17 anos<span>Adolescência</span></button>
+                        </div>
+                        <div class="actions" style="margin-top:18px">
+                            <button type="button" class="btn btn--secondary" data-back="audience-screen">← Voltar</button>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="answers-grid" id="answers-container">
-                <!-- Buttons injected by JS -->
+        </section>
+
+        <section id="guide-screen" class="screen screen--center" aria-hidden="true">
+            <div class="shell shell--narrow">
+                <div class="panel">
+                    <div class="panel-head">
+                        <div class="eyebrow">Antes de responder</div>
+                        <h2 id="guide-title" tabindex="-1">Observe o cotidiano, não um dia isolado.</h2>
+                        <p id="guide-audience-note">Pense em situações reais e no que acontece com frequência.</p>
+                    </div>
+                    <div class="panel-body">
+                        <div class="guide-grid">
+                            <div class="guide-item">
+                                <span class="guide-icon" aria-hidden="true">◷</span>
+                                <strong>Considere um período</strong>
+                                <p>Responda pelo padrão das últimas semanas ou meses.</p>
+                            </div>
+                            <div class="guide-item">
+                                <span class="guide-icon" aria-hidden="true">⌂</span>
+                                <strong>Compare contextos</strong>
+                                <p>Casa, escola, trabalho e situações sociais podem ser diferentes.</p>
+                            </div>
+                            <div class="guide-item">
+                                <span class="guide-icon" aria-hidden="true">♡</span>
+                                <strong>Sem resposta ideal</strong>
+                                <p>Marque o que acontece de verdade, sem culpa ou julgamento.</p>
+                            </div>
+                        </div>
+
+                        <div class="consent">
+                            <input type="checkbox" id="guide-consent">
+                            <label for="guide-consent">
+                                Entendi que este roteiro organiza observações, não usa pontuação clínica,
+                                não confirma nem descarta TEA, TDAH ou qualquer outra condição.
+                            </label>
+                        </div>
+
+                        <div class="actions">
+                            <button type="button" id="start-test-btn" class="btn btn--terracotta btn--wide" disabled>
+                                Iniciar roteiro <span aria-hidden="true">→</span>
+                            </button>
+                            <button type="button" id="guide-back-btn" class="btn btn--secondary">← Voltar</button>
+                        </div>
+
+                        <details class="source-note">
+                            <summary>Por que este roteiro não dá diagnóstico?</summary>
+                            <p>
+                                Questionários de rastreio precisam ser validados para uma idade e um contexto específicos.
+                                Mesmo instrumentos validados apenas indicam quando uma avaliação mais completa pode ser útil.
+                                <a href="https://www.gov.br/saude/pt-br/assuntos/saude-de-a-a-z/a/autismo/aps/aps" target="_blank" rel="noopener">Entenda o rastreio na Atenção Primária do SUS.</a>
+                            </p>
+                        </details>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
+        </section>
 
-     <!-- SCREEN 7: LOADING -->
-    <div id="loading-screen" class="screen">
-        <div class="loading-spinner"></div>
-        <div class="loading-text">
-            <h2>Processando seus resultados...</h2>
-            <p>Calculando scores de Autismo e TDAH.</p>
-        </div>
-    </div>
+        <section id="test-screen" class="screen screen--top" aria-hidden="true">
+            <div class="shell test-shell">
+                <div class="test-top">
+                    <div class="progress-meta">
+                        <span id="progress-label">Pergunta 1 de 15</span>
+                        <span id="progress-percentage">0% concluído</span>
+                    </div>
+                    <div class="progress-track" role="progressbar" aria-label="Progresso do roteiro" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                        <div class="progress-fill" id="progress-bar"></div>
+                    </div>
+                </div>
 
-    <!-- SCREEN 8: RESULTS -->
-    <div id="result-screen" class="screen scrollable">
-        <div class="container">
-            <div class="result-container">
-                 <span class="result-icon">📊</span>
-                 <h2 class="result-title">Relatório de Triagem</h2>
-                 <div class="result-feedback">
-                    <p id="result-intro-text">Abaixo está o resumo detalhado baseado em suas respostas.</p>
-                 </div>
-                
-                 <!-- Scores Container -->
-                 <div id="scores-container">
-                     <!-- Injected via JS -->
-                 </div>
+                <div class="question-stage">
+                    <div class="module-pill" id="module-name">● Comunicação e interação</div>
+                    <div class="question-card" aria-live="polite">
+                        <span class="question-number" id="question-number">Observação 01</span>
+                        <h2 id="question-text" tabindex="-1">Carregando pergunta...</h2>
+                    </div>
+                    <p class="answer-hint">Com que frequência isso acontece?</p>
+                    <div class="answers-grid" id="answers-container"></div>
+                </div>
 
-                 <!-- Recommendation Container -->
-                 <div id="recommendation-container" class="recommendation-box">
-                    <h4>Recomendação</h4>
-                    <p id="recommendation-text">...</p>
-                 </div>
-
-                 <div class="disclaimer">
-                     <p><strong>⚠️ Lembrete Importante: NÃO é um Diagnóstico</strong></p>
-                     <small>Este relatório é uma ferramenta de triagem. Somente um profissional de saúde pode fornecer um diagnóstico preciso.</small>
-                 </div>
-                 <div class="result-actions">
-                     <button id="download-pdf-btn" class="btn">Baixar Relatório (PDF)</button>
-                     <button id="restart-btn" class="btn btn-secondary">Nova Avaliação</button>
-                 </div>
+                <div class="test-nav">
+                    <button type="button" id="back-question-btn" class="back-question">← Pergunta anterior</button>
+                    <span class="test-helper">Você pode voltar e alterar uma resposta.</span>
+                </div>
             </div>
-        </div>
-    </div>
+        </section>
 
-<script>
-    // --- DATASETS (From React Source) ---
-    const ageGroups = {
-        '0-3': {
-            title: '0 a 3 anos',
-            questions: [
-                { id: 1, text: 'Faz contato visual sustentado durante mamadas ou brincadeiras?', concern: 'no', type: 'autismo' },
-                { id: 2, text: 'Sorri de volta quando você sorri para ele/ela?', concern: 'no', type: 'autismo' },
-                { id: 3, text: 'Responde virando a cabeça quando chama pelo nome?', concern: 'no', type: 'autismo' },
-                { id: 4, text: 'Aponta com o dedo para mostrar algo interessante (não apenas pedir)?', concern: 'no', type: 'autismo' },
-                { id: 5, text: 'Imita seus gestos (tchau, bater palmas, beijo)?', concern: 'no', type: 'autismo' },
-                { id: 6, text: 'Brinca de faz-de-conta (fingir falar no telefone, dar comida para boneca)?', concern: 'no', type: 'autismo' },
-                { id: 7, text: 'Perdeu alguma habilidade que já tinha (palavras, gestos, contato social)?', concern: 'yes', type: 'autismo' },
-                { id: 8, text: 'Faz movimentos repetitivos com mãos, dedos ou corpo sem propósito?', concern: 'yes', type: 'autismo' },
-                { id: 9, text: 'Fica extremamente irritado com sons, luzes ou texturas específicas?', concern: 'yes', type: 'autismo' },
-                { id: 10, text: 'Prefere ficar sozinho do que interagir com pessoas?', concern: 'yes', type: 'autismo' },
-                { id: 11, text: 'Está sempre em movimento extremo, não para nem para comer?', concern: 'yes', type: 'tdah' },
-                { id: 12, text: 'Corre ou escala em situações claramente perigosas sem perceber o risco?', concern: 'yes', type: 'tdah' },
-                { id: 13, text: 'Sofre acidentes frequentes por agir sem olhar ou pensar?', concern: 'yes', type: 'tdah' },
-                { id: 14, text: 'É impossível mantê-lo sentado mesmo por 2-3 minutos em atividades?', concern: 'yes', type: 'tdah' },
-                { id: 15, text: 'Age impulsivamente pegando, jogando ou destruindo coisas sem intenção?', concern: 'yes', type: 'tdah' }
-            ]
-        },
-        '4-6': {
-            title: '4 a 6 anos',
-            questions: [
-                { id: 1, text: 'Mantém conversas simples de ida e volta sobre temas do dia a dia?', concern: 'no', type: 'autismo' },
-                { id: 2, text: 'Percebe quando outras pessoas estão tristes ou machucadas e demonstra preocupação?', concern: 'no', type: 'autismo' },
-                { id: 3, text: 'Participa de brincadeiras de grupo com outras crianças (não apenas brincar perto)?', concern: 'no', type: 'autismo' },
-                { id: 4, text: 'Usa a linguagem de forma flexível e criativa (não apenas frases decoradas)?', concern: 'no', type: 'autismo' },
-                { id: 5, text: 'Entende piadas simples, metáforas ou linguagem não-literal?', concern: 'no', type: 'autismo' },
-                { id: 6, text: 'Tem rituais ou rotinas rígidas e entra em crise se mudadas?', concern: 'yes', type: 'autismo' },
-                { id: 7, text: 'Tem interesses obsessivos muito intensos e limitados (ex: só fala de dinossauros)?', concern: 'yes', type: 'autismo' },
-                { id: 8, text: 'Repete falas de desenhos ou pessoas de forma repetitiva e fora de contexto?', concern: 'yes', type: 'autismo' },
-                { id: 9, text: 'Interrompe constantemente conversas ou atividades dos outros?', concern: 'yes', type: 'tdah' },
-                { id: 10, text: 'Não consegue esperar sua vez em jogos ou filas?', concern: 'yes', type: 'tdah' },
-                { id: 11, text: 'Perde brinquedos, roupas, materiais constantemente?', concern: 'yes', type: 'tdah' },
-                { id: 12, text: 'Não segue instruções simples de 2-3 passos (parece não escutar)?', concern: 'yes', type: 'tdah' },
-                { id: 13, text: 'Muda rapidamente de uma atividade para outra sem completar nenhuma?', concern: 'yes', type: 'tdah' },
-                { id: 14, text: 'Fala excessivamente e sem pausar, sem permitir outros falarem?', concern: 'yes', type: 'tdah' },
-                { id: 15, text: 'Tem dificuldade extrema em brincar silenciosamente?', concern: 'yes', type: 'tdah' }
-            ]
-        },
-        '7-12': {
-            title: '7 a 12 anos',
-            questions: [
-                { id: 1, text: 'Consegue fazer e manter amizades duradouras com colegas?', concern: 'no', type: 'autismo' },
-                { id: 2, text: 'Entende regras sociais não escritas (espaço pessoal, tom de voz adequado)?', concern: 'no', type: 'autismo' },
-                { id: 3, text: 'Adapta sua comunicação conforme a situação (formal vs informal)?', concern: 'no', type: 'autismo' },
-                { id: 4, text: 'Identifica sarcasmo, ironia ou duplo sentido em conversas?', concern: 'no', type: 'autismo' },
-                { id: 5, text: 'Demonstra empatia e compreende perspectivas diferentes da sua?', concern: 'no', type: 'autismo' },
-                { id: 6, text: 'Evita contato físico (abraços, apertos de mão) de forma consistente?', concern: 'yes', type: 'autismo' },
-                { id: 7, text: 'Tem dificuldade significativa com mudanças inesperadas na rotina escolar?', concern: 'yes', type: 'autismo' },
-                { id: 8, text: 'Interpreta tudo literalmente, perdendo o significado figurado?', concern: 'yes', type: 'autismo' },
-                { id: 9, text: 'Comete erros por descuido em trabalhos escolares mesmo sabendo o conteúdo?', concern: 'yes', type: 'tdah' },
-                { id: 10, text: 'Evita ou posterga tarefas que exigem esforço mental sustentado?', concern: 'yes', type: 'tdah' },
-                { id: 11, text: 'Esquece atividades diárias (lição de casa, recados, compromissos)?', concern: 'yes', type: 'tdah' },
-                { id: 12, text: 'Distrai-se facilmente durante aulas ou conversas?', concern: 'yes', type: 'tdah' },
-                { id: 13, text: 'Mexe constantemente mãos/pés ou se remexe na cadeira?', concern: 'yes', type: 'tdah' },
-                { id: 14, text: 'Responde antes da pergunta ser completada?', concern: 'yes', type: 'tdah' },
-                { id: 15, text: 'Tem dificuldade em organizar tarefas e materiais escolares?', concern: 'yes', type: 'tdah' }
-            ]
-        },
-        '13-17': {
-            title: '13 a 17 anos (Adolescente)',
-            questions: [
-                { id: 1, text: 'Navega relacionamentos complexos e conflitos sociais adequadamente?', concern: 'no', type: 'autismo' },
-                { id: 2, text: 'Compreende e usa gírias, memes e linguagem cultural da sua idade?', concern: 'no', type: 'autismo' },
-                { id: 3, text: 'Lê nas entrelinhas em textos, conversas e situações sociais?', concern: 'no', type: 'autismo' },
-                { id: 4, text: 'Ajusta comportamento conforme contexto social (escola, casa, festas)?', concern: 'no', type: 'autismo' },
-                { id: 5, text: 'Demonstra interesse apropriado em relacionamentos românticos?', concern: 'no', type: 'autismo' },
-                { id: 6, text: 'Isola-se socialmente por escolha, evitando interações com pares?', concern: 'yes', type: 'autismo' },
-                { id: 7, text: 'Tem dificuldade extrema com transições (mudança de escola, rotina)?', concern: 'yes', type: 'autismo' },
-                { id: 8, text: 'Mantém interesses restritos que interferem no funcionamento social?', concern: 'yes', type: 'autismo' },
-                { id: 9, text: 'Tem dificuldade em planejar e executar projetos de longo prazo?', concern: 'yes', type: 'tdah' },
-                { id: 10, text: 'Procrastina cronicamente mesmo com consequências sérias?', concern: 'yes', type: 'tdah' },
-                { id: 11, text: 'Toma decisões impulsivas que causam problemas (gastos, relacionamentos)?', concern: 'yes', type: 'tdah' },
-                { id: 12, text: 'Subestima tempo necessário para tarefas consistentemente?', concern: 'yes', type: 'tdah' },
-                { id: 13, text: 'Tem dificuldade em manter atenção em aulas ou ao estudar sozinho?', concern: 'yes', type: 'tdah' },
-                { id: 14, text: 'Sente inquietação interna constante (mente sempre acelerada)?', concern: 'yes', type: 'tdah' },
-                { id: 15, text: 'Interrompe ou domina conversas sem perceber?', concern: 'yes', type: 'tdah' }
-            ]
-        },
-        '18+': {
-            title: '18+ (Adulto)',
-            questions: [
-                { id: 1, text: 'Mantém emprego estável e relações profissionais adequadas?', concern: 'no', type: 'autismo' },
-                { id: 2, text: 'Gerencia conflitos interpessoais de forma efetiva?', concern: 'no', type: 'autismo' },
-                { id: 3, text: 'Adapta-se a mudanças no ambiente de trabalho ou pessoal?', concern: 'no', type: 'autismo' },
-                { id: 4, text: 'Compreende política corporativa e dinâmicas sociais complexas?', concern: 'no', type: 'autismo' },
-                { id: 5, text: 'Mantém relacionamentos íntimos e de amizade satisfatórios?', concern: 'no', type: 'autismo' },
-                { id: 6, text: 'Prefere rotinas extremamente rígidas e sente ansiedade com imprevistos?', concern: 'yes', type: 'autismo' },
-                { id: 7, text: 'Tem dificuldade em "ler a sala" e entender dinâmicas de grupo?', concern: 'yes', type: 'autismo' },
-                { id: 8, text: 'Sente exaustão extrema após interações sociais?', concern: 'yes', type: 'autismo' },
-                { id: 9, text: 'Tem histórico de subdesempenho profissional apesar de capacidade?', concern: 'yes', type: 'tdah' },
-                { id: 10, text: 'Problemas crônicos com pontualidade e cumprimento de prazos?', concern: 'yes', type: 'tdah' },
-                { id: 11, text: 'Inicia múltiplos projetos mas raramente os completa?', concern: 'yes', type: 'tdah' },
-                { id: 12, text: 'Relacionamentos prejudicados por esquecimentos ou impulsividade?', concern: 'yes', type: 'tdah' },
-                { id: 13, text: 'Dificuldade em gerenciar finanças (contas, orçamento)?', concern: 'yes', type: 'tdah' },
-                { id: 14, text: 'Busca constantemente estimulação ou novidade?', concern: 'yes', type: 'tdah' },
-                { id: 15, text: 'Sente que não atinge seu potencial apesar de esforço?', concern: 'yes', type: 'tdah' }
-            ]
-        }
-    };
+        <section id="loading-screen" class="screen screen--center" aria-hidden="true">
+            <div class="loading-card" role="status" aria-live="polite">
+                <div class="loading-orbit" aria-hidden="true"></div>
+                <h2>Organizando suas observações</h2>
+                <p>Sem rótulos. Apenas um resumo claro para ajudar na conversa com um profissional.</p>
+            </div>
+        </section>
 
-    document.addEventListener('DOMContentLoaded', () => {
-        const { jsPDF } = window.jspdf;
+        <section id="result-screen" class="screen screen--top" aria-hidden="true">
+            <div class="shell shell--narrow">
+                <div class="topbar">
+                    <div class="brand">
+                        <span class="brand-mark" aria-hidden="true">∞</span>
+                        <span>NeuroTriagem<small>Seu mapa de observações</small></span>
+                    </div>
+                </div>
 
-        // State
-        let state = {
-            currentScreen: 'welcome-screen',
-            selectedAge: null,
-            currentQuestionIndex: 0,
-            answers: {},
-            totalQuestions: 0
-        };
+                <div class="result-hero">
+                    <div class="result-hero-icon" aria-hidden="true">🧭</div>
+                    <div>
+                        <h2 id="result-title" tabindex="-1">Seu mapa está pronto</h2>
+                        <p id="result-meta">Resumo orientativo das respostas.</p>
+                    </div>
+                </div>
 
-        // Selectors
-        const els = {
-            screens: document.querySelectorAll('.screen'),
-            btns: {
-                welcomeContinue: document.getElementById('welcome-continue-btn'),
-                cardInfantil: document.getElementById('card-infantil'),
-                cardAdulto: document.getElementById('card-adulto'),
-                termsBack: document.getElementById('terms-back-btn'),
-                termsContinue: document.getElementById('terms-continue-btn'),
-                startTest: document.getElementById('start-test-btn'),
-                downloadPdf: document.getElementById('download-pdf-btn'),
-                restart: document.getElementById('restart-btn')
+                <div class="result-summary">
+                    <strong>O que este preenchimento mostra</strong>
+                    <p id="result-summary-text"></p>
+                </div>
+
+                <div class="domain-grid" id="domain-results"></div>
+
+                <div class="next-steps">
+                    <h3>Próximos passos possíveis</h3>
+                    <ol class="step-list" id="next-steps-list"></ol>
+                    <div id="attention-note" class="attention-note"></div>
+                </div>
+
+                <div class="result-disclaimer">
+                    Este material não é instrumento clínico validado e não oferece diagnóstico.
+                    Uma resposta isolada não define nenhuma condição. História de vida, duração,
+                    intensidade, impacto funcional, diferentes contextos e outras possíveis causas
+                    precisam ser avaliados por profissionais qualificados.
+                </div>
+
+                <div class="actions result-actions">
+                    <button type="button" id="download-pdf-btn" class="btn btn--terracotta">Baixar meu resumo em PDF</button>
+                    <button type="button" id="restart-btn" class="btn btn--secondary">Refazer roteiro</button>
+                </div>
+
+                <div class="signature">
+                    Margareth Almeida
+                    <span>Neuropsicopedagoga · orientação com ciência e afeto</span>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <noscript>
+        <p class="no-script">Ative o JavaScript do navegador para usar este roteiro.</p>
+    </noscript>
+
+    <script>
+        const ageGroups = {
+            "0-3": {
+                title: "0 a 3 anos",
+                questions: [
+                    { id: 1, text: "Busca o rosto do cuidador e compartilha atenção durante alimentação ou brincadeiras?", concern: "no", type: "social" },
+                    { id: 2, text: "Sorri de volta ou reage quando alguém sorri e interage com ela?", concern: "no", type: "social" },
+                    { id: 3, text: "Costuma reagir quando é chamada pelo nome, considerando audição e contexto?", concern: "no", type: "social" },
+                    { id: 4, text: "Quando já tem idade para isso, aponta ou mostra objetos para compartilhar interesse?", concern: "no", type: "social" },
+                    { id: 5, text: "Imita gestos simples, como dar tchau, bater palmas ou mandar beijo?", concern: "no", type: "social" },
+                    { id: 6, text: "Quando já tem idade para isso, participa de brincadeiras simples de faz de conta?", concern: "no", type: "social" },
+                    { id: 7, text: "Perdeu palavras, gestos, brincadeiras ou habilidades sociais que já usava?", concern: "yes", type: "social", urgent: true },
+                    { id: 8, text: "Repete movimentos de forma intensa e isso dificulta brincar, explorar ou participar?", concern: "yes", type: "social" },
+                    { id: 9, text: "Reage de forma muito intensa a sons, luzes, texturas, cheiros ou movimentos?", concern: "yes", type: "social" },
+                    { id: 10, text: "Mostra pouco interesse em interagir, mesmo durante atividades de que costuma gostar?", concern: "yes", type: "social" },
+                    { id: 11, text: "Tem muita dificuldade para desacelerar mesmo em momentos de cuidado, alimentação ou sono?", concern: "yes", type: "attention" },
+                    { id: 12, text: "Corre, escala ou se lança em situações perigosas com frequência?", concern: "yes", type: "attention" },
+                    { id: 13, text: "Sofre acidentes frequentes por agir antes de perceber o risco?", concern: "yes", type: "attention" },
+                    { id: 14, text: "Tem dificuldade muito acima do esperado para permanecer em uma atividade breve e adequada à idade?", concern: "yes", type: "attention" },
+                    { id: 15, text: "Pega, joga ou derruba objetos de forma impulsiva e isso interfere bastante na rotina?", concern: "yes", type: "attention" }
+                ]
             },
-            termsCheckbox: document.getElementById('terms-checkbox'),
-            ageButtons: document.querySelectorAll('.age-btn'),
-            questionText: document.getElementById('question-text'),
-            answersContainer: document.getElementById('answers-container'),
-            progressBar: document.getElementById('progress-bar'),
-            progressText: document.getElementById('progress-percentage'),
-            moduleName: document.getElementById('module-name'),
-            resultElements: {
-                scores: document.getElementById('scores-container'),
-                recommendation: document.getElementById('recommendation-container'),
-                recommendationText: document.getElementById('recommendation-text')
+            "4-6": {
+                title: "4 a 6 anos",
+                questions: [
+                    { id: 1, text: "Mantém conversas simples de ida e volta sobre situações do dia a dia?", concern: "no", type: "social" },
+                    { id: 2, text: "Percebe quando alguém está triste ou machucado e reage de alguma forma?", concern: "no", type: "social" },
+                    { id: 3, text: "Participa de brincadeiras compartilhadas com outras crianças, com trocas e turnos?", concern: "no", type: "social" },
+                    { id: 4, text: "Usa a linguagem de formas variadas, além de repetir frases ou roteiros conhecidos?", concern: "no", type: "social" },
+                    { id: 5, text: "Percebe brincadeiras simples e sentidos além do literal quando são adequados à idade?", concern: "no", type: "social" },
+                    { id: 6, text: "Mudanças pequenas na rotina costumam provocar sofrimento intenso e difícil de regular?", concern: "yes", type: "social" },
+                    { id: 7, text: "Alguns interesses ficam tão intensos que limitam outras brincadeiras e aprendizagens?", concern: "yes", type: "social" },
+                    { id: 8, text: "Repete falas de desenhos ou pessoas com frequência e isso dificulta a comunicação funcional?", concern: "yes", type: "social" },
+                    { id: 9, text: "Interrompe conversas ou atividades dos outros de modo muito frequente?", concern: "yes", type: "attention" },
+                    { id: 10, text: "Tem muita dificuldade para esperar sua vez em jogos, conversas ou filas?", concern: "yes", type: "attention" },
+                    { id: 11, text: "Perde brinquedos, roupas ou materiais com frequência muito acima do esperado para a idade?", concern: "yes", type: "attention" },
+                    { id: 12, text: "Tem dificuldade frequente para seguir instruções curtas, mesmo quando compreende o que foi pedido?", concern: "yes", type: "attention" },
+                    { id: 13, text: "Muda rapidamente de atividade e raramente conclui propostas breves?", concern: "yes", type: "attention" },
+                    { id: 14, text: "Fala tanto ou tão rápido que costuma impedir a participação de outras pessoas?", concern: "yes", type: "attention" },
+                    { id: 15, text: "Tem muita dificuldade para brincar ou participar de atividades mais tranquilas?", concern: "yes", type: "attention" }
+                ]
+            },
+            "7-12": {
+                title: "7 a 12 anos",
+                questions: [
+                    { id: 1, text: "Consegue iniciar e manter amizades de acordo com seus interesses e possibilidades?", concern: "no", type: "social" },
+                    { id: 2, text: "Percebe regras sociais como espaço pessoal, tom de voz e momento de falar?", concern: "no", type: "social" },
+                    { id: 3, text: "Ajusta a forma de se comunicar conforme a pessoa e a situação?", concern: "no", type: "social" },
+                    { id: 4, text: "Compreende ironia, duplo sentido ou pistas implícitas adequadas à idade?", concern: "no", type: "social" },
+                    { id: 5, text: "Percebe sinais de desconforto dos colegas e consegue ajustar sua ação com orientação?", concern: "no", type: "social" },
+                    { id: 6, text: "Sensibilidades ao toque ou proximidade física limitam cuidados ou convivência?", concern: "yes", type: "social" },
+                    { id: 7, text: "Mudanças inesperadas na rotina escolar provocam sofrimento intenso?", concern: "yes", type: "social" },
+                    { id: 8, text: "Interpreta falas de forma muito literal e isso gera conflitos ou confusão frequente?", concern: "yes", type: "social" },
+                    { id: 9, text: "Comete erros por descuido mesmo quando conhece bem o conteúdo?", concern: "yes", type: "attention" },
+                    { id: 10, text: "Evita ou adia tarefas que exigem atenção por mais tempo?", concern: "yes", type: "attention" },
+                    { id: 11, text: "Esquece tarefas, recados ou compromissos com frequência?", concern: "yes", type: "attention" },
+                    { id: 12, text: "Distrai-se facilmente durante aulas, conversas ou atividades importantes?", concern: "yes", type: "attention" },
+                    { id: 13, text: "Mexe mãos, pés ou o corpo de modo que dificulta sua participação?", concern: "yes", type: "attention" },
+                    { id: 14, text: "Responde antes de ouvir a pergunta completa com muita frequência?", concern: "yes", type: "attention" },
+                    { id: 15, text: "Tem dificuldade persistente para organizar tarefas e materiais escolares?", concern: "yes", type: "attention" }
+                ]
+            },
+            "13-17": {
+                title: "13 a 17 anos",
+                questions: [
+                    { id: 1, text: "Consegue lidar com conflitos e mudanças nas relações com colegas?", concern: "no", type: "social" },
+                    { id: 2, text: "Compreende gírias, memes e códigos sociais comuns entre pessoas da sua idade?", concern: "no", type: "social" },
+                    { id: 3, text: "Percebe mensagens implícitas e pistas sociais em conversas e textos?", concern: "no", type: "social" },
+                    { id: 4, text: "Ajusta sua comunicação entre escola, casa, grupos e situações formais?", concern: "no", type: "social" },
+                    { id: 5, text: "Percebe limites, intenções e sinais de desconforto nas interações?", concern: "no", type: "social" },
+                    { id: 6, text: "Evita interações e isso traz sofrimento, solidão ou limita sua participação?", concern: "yes", type: "social" },
+                    { id: 7, text: "Transições e mudanças importantes provocam sofrimento muito intenso?", concern: "yes", type: "social" },
+                    { id: 8, text: "Interesses muito específicos ocupam tanto espaço que prejudicam outras áreas da vida?", concern: "yes", type: "social" },
+                    { id: 9, text: "Tem dificuldade persistente para planejar e executar trabalhos de longo prazo?", concern: "yes", type: "attention" },
+                    { id: 10, text: "Adia tarefas repetidamente mesmo quando isso traz consequências importantes?", concern: "yes", type: "attention" },
+                    { id: 11, text: "Age por impulso e depois percebe prejuízos em decisões ou relações?", concern: "yes", type: "attention" },
+                    { id: 12, text: "Subestima o tempo necessário e se atrasa com frequência?", concern: "yes", type: "attention" },
+                    { id: 13, text: "Tem dificuldade frequente para sustentar atenção em aulas ou estudos?", concern: "yes", type: "attention" },
+                    { id: 14, text: "Sente inquietação constante, inclusive quando o corpo parece parado?", concern: "yes", type: "attention" },
+                    { id: 15, text: "Interrompe ou domina conversas e percebe isso apenas depois?", concern: "yes", type: "attention" }
+                ]
+            },
+            "18+": {
+                title: "18 anos ou mais",
+                questions: [
+                    { id: 1, text: "Compreende e maneja regras sociais de diferentes contextos sem desgaste excessivo?", concern: "no", type: "social" },
+                    { id: 2, text: "Consegue conversar sobre conflitos e expressar suas necessidades nas relações?", concern: "no", type: "social" },
+                    { id: 3, text: "Adapta-se a mudanças no trabalho, estudo ou vida pessoal sem sofrimento desproporcional?", concern: "no", type: "social" },
+                    { id: 4, text: "Percebe tons, intenções e dinâmicas de grupo com relativa facilidade?", concern: "no", type: "social" },
+                    { id: 5, text: "Consegue manter relações satisfatórias quando deseja e encontra oportunidade?", concern: "no", type: "social" },
+                    { id: 6, text: "Precisa de rotinas muito rígidas e sente sofrimento intenso diante de imprevistos?", concern: "yes", type: "social" },
+                    { id: 7, text: "Tem dificuldade frequente para perceber o clima de um grupo ou o momento de falar?", concern: "yes", type: "social" },
+                    { id: 8, text: "Sente exaustão intensa após interações sociais, mesmo quando foram positivas?", concern: "yes", type: "social" },
+                    { id: 9, text: "Percebe um histórico de desempenho abaixo de sua capacidade por dificuldade de organização ou atenção?", concern: "yes", type: "attention" },
+                    { id: 10, text: "Tem problemas persistentes com pontualidade e cumprimento de prazos?", concern: "yes", type: "attention" },
+                    { id: 11, text: "Inicia vários projetos, mas encontra grande dificuldade para concluí-los?", concern: "yes", type: "attention" },
+                    { id: 12, text: "Esquecimentos ou impulsividade prejudicam relações importantes?", concern: "yes", type: "attention" },
+                    { id: 13, text: "Tem dificuldade persistente para organizar contas, orçamento ou compromissos?", concern: "yes", type: "attention" },
+                    { id: 14, text: "Busca estímulo ou novidade de forma que atrapalha tarefas e escolhas importantes?", concern: "yes", type: "attention" },
+                    { id: 15, text: "Sente que o esforço necessário para organizar a rotina é muito maior do que parece para outras pessoas?", concern: "yes", type: "attention" }
+                ]
             }
         };
 
-        // --- Logic Functions ---
+        const responseOptions = [
+            { value: "yes", label: "Sim, com frequência", icon: "✓" },
+            { value: "sometimes", label: "Às vezes", icon: "≈" },
+            { value: "no", label: "Não ou quase nunca", icon: "–" },
+            { value: "unsure", label: "Não sei avaliar", icon: "?" }
+        ];
 
-        const showScreen = (screenId) => {
-            els.screens.forEach(s => s.classList.remove('active'));
-            const active = document.getElementById(screenId);
-            if(active) {
-                active.classList.add('active');
-                active.scrollTop = 0;
+        const domainInfo = {
+            social: {
+                title: "Comunicação, interação e flexibilidade",
+                short: "Comunicação e interação",
+                icon: "●"
+            },
+            attention: {
+                title: "Atenção, organização e autorregulação",
+                short: "Atenção e autorregulação",
+                icon: "◆"
             }
         };
 
-        const updateProgress = () => {
-            const pct = (state.currentQuestionIndex / state.totalQuestions) * 100;
-            els.progressBar.style.width = `${pct}%`;
-            els.progressText.textContent = `${Math.round(pct)}%`;
-        };
-
-        const renderQuestion = () => {
-            const group = ageGroups[state.selectedAge];
-            const q = group.questions[state.currentQuestionIndex];
-            
-            els.questionText.textContent = q.text;
-            
-            // Define Module Title based on question type (Visual flair)
-            els.moduleName.textContent = q.type === 'autismo' 
-                ? 'Módulo: Interação Social e Comunicação' 
-                : 'Módulo: Atenção e Hiperatividade';
-                
-            els.moduleName.style.background = q.type === 'autismo'
-                ? 'linear-gradient(135deg, #a78bfa 0%, #5b9edb 100%)' // Roxo/Azul
-                : 'linear-gradient(135deg, #fcd34d 0%, #f97316 100%)'; // Amarelo/Laranja
-
-            // Create Buttons dynamically
-            els.answersContainer.innerHTML = '';
-            
-            const btnYes = document.createElement('button');
-            btnYes.className = 'answer-option yes';
-            btnYes.innerHTML = '<strong>SIM</strong>';
-            btnYes.onclick = () => handleAnswer(q.id, 'yes');
-            
-            const btnNo = document.createElement('button');
-            btnNo.className = 'answer-option no';
-            btnNo.innerHTML = '<strong>NÃO</strong>';
-            btnNo.onclick = () => handleAnswer(q.id, 'no');
-
-            els.answersContainer.appendChild(btnYes);
-            els.answersContainer.appendChild(btnNo);
-        };
-
-        const handleAnswer = (qid, value) => {
-            state.answers[qid] = value;
-            state.currentQuestionIndex++;
-
-            if (state.currentQuestionIndex >= state.totalQuestions) {
-                finishTest();
-            } else {
-                updateProgress();
-                renderQuestion();
-            }
-        };
-
-        const calculateScore = () => {
-            const group = ageGroups[state.selectedAge];
-            let autismScore = 0;
-            let tdahScore = 0;
-
-            group.questions.forEach(q => {
-                const ans = state.answers[q.id];
-                // Logic from React component: match concern type
-                if ((q.concern === 'yes' && ans === 'yes') || (q.concern === 'no' && ans === 'no')) {
-                    if (q.type === 'autismo') autismScore++;
-                    if (q.type === 'tdah') tdahScore++;
-                }
-            });
-
-            return { autismScore, tdahScore };
-        };
-
-        const getResultMessage = (score, type) => {
-            // Logic mirrored from React component
-            if (type === 'autismo') {
-                if (score >= 5) return { level: 'alto', text: 'ALERTA ALTO - Avaliação especializada URGENTE recomendada', colorClass: 'text-red-600' };
-                if (score >= 3) return { level: 'médio', text: 'ALERTA MODERADO - Consulta com especialista recomendada', colorClass: 'text-orange-600' };
-                if (score >= 1) return { level: 'baixo', text: 'Sinais leves - Monitorar e discutir com médico', colorClass: 'text-yellow-600' };
-                return { level: 'normal', text: 'Sem sinais significativos neste momento', colorClass: 'text-green-600' };
-            } else { // tdah
-                if (score >= 6) return { level: 'alto', text: 'ALERTA ALTO - Avaliação especializada URGENTE recomendada', colorClass: 'text-red-600' };
-                if (score >= 4) return { level: 'médio', text: 'ALERTA MODERADO - Consulta com especialista recomendada', colorClass: 'text-orange-600' };
-                if (score >= 2) return { level: 'baixo', text: 'Sinais leves - Monitorar e discutir com médico', colorClass: 'text-yellow-600' };
-                return { level: 'normal', text: 'Sem sinais significativos neste momento', colorClass: 'text-green-600' };
-            }
-        };
-
-        const finishTest = () => {
-            showScreen('loading-screen');
-            
-            setTimeout(() => {
-                const results = calculateScore();
-                const autismInfo = getResultMessage(results.autismScore, 'autismo');
-                const tdahInfo = getResultMessage(results.tdahScore, 'tdah');
-                
-                // Build Result HTML
-                els.resultElements.scores.innerHTML = `
-                    <div class="result-report">
-                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5rem;">
-                            <h4>Autismo (TEA)</h4>
-                            <span class="${autismInfo.colorClass}" style="font-size:1.1rem;">${results.autismScore}/8 Sinais</span>
-                        </div>
-                        <p class="${autismInfo.colorClass}">${autismInfo.text}</p>
-                    </div>
-
-                    <div class="result-report" style="margin-top:1rem;">
-                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5rem;">
-                            <h4>TDAH</h4>
-                            <span class="${tdahInfo.colorClass}" style="font-size:1.1rem;">${results.tdahScore}/7 Sinais</span>
-                        </div>
-                        <p class="${tdahInfo.colorClass}">${tdahInfo.text}</p>
-                    </div>
-                `;
-
-                // Recommendation Logic
-                const isHighRisk = (results.autismScore >= 3 || results.tdahScore >= 4);
-                
-                if (isHighRisk) {
-                    els.resultElements.recommendation.className = 'recommendation-box alert';
-                    els.resultElements.recommendation.innerHTML = `
-                        <h4>🚨 AÇÃO NECESSÁRIA</h4>
-                        <ul style="margin-left: 1.2rem; color: #dc2626;">
-                            <li>Procurar neuropediatra, psiquiatra ou neuropsicólogo.</li>
-                            <li>Avaliação multidisciplinar é recomendada.</li>
-                            <li>Intervenção precoce é fundamental para o prognóstico.</li>
-                        </ul>
-                    `;
-                } else {
-                    els.resultElements.recommendation.className = 'recommendation-box';
-                    els.resultElements.recommendation.innerHTML = `
-                        <h4>Recomendação</h4>
-                        <p>Continue monitorando. Se tiver dúvidas persistentes, consulte um pediatra ou clínico geral para orientação.</p>
-                    `;
-                }
-
-                showScreen('result-screen');
-            }, 2000);
-        };
-
-        // --- Event Binding ---
-
-        els.btns.welcomeContinue.addEventListener('click', () => showScreen('home-screen'));
-        
-        // Navigation Logic
-        const goToTerms = () => showScreen('terms-screen');
-        els.btns.cardInfantil.addEventListener('click', goToTerms);
-        els.btns.cardAdulto.addEventListener('click', goToTerms);
-        
-        els.btns.termsBack.addEventListener('click', () => showScreen('home-screen'));
-        
-        els.termsCheckbox.addEventListener('change', (e) => {
-            els.btns.termsContinue.disabled = !e.target.checked;
-        });
-        
-        els.btns.termsContinue.addEventListener('click', () => {
-            if (els.termsCheckbox.checked) showScreen('age-selection-screen');
-        });
-
-        // Age Selection
-        els.ageButtons.forEach(btn => {
-            btn.addEventListener('click', () => {
-                state.selectedAge = btn.dataset.age;
-                state.totalQuestions = ageGroups[state.selectedAge].questions.length;
-                showScreen('instructions-screen');
-            });
-        });
-
-        // Start Test
-        els.btns.startTest.addEventListener('click', () => {
-            state.currentQuestionIndex = 0;
-            state.answers = {};
-            updateProgress();
-            renderQuestion();
-            showScreen('test-screen');
-        });
-
-        // Restart
-        els.btns.restart.addEventListener('click', () => {
-            state = {
-                currentScreen: 'welcome-screen',
+        document.addEventListener("DOMContentLoaded", () => {
+            const state = {
+                selectedAudience: null,
                 selectedAge: null,
                 currentQuestionIndex: 0,
                 answers: {},
-                totalQuestions: 0
+                answerLocked: false
             };
-            els.termsCheckbox.checked = false;
-            els.btns.termsContinue.disabled = true;
-            showScreen('welcome-screen');
+
+            const els = {
+                screens: [...document.querySelectorAll(".screen")],
+                welcomeContinue: document.getElementById("welcome-continue-btn"),
+                cardChild: document.getElementById("card-child"),
+                cardAdult: document.getElementById("card-adult"),
+                ageButtons: [...document.querySelectorAll(".age-btn")],
+                guideConsent: document.getElementById("guide-consent"),
+                startTest: document.getElementById("start-test-btn"),
+                guideBack: document.getElementById("guide-back-btn"),
+                guideAudienceNote: document.getElementById("guide-audience-note"),
+                questionText: document.getElementById("question-text"),
+                questionNumber: document.getElementById("question-number"),
+                answersContainer: document.getElementById("answers-container"),
+                moduleName: document.getElementById("module-name"),
+                progressLabel: document.getElementById("progress-label"),
+                progressPercentage: document.getElementById("progress-percentage"),
+                progressBar: document.getElementById("progress-bar"),
+                progressTrack: document.querySelector(".progress-track"),
+                backQuestion: document.getElementById("back-question-btn"),
+                resultMeta: document.getElementById("result-meta"),
+                resultSummary: document.getElementById("result-summary-text"),
+                domainResults: document.getElementById("domain-results"),
+                nextSteps: document.getElementById("next-steps-list"),
+                attentionNote: document.getElementById("attention-note"),
+                downloadPdf: document.getElementById("download-pdf-btn"),
+                restart: document.getElementById("restart-btn")
+            };
+
+            const showScreen = (screenId) => {
+                els.screens.forEach((screen) => {
+                    const isActive = screen.id === screenId;
+                    screen.classList.toggle("active", isActive);
+                    screen.setAttribute("aria-hidden", String(!isActive));
+                });
+
+                window.scrollTo({ top: 0, behavior: "auto" });
+                const active = document.getElementById(screenId);
+                const heading = active?.querySelector("h1, h2[tabindex='-1']");
+                window.setTimeout(() => heading?.focus({ preventScroll: true }), 60);
+            };
+
+            const resetGuideConsent = () => {
+                els.guideConsent.checked = false;
+                els.startTest.disabled = true;
+            };
+
+            const openGuide = () => {
+                resetGuideConsent();
+                els.guideAudienceNote.textContent = state.selectedAudience === "adult"
+                    ? "Pense nos últimos seis meses e também em padrões que acompanham sua história."
+                    : "Pense nas últimas semanas ou meses e considere o que é esperado para a idade.";
+                showScreen("guide-screen");
+            };
+
+            const getQuestions = () => ageGroups[state.selectedAge].questions;
+
+            const updateProgress = () => {
+                const total = getQuestions().length;
+                const completed = state.currentQuestionIndex;
+                const percent = Math.round((completed / total) * 100);
+
+                els.progressLabel.textContent = `Pergunta ${state.currentQuestionIndex + 1} de ${total}`;
+                els.progressPercentage.textContent = `${percent}% concluído`;
+                els.progressBar.style.width = `${percent}%`;
+                els.progressTrack.setAttribute("aria-valuenow", String(percent));
+            };
+
+            const renderQuestion = () => {
+                const question = getQuestions()[state.currentQuestionIndex];
+                const domain = domainInfo[question.type];
+                const priorAnswer = state.answers[question.id];
+
+                updateProgress();
+                els.moduleName.textContent = `${domain.icon} ${domain.short}`;
+                els.questionNumber.textContent = `Observação ${String(state.currentQuestionIndex + 1).padStart(2, "0")}`;
+                els.questionText.textContent = question.text;
+                els.backQuestion.disabled = state.currentQuestionIndex === 0;
+                els.backQuestion.style.opacity = state.currentQuestionIndex === 0 ? "0.35" : "1";
+                els.answersContainer.innerHTML = "";
+
+                responseOptions.forEach((option) => {
+                    const button = document.createElement("button");
+                    button.type = "button";
+                    button.className = "answer-option";
+                    button.dataset.value = option.value;
+                    button.setAttribute("aria-pressed", String(priorAnswer === option.value));
+                    if (priorAnswer === option.value) button.classList.add("selected");
+
+                    const icon = document.createElement("span");
+                    icon.className = "answer-dot";
+                    icon.setAttribute("aria-hidden", "true");
+                    icon.textContent = option.icon;
+
+                    const label = document.createElement("span");
+                    label.textContent = option.label;
+
+                    button.append(icon, label);
+                    button.addEventListener("click", () => handleAnswer(question.id, option.value));
+                    els.answersContainer.appendChild(button);
+                });
+
+                window.setTimeout(() => els.questionText.focus({ preventScroll: true }), 40);
+            };
+
+            const handleAnswer = (questionId, value) => {
+                if (state.answerLocked) return;
+                state.answerLocked = true;
+                state.answers[questionId] = value;
+
+                [...els.answersContainer.children].forEach((button) => {
+                    const selected = button.dataset.value === value;
+                    button.classList.toggle("selected", selected);
+                    button.setAttribute("aria-pressed", String(selected));
+                });
+
+                window.setTimeout(() => {
+                    state.answerLocked = false;
+                    if (state.currentQuestionIndex >= getQuestions().length - 1) {
+                        finishTest();
+                        return;
+                    }
+                    state.currentQuestionIndex += 1;
+                    renderQuestion();
+                }, 170);
+            };
+
+            const concernWeight = (question, answer) => {
+                if (answer === "unsure" || !answer) return 0;
+                if (answer === "sometimes") return 1;
+                if (question.concern === "yes") return answer === "yes" ? 2 : 0;
+                return answer === "no" ? 2 : 0;
+            };
+
+            const buildObservationMap = () => {
+                const grouped = { social: [], attention: [] };
+                let urgentObservation = null;
+
+                getQuestions().forEach((question) => {
+                    const answer = state.answers[question.id];
+                    const weight = concernWeight(question, answer);
+                    if (weight > 0) {
+                        grouped[question.type].push({
+                            ...question,
+                            weight,
+                            answerLabel: responseOptions.find((option) => option.value === answer)?.label || ""
+                        });
+                    }
+                    if (question.urgent && weight === 2) urgentObservation = question;
+                });
+
+                return { grouped, urgentObservation };
+            };
+
+            const renderDomainCard = (type, items) => {
+                const info = domainInfo[type];
+                const visibleItems = items.slice(0, 4);
+                const list = visibleItems.length
+                    ? `<ul class="observation-list">${visibleItems.map((item) => `<li>${item.text}</li>`).join("")}${items.length > 4 ? `<li>Outros pontos também aparecem no PDF completo.</li>` : ""}</ul>`
+                    : `<ul class="observation-list"><li>Nenhum ponto foi marcado com frequência neste domínio. Isso não descarta uma dificuldade percebida no cotidiano.</li></ul>`;
+
+                return `
+                    <article class="domain-card">
+                        <div class="domain-top">
+                            <h3>${info.title}</h3>
+                            <span class="domain-status ${items.length ? "has-items" : ""}">
+                                ${items.length ? "Para conversar" : "Sem destaque"}
+                            </span>
+                        </div>
+                        ${list}
+                    </article>
+                `;
+            };
+
+            const renderResults = () => {
+                const result = buildObservationMap();
+                const socialItems = result.grouped.social;
+                const attentionItems = result.grouped.attention;
+                const totalItems = socialItems.length + attentionItems.length;
+
+                els.resultMeta.textContent = `${ageGroups[state.selectedAge].title} · preenchimento concluído em ${new Date().toLocaleDateString("pt-BR")}`;
+
+                if (totalItems === 0) {
+                    els.resultSummary.textContent = "As respostas não destacaram pontos frequentes neste preenchimento. Ainda assim, se existe preocupação, sofrimento, perda de habilidades ou impacto na rotina, vale conversar com um profissional.";
+                } else if (totalItems <= 3) {
+                    els.resultSummary.textContent = "Algumas observações merecem ser acompanhadas no cotidiano. Veja se aparecem em outros contextos e leve exemplos concretos a um profissional se persistirem ou causarem impacto.";
+                } else {
+                    els.resultSummary.textContent = "Suas respostas reuniram diferentes pontos que merecem uma conversa cuidadosa com um profissional. O objetivo não é concluir uma condição, mas facilitar o próximo passo com exemplos concretos.";
+                }
+
+                els.domainResults.innerHTML =
+                    renderDomainCard("social", socialItems) +
+                    renderDomainCard("attention", attentionItems);
+
+                const isAdult = state.selectedAudience === "adult";
+                els.nextSteps.innerHTML = isAdult
+                    ? `
+                        <li><strong>Observe padrões</strong>Anote quando acontecem, há quanto tempo e o impacto em trabalho, estudo, relações e rotina.</li>
+                        <li><strong>Recupere a história</strong>Se possível, reúna lembranças escolares e relatos de quem acompanhou sua infância.</li>
+                        <li><strong>Leve o resumo</strong>Procure um profissional de saúde qualificado e experiente em neurodesenvolvimento adulto.</li>
+                    `
+                    : `
+                        <li><strong>Compare contextos</strong>Observe se os comportamentos aparecem em casa, na escola e em outros ambientes.</li>
+                        <li><strong>Converse com a escola</strong>Peça exemplos objetivos sobre participação, comunicação, atenção e aprendizagem.</li>
+                        <li><strong>Leve o resumo</strong>Converse com o pediatra ou outro profissional qualificado que acompanhe o desenvolvimento.</li>
+                    `;
+
+                if (result.urgentObservation) {
+                    els.attentionNote.textContent = "Você marcou perda de uma habilidade já adquirida. Regressão de linguagem, gestos, brincadeiras ou interação merece avaliação profissional sem demora.";
+                    els.attentionNote.classList.add("visible");
+                } else {
+                    els.attentionNote.textContent = "";
+                    els.attentionNote.classList.remove("visible");
+                }
+            };
+
+            const finishTest = () => {
+                showScreen("loading-screen");
+                window.setTimeout(() => {
+                    renderResults();
+                    showScreen("result-screen");
+                }, 760);
+            };
+
+            const restart = () => {
+                state.selectedAudience = null;
+                state.selectedAge = null;
+                state.currentQuestionIndex = 0;
+                state.answers = {};
+                state.answerLocked = false;
+                resetGuideConsent();
+                showScreen("welcome-screen");
+            };
+
+            const addPdfParagraph = (doc, text, x, y, width, options = {}) => {
+                const lines = doc.splitTextToSize(text, width);
+                doc.text(lines, x, y, options);
+                return y + (lines.length * 5);
+            };
+
+            const downloadPdf = () => {
+                if (!window.jspdf?.jsPDF) {
+                    window.alert("Não foi possível carregar o gerador de PDF. Verifique sua conexão e tente novamente.");
+                    return;
+                }
+
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF({ unit: "mm", format: "a4" });
+                const result = buildObservationMap();
+                const date = new Date().toLocaleDateString("pt-BR");
+                let y = 22;
+
+                doc.setFillColor(9, 39, 75);
+                doc.roundedRect(14, 13, 182, 28, 5, 5, "F");
+                doc.setTextColor(255, 248, 243);
+                doc.setFont("helvetica", "bold");
+                doc.setFontSize(18);
+                doc.text("Mapa de Observações", 21, 26);
+                doc.setFontSize(9);
+                doc.setFont("helvetica", "normal");
+                doc.text("NeuroTriagem por Margareth Almeida", 21, 34);
+
+                y = 51;
+                doc.setTextColor(23, 37, 58);
+                doc.setFont("helvetica", "bold");
+                doc.setFontSize(11);
+                doc.text(`Faixa etária: ${ageGroups[state.selectedAge].title}`, 18, y);
+                doc.setFont("helvetica", "normal");
+                doc.text(`Data: ${date}`, 145, y);
+
+                y += 12;
+                doc.setFont("helvetica", "bold");
+                doc.setFontSize(13);
+                doc.setTextColor(9, 39, 75);
+                doc.text("Observações para conversar com um profissional", 18, y);
+                y += 8;
+
+                ["social", "attention"].forEach((type) => {
+                    const info = domainInfo[type];
+                    const items = result.grouped[type];
+
+                    doc.setFillColor(type === "social" ? 243 : 232, type === "social" ? 222 : 237, type === "social" ? 208 : 242);
+                    doc.roundedRect(18, y - 5, 174, 9, 2, 2, "F");
+                    doc.setTextColor(9, 39, 75);
+                    doc.setFont("helvetica", "bold");
+                    doc.setFontSize(10);
+                    doc.text(info.title, 22, y + 1);
+                    y += 10;
+
+                    doc.setFont("helvetica", "normal");
+                    doc.setFontSize(9);
+                    doc.setTextColor(68, 79, 95);
+
+                    if (!items.length) {
+                        y = addPdfParagraph(doc, "Nenhum ponto foi marcado com frequência neste domínio.", 22, y, 164);
+                    } else {
+                        items.forEach((item) => {
+                            if (y > 270) {
+                                doc.addPage();
+                                y = 22;
+                            }
+                            y = addPdfParagraph(doc, `• ${item.text} — ${item.answerLabel}`, 22, y, 164);
+                            y += 2;
+                        });
+                    }
+                    y += 7;
+                });
+
+                if (y > 238) {
+                    doc.addPage();
+                    y = 22;
+                }
+
+                doc.setFont("helvetica", "bold");
+                doc.setFontSize(11);
+                doc.setTextColor(9, 39, 75);
+                doc.text("Como usar este resumo", 18, y);
+                y += 7;
+                doc.setFont("helvetica", "normal");
+                doc.setFontSize(9);
+                doc.setTextColor(68, 79, 95);
+                y = addPdfParagraph(
+                    doc,
+                    "Leve exemplos concretos: quando acontece, em quais ambientes, há quanto tempo e como interfere na rotina. Uma avaliação completa considera história de vida, desenvolvimento, contexto, impacto funcional e outras possíveis explicações.",
+                    18,
+                    y,
+                    174
+                );
+
+                y += 8;
+                doc.setDrawColor(200, 134, 100);
+                doc.line(18, y, 192, y);
+                y += 7;
+                doc.setFontSize(8);
+                doc.setTextColor(115, 115, 115);
+                addPdfParagraph(
+                    doc,
+                    "Aviso: este material é um organizador de observações, não é instrumento clínico validado, não confirma nem descarta diagnóstico e não substitui avaliação profissional.",
+                    18,
+                    y,
+                    174
+                );
+
+                doc.save(`Mapa-de-Observacoes-${state.selectedAge.replace("+", "mais")}.pdf`);
+            };
+
+            els.welcomeContinue.addEventListener("click", () => showScreen("audience-screen"));
+
+            els.cardChild.addEventListener("click", () => {
+                state.selectedAudience = "child";
+                state.selectedAge = null;
+                showScreen("age-screen");
+            });
+
+            els.cardAdult.addEventListener("click", () => {
+                state.selectedAudience = "adult";
+                state.selectedAge = "18+";
+                openGuide();
+            });
+
+            els.ageButtons.forEach((button) => {
+                button.addEventListener("click", () => {
+                    state.selectedAge = button.dataset.age;
+                    openGuide();
+                });
+            });
+
+            document.querySelectorAll("[data-back]").forEach((button) => {
+                button.addEventListener("click", () => showScreen(button.dataset.back));
+            });
+
+            els.guideBack.addEventListener("click", () => {
+                showScreen(state.selectedAudience === "adult" ? "audience-screen" : "age-screen");
+            });
+
+            els.guideConsent.addEventListener("change", () => {
+                els.startTest.disabled = !els.guideConsent.checked;
+            });
+
+            els.startTest.addEventListener("click", () => {
+                if (!els.guideConsent.checked || !state.selectedAge) return;
+                state.currentQuestionIndex = 0;
+                state.answers = {};
+                state.answerLocked = false;
+                renderQuestion();
+                showScreen("test-screen");
+            });
+
+            els.backQuestion.addEventListener("click", () => {
+                if (state.answerLocked || state.currentQuestionIndex === 0) return;
+                state.currentQuestionIndex -= 1;
+                renderQuestion();
+            });
+
+            els.downloadPdf.addEventListener("click", downloadPdf);
+            els.restart.addEventListener("click", restart);
         });
-
-        // PDF Generation
-        els.btns.downloadPdf.addEventListener('click', () => {
-            const doc = new jsPDF();
-            const results = calculateScore();
-            const autismInfo = getResultMessage(results.autismScore, 'autismo');
-            const tdahInfo = getResultMessage(results.tdahScore, 'tdah');
-
-            doc.setFont("helvetica", "bold");
-            doc.setFontSize(18);
-            doc.setTextColor(30, 58, 95); // Azul Primario
-            doc.text("Relatório NeuroTriagem Pro", 20, 20);
-
-            doc.setFontSize(12);
-            doc.setTextColor(100);
-            doc.setFont("helvetica", "normal");
-            doc.text(`Faixa Etária Avaliada: ${ageGroups[state.selectedAge].title}`, 20, 30);
-            doc.text(`Data: ${new Date().toLocaleDateString()}`, 20, 36);
-
-            // Scores
-            doc.setDrawColor(200);
-            doc.line(20, 45, 190, 45);
-
-            doc.setFontSize(14);
-            doc.setTextColor(0);
-            doc.setFont("helvetica", "bold");
-            doc.text("Resultados Preliminares:", 20, 55);
-
-            // Autismo
-            doc.setFontSize(12);
-            doc.text(`Autismo (TEA): ${results.autismScore}/8 Sinais`, 20, 65);
-            doc.setFont("helvetica", "normal");
-            doc.setFontSize(10);
-            doc.text(`Interpretação: ${autismInfo.text}`, 20, 70);
-
-            // TDAH
-            doc.setFont("helvetica", "bold");
-            doc.setFontSize(12);
-            doc.text(`TDAH: ${results.tdahScore}/7 Sinais`, 20, 85);
-            doc.setFont("helvetica", "normal");
-            doc.setFontSize(10);
-            doc.text(`Interpretação: ${tdahInfo.text}`, 20, 90);
-
-            doc.line(20, 100, 190, 100);
-
-            // Disclaimer
-            doc.setFontSize(9);
-            doc.setTextColor(150);
-            doc.text("AVISO LEGAL: Este documento é resultado de uma triagem online e NÃO constitui diagnóstico médico.", 20, 110);
-            doc.text("Consulte um profissional de saúde qualificado para avaliação clínica.", 20, 115);
-
-            doc.save("Relatorio-NeuroTriagem.pdf");
-        });
-
-        // Init
-        showScreen('welcome-screen');
-    });
-</script>
+    </script>
 </body>
 </html>
