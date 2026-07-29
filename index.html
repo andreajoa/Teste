@@ -10,8 +10,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <script src="./jspdf.umd.min.js" defer></script>
-
     <style>
         :root {
             --navy: #09274B;
@@ -1974,116 +1972,258 @@
                 showScreen("welcome-screen");
             };
 
-            const addPdfParagraph = (doc, text, x, y, width, options = {}) => {
-                const lines = doc.splitTextToSize(text, width);
-                doc.text(lines, x, y, options);
-                return y + (lines.length * 5);
+            const pdfCharacterReplacements = {
+                "–": "-",
+                "—": "-",
+                "“": "\"",
+                "”": "\"",
+                "‘": "'",
+                "’": "'",
+                "•": "-",
+                "…": "..."
             };
 
-            const downloadPdf = () => {
-                if (!window.jspdf?.jsPDF) {
-                    window.alert("Não foi possível carregar o gerador de PDF. Verifique sua conexão e tente novamente.");
-                    return;
+            const toPdfText = (text) => Array.from(String(text))
+                .map((character) => {
+                    if (pdfCharacterReplacements[character]) {
+                        return pdfCharacterReplacements[character];
+                    }
+
+                    return character.charCodeAt(0) <= 255 ? character : "?";
+                })
+                .join("");
+
+            const escapePdfText = (text) => toPdfText(text)
+                .replace(/\\/g, "\\\\")
+                .replace(/\(/g, "\\(")
+                .replace(/\)/g, "\\)");
+
+            const wrapPdfText = (text, maxCharacters) => {
+                const words = toPdfText(text).trim().split(/\s+/);
+                const lines = [];
+                let currentLine = "";
+
+                words.forEach((word) => {
+                    const candidate = currentLine ? `${currentLine} ${word}` : word;
+
+                    if (candidate.length <= maxCharacters) {
+                        currentLine = candidate;
+                        return;
+                    }
+
+                    if (currentLine) {
+                        lines.push(currentLine);
+                    }
+
+                    if (word.length <= maxCharacters) {
+                        currentLine = word;
+                        return;
+                    }
+
+                    const chunks = word.match(new RegExp(`.{1,${maxCharacters}}`, "g")) || [word];
+                    lines.push(...chunks.slice(0, -1));
+                    currentLine = chunks.at(-1);
+                });
+
+                if (currentLine) {
+                    lines.push(currentLine);
                 }
 
-                const { jsPDF } = window.jspdf;
-                const doc = new jsPDF({ unit: "mm", format: "a4" });
+                return lines.length ? lines : [""];
+            };
+
+            const createObservationPdf = () => {
                 const result = buildObservationMap();
                 const date = new Date().toLocaleDateString("pt-BR");
-                let y = 22;
+                const pages = [[]];
+                let currentPage = 0;
+                let y = 800;
 
-                doc.setFillColor(9, 39, 75);
-                doc.roundedRect(14, 13, 182, 28, 5, 5, "F");
-                doc.setTextColor(255, 248, 243);
-                doc.setFont("helvetica", "bold");
-                doc.setFontSize(18);
-                doc.text("Mapa de Observações", 21, 26);
-                doc.setFontSize(9);
-                doc.setFont("helvetica", "normal");
-                doc.text("NeuroTriagem por Margareth Almeida", 21, 34);
+                const colorCommand = (color) => color
+                    .map((channel) => (channel / 255).toFixed(3))
+                    .join(" ");
 
-                y = 51;
-                doc.setTextColor(23, 37, 58);
-                doc.setFont("helvetica", "bold");
-                doc.setFontSize(11);
-                doc.text(`Faixa etária: ${ageGroups[state.selectedAge].title}`, 18, y);
-                doc.setFont("helvetica", "normal");
-                doc.text(`Data: ${date}`, 145, y);
+                const writeLine = (text, x, baseline, size, bold, color) => {
+                    pages[currentPage].push(
+                        `${colorCommand(color)} rg\n` +
+                        `BT /${bold ? "F2" : "F1"} ${size} Tf ` +
+                        `1 0 0 1 ${x} ${baseline} Tm (${escapePdfText(text)}) Tj ET\n`
+                    );
+                };
 
-                y += 12;
-                doc.setFont("helvetica", "bold");
-                doc.setFontSize(13);
-                doc.setTextColor(9, 39, 75);
-                doc.text("Observações para conversar com um profissional", 18, y);
-                y += 8;
+                const startNewPage = () => {
+                    pages.push([]);
+                    currentPage += 1;
+                    y = 800;
+                    writeLine("NeuroTriagem | Mapa de Observações", 50, y, 8, true, [9, 39, 75]);
+                    writeLine(`Faixa etária: ${ageGroups[state.selectedAge].title}`, 382, y, 8, false, [68, 79, 95]);
+                    pages[currentPage].push("0.784 0.525 0.392 RG 0.8 w 50 790 m 545 790 l S\n");
+                    y = 770;
+                };
+
+                const ensureSpace = (height) => {
+                    if (y - height < 52) {
+                        startNewPage();
+                    }
+                };
+
+                const addText = (text, options = {}) => {
+                    const {
+                        x = 50,
+                        width = 495,
+                        size = 10,
+                        lineHeight = size * 1.38,
+                        bold = false,
+                        color = [68, 79, 95],
+                        spaceAfter = 6
+                    } = options;
+                    const averageCharacterWidth = size * (bold ? 0.54 : 0.5);
+                    const maxCharacters = Math.max(18, Math.floor(width / averageCharacterWidth));
+                    const lines = wrapPdfText(text, maxCharacters);
+                    ensureSpace((lines.length * lineHeight) + spaceAfter);
+
+                    lines.forEach((line) => {
+                        writeLine(line, x, y, size, bold, color);
+                        y -= lineHeight;
+                    });
+
+                    y -= spaceAfter;
+                };
+
+                pages[0].push("0.035 0.153 0.294 rg 40 742 515 78 re f\n");
+                writeLine("Mapa de Observações", 58, 785, 21, true, [255, 248, 243]);
+                writeLine("NeuroTriagem por Margareth Almeida", 58, 762, 9, false, [255, 248, 243]);
+                y = 720;
+
+                addText(`Faixa etária: ${ageGroups[state.selectedAge].title}`, {
+                    size: 11,
+                    bold: true,
+                    color: [23, 37, 58],
+                    spaceAfter: 1
+                });
+                addText(`Data: ${date}`, {
+                    size: 9,
+                    color: [68, 79, 95],
+                    spaceAfter: 14
+                });
+                addText("Observações para conversar com um profissional", {
+                    size: 14,
+                    bold: true,
+                    color: [9, 39, 75],
+                    spaceAfter: 12
+                });
 
                 ["social", "attention"].forEach((type) => {
                     const info = domainInfo[type];
                     const items = result.grouped[type];
-
-                    doc.setFillColor(type === "social" ? 243 : 232, type === "social" ? 222 : 237, type === "social" ? 208 : 242);
-                    doc.roundedRect(18, y - 5, 174, 9, 2, 2, "F");
-                    doc.setTextColor(9, 39, 75);
-                    doc.setFont("helvetica", "bold");
-                    doc.setFontSize(10);
-                    doc.text(info.title, 22, y + 1);
-                    y += 10;
-
-                    doc.setFont("helvetica", "normal");
-                    doc.setFontSize(9);
-                    doc.setTextColor(68, 79, 95);
+                    ensureSpace(38);
+                    pages[currentPage].push(
+                        `${type === "social" ? "0.953 0.871 0.816" : "0.910 0.929 0.949"} rg ` +
+                        `50 ${y - 5} 495 24 re f\n`
+                    );
+                    addText(info.title, {
+                        x: 60,
+                        width: 475,
+                        size: 10,
+                        bold: true,
+                        color: [9, 39, 75],
+                        spaceAfter: 10
+                    });
 
                     if (!items.length) {
-                        y = addPdfParagraph(doc, "Nenhum ponto foi marcado com frequência neste domínio.", 22, y, 164);
-                    } else {
-                        items.forEach((item) => {
-                            if (y > 270) {
-                                doc.addPage();
-                                y = 22;
-                            }
-                            y = addPdfParagraph(doc, `• ${item.text} — ${item.answerLabel}`, 22, y, 164);
-                            y += 2;
+                        addText("Nenhum ponto foi marcado com frequência neste domínio.", {
+                            x: 60,
+                            width: 475,
+                            size: 9,
+                            spaceAfter: 13
                         });
+                        return;
                     }
-                    y += 7;
+
+                    items.forEach((item) => {
+                        addText(`- ${item.text} - ${item.answerLabel}`, {
+                            x: 60,
+                            width: 475,
+                            size: 9,
+                            lineHeight: 12.5,
+                            spaceAfter: 5
+                        });
+                    });
+                    y -= 8;
                 });
 
-                if (y > 238) {
-                    doc.addPage();
-                    y = 22;
+                ensureSpace(128);
+                addText("Como usar este resumo", {
+                    size: 12,
+                    bold: true,
+                    color: [9, 39, 75],
+                    spaceAfter: 8
+                });
+                addText(
+                    "Leve exemplos concretos: quando acontece, em quais ambientes, há quanto tempo e como interfere na rotina. Uma avaliação completa considera história de vida, desenvolvimento, contexto, impacto funcional e outras possíveis explicações.",
+                    { size: 9, lineHeight: 12.5, spaceAfter: 13 }
+                );
+                pages[currentPage].push(`0.784 0.525 0.392 RG 0.8 w 50 ${y} m 545 ${y} l S\n`);
+                y -= 16;
+                addText(
+                    "Aviso: este material é um organizador de observações, não é instrumento clínico validado, não confirma nem descarta diagnóstico e não substitui avaliação profissional.",
+                    { size: 8, lineHeight: 11, color: [105, 105, 105], spaceAfter: 0 }
+                );
+
+                const objects = [];
+                const pageReferences = pages
+                    .map((_, index) => `${5 + (index * 2)} 0 R`)
+                    .join(" ");
+
+                objects[1] = "<< /Type /Catalog /Pages 2 0 R >>";
+                objects[2] = `<< /Type /Pages /Kids [${pageReferences}] /Count ${pages.length} >>`;
+                objects[3] = "<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>";
+                objects[4] = "<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>";
+
+                pages.forEach((commands, index) => {
+                    const pageId = 5 + (index * 2);
+                    const contentId = pageId + 1;
+                    const stream = commands.join("");
+                    objects[pageId] =
+                        `<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] ` +
+                        `/Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents ${contentId} 0 R >>`;
+                    objects[contentId] = `<< /Length ${stream.length} >>\nstream\n${stream}endstream`;
+                });
+
+                let pdf = "%PDF-1.4\n%\xE2\xE3\xCF\xD3\n";
+                const offsets = [0];
+
+                for (let index = 1; index < objects.length; index += 1) {
+                    offsets[index] = pdf.length;
+                    pdf += `${index} 0 obj\n${objects[index]}\nendobj\n`;
                 }
 
-                doc.setFont("helvetica", "bold");
-                doc.setFontSize(11);
-                doc.setTextColor(9, 39, 75);
-                doc.text("Como usar este resumo", 18, y);
-                y += 7;
-                doc.setFont("helvetica", "normal");
-                doc.setFontSize(9);
-                doc.setTextColor(68, 79, 95);
-                y = addPdfParagraph(
-                    doc,
-                    "Leve exemplos concretos: quando acontece, em quais ambientes, há quanto tempo e como interfere na rotina. Uma avaliação completa considera história de vida, desenvolvimento, contexto, impacto funcional e outras possíveis explicações.",
-                    18,
-                    y,
-                    174
-                );
+                const xrefOffset = pdf.length;
+                pdf += `xref\n0 ${objects.length}\n`;
+                pdf += "0000000000 65535 f \n";
 
-                y += 8;
-                doc.setDrawColor(200, 134, 100);
-                doc.line(18, y, 192, y);
-                y += 7;
-                doc.setFontSize(8);
-                doc.setTextColor(115, 115, 115);
-                addPdfParagraph(
-                    doc,
-                    "Aviso: este material é um organizador de observações, não é instrumento clínico validado, não confirma nem descarta diagnóstico e não substitui avaliação profissional.",
-                    18,
-                    y,
-                    174
-                );
+                for (let index = 1; index < objects.length; index += 1) {
+                    pdf += `${String(offsets[index]).padStart(10, "0")} 00000 n \n`;
+                }
 
-                doc.save(`Mapa-de-Observacoes-${state.selectedAge.replace("+", "mais")}.pdf`);
+                pdf += `trailer\n<< /Size ${objects.length} /Root 1 0 R >>\n`;
+                pdf += `startxref\n${xrefOffset}\n%%EOF`;
+
+                const bytes = Uint8Array.from(pdf, (character) => character.charCodeAt(0) & 0xff);
+                return new Blob([bytes], { type: "application/pdf" });
+            };
+
+            const downloadPdf = () => {
+                const blob = createObservationPdf();
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement("a");
+                link.href = url;
+                link.download = `Mapa-de-Observacoes-${state.selectedAge.replace("+", "mais")}.pdf`;
+                link.hidden = true;
+                document.body.appendChild(link);
+                link.click();
+                link.remove();
+                window.setTimeout(() => URL.revokeObjectURL(url), 1000);
             };
 
             els.welcomeContinue.addEventListener("click", () => showScreen("audience-screen"));
