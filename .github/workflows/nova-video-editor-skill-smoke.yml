@@ -1,0 +1,50 @@
+name: NOVA video editor skill smoke test
+
+on:
+  push:
+    branches: [nova-video-editor-skill]
+    paths:
+      - ".agents/skills/nova-video-editor/**"
+      - ".claude/skills/nova-video-editor/**"
+      - ".github/workflows/nova-video-editor-skill-smoke.yml"
+  workflow_dispatch:
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Check tools
+        run: |
+          node --version
+          ffmpeg -version | head -1
+          ffprobe -version | head -1
+      - name: Syntax check
+        run: |
+          node --check .agents/skills/nova-video-editor/scripts/download-scenes.mjs
+          node --check .agents/skills/nova-video-editor/scripts/probe-scenes.mjs
+          node --check .agents/skills/nova-video-editor/scripts/render-scenes.mjs
+          node --check .agents/skills/nova-video-editor/scripts/init-project.mjs
+      - name: Create synthetic clips
+        run: |
+          mkdir -p /tmp/nova-skill
+          ffmpeg -y -f lavfi -i "color=c=red:s=320x180:d=1" -c:v libx264 -pix_fmt yuv420p /tmp/nova-skill/a.mp4
+          ffmpeg -y -f lavfi -i "color=c=blue:s=640x360:d=1" -f lavfi -i "sine=frequency=440:duration=1" -shortest -c:v libx264 -pix_fmt yuv420p -c:a aac /tmp/nova-skill/b.mp4
+          cat > /tmp/nova-skill/scene-plan.json <<'JSON'
+          {
+            "scenes": [
+              {"id":"scene-01","localPath":"/tmp/nova-skill/a.mp4"},
+              {"id":"scene-02","localPath":"/tmp/nova-skill/b.mp4"}
+            ]
+          }
+          JSON
+      - name: Probe sources
+        run: node .agents/skills/nova-video-editor/scripts/probe-scenes.mjs /tmp/nova-skill/scene-plan.json
+      - name: Render final
+        run: |
+          node .agents/skills/nova-video-editor/scripts/render-scenes.mjs /tmp/nova-skill/scene-plan.json --output /tmp/nova-skill/final.mp4 --ratio 9:16 --fps 30
+          test -s /tmp/nova-skill/final.mp4
+          ffprobe -v error -show_entries format=duration -of default=nw=1 /tmp/nova-skill/final.mp4
